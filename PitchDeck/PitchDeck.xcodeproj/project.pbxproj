@@ -8,6 +8,15 @@
 
 /* Begin PBXFileReference section */
 		FECBD4E92EE182C90005D525 /* PitchDeck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchDeck.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FECBD4FD2EE1938A0005D525 /* PitchDeckCoreKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckCoreKit; path = ../PitchDeckCoreKit; sourceTree = SOURCE_ROOT; };
+		FECBD4FE2EE193A60005D525 /* PitchDeckUIKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckUIKit; path = ../PitchDeckUIKit; sourceTree = SOURCE_ROOT; };
+		FECBD4FF2EE193C00005D525 /* PitchDeckNavigationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckNavigationKit; path = ../PitchDeckNavigationKit; sourceTree = SOURCE_ROOT; };
+		FECBD5002EE193DB0005D525 /* PitchDeckAuthKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckAuthKit; path = ../PitchDeckAuthKit; sourceTree = SOURCE_ROOT; };
+		FECBD5012EE193EF0005D525 /* PitchDeckAuthApiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckAuthApiKit; path = ../PitchDeckAuthApiKit; sourceTree = SOURCE_ROOT; };
+		FECBD5022EE194090005D525 /* PitchDeckMainKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckMainKit; path = ../PitchDeckMainKit; sourceTree = SOURCE_ROOT; };
+		FECBD5032EE194250005D525 /* PitchDeckMainApiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckMainApiKit; path = ../PitchDeckMainApiKit; sourceTree = SOURCE_ROOT; };
+		FECBD5042EE194400005D525 /* PitchDeckCabinetKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckCabinetKit; path = ../PitchDeckCabinetKit; sourceTree = SOURCE_ROOT; };
+		FECBD5052EE194560005D525 /* PitchDeckCabinetApiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckCabinetApiKit; path = ../PitchDeckCabinetApiKit; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +41,15 @@
 		FECBD4E02EE182C90005D525 = {
 			isa = PBXGroup;
 			children = (
+				FECBD5052EE194560005D525 /* PitchDeckCabinetApiKit */,
+				FECBD5042EE194400005D525 /* PitchDeckCabinetKit */,
+				FECBD5032EE194250005D525 /* PitchDeckMainApiKit */,
+				FECBD5022EE194090005D525 /* PitchDeckMainKit */,
+				FECBD5012EE193EF0005D525 /* PitchDeckAuthApiKit */,
+				FECBD5002EE193DB0005D525 /* PitchDeckAuthKit */,
+				FECBD4FF2EE193C00005D525 /* PitchDeckNavigationKit */,
+				FECBD4FE2EE193A60005D525 /* PitchDeckUIKit */,
+				FECBD4FD2EE1938A0005D525 /* PitchDeckCoreKit */,
 				FECBD4EB2EE182C90005D525 /* PitchDeck */,
 				FECBD4EA2EE182C90005D525 /* Products */,
 			);

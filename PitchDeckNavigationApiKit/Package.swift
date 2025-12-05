@@ -4,21 +4,17 @@
 import PackageDescription
 
 let package = Package(
-    name: "PitchDeckMainKit",
+    name: "PitchDeckNavigationApiKit",
     platforms: [.iOS(.v17)],
     products: [
         .library(
-            name: "PitchDeckMainKit",
-            targets: ["PitchDeckMainKit"]
+            name: "PitchDeckNavigationApiKit",
+            targets: ["PitchDeckNavigationApiKit"]
         ),
-    ],
-    dependencies: [
-        .package(path: "../PitchDeckNavigationApiKit"),
     ],
     targets: [
         .target(
-            name: "PitchDeckMainKit",
-            dependencies: ["PitchDeckNavigationApiKit"],
+            name: "PitchDeckNavigationApiKit"
         ),
     ]
 )

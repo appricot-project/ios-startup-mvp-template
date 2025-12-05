@@ -6,6 +6,20 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FE632A622EE2F7370059E01C /* PitchDeckNavigationApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */; };
+		FECBD50F2EE2EB3E0005D525 /* PitchDeckAuthApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD50E2EE2EB3E0005D525 /* PitchDeckAuthApiKit */; };
+		FECBD5112EE2EB3E0005D525 /* PitchDeckAuthKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5102EE2EB3E0005D525 /* PitchDeckAuthKit */; };
+		FECBD5132EE2EB3E0005D525 /* PitchDeckCabinetApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5122EE2EB3E0005D525 /* PitchDeckCabinetApiKit */; };
+		FECBD5152EE2EB3E0005D525 /* PitchDeckCabinetKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5142EE2EB3E0005D525 /* PitchDeckCabinetKit */; };
+		FECBD5172EE2EB3E0005D525 /* PitchDeckCoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5162EE2EB3E0005D525 /* PitchDeckCoreKit */; };
+		FECBD5192EE2EB3E0005D525 /* PitchDeckMainApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5182EE2EB3E0005D525 /* PitchDeckMainApiKit */; };
+		FECBD51B2EE2EB3E0005D525 /* PitchDeckMainKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD51A2EE2EB3E0005D525 /* PitchDeckMainKit */; };
+		FECBD51D2EE2EB3E0005D525 /* PitchDeckNavigationKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD51C2EE2EB3E0005D525 /* PitchDeckNavigationKit */; };
+		FECBD51F2EE2EB3E0005D525 /* PitchDeckRootKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD51E2EE2EB3E0005D525 /* PitchDeckRootKit */; };
+		FECBD5212EE2EB3E0005D525 /* PitchDeckUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5202EE2EB3E0005D525 /* PitchDeckUIKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		FECBD4E92EE182C90005D525 /* PitchDeck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchDeck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FECBD4FD2EE1938A0005D525 /* PitchDeckCoreKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckCoreKit; path = ../PitchDeckCoreKit; sourceTree = SOURCE_ROOT; };
@@ -17,6 +31,8 @@
 		FECBD5032EE194250005D525 /* PitchDeckMainApiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckMainApiKit; path = ../PitchDeckMainApiKit; sourceTree = SOURCE_ROOT; };
 		FECBD5042EE194400005D525 /* PitchDeckCabinetKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckCabinetKit; path = ../PitchDeckCabinetKit; sourceTree = SOURCE_ROOT; };
 		FECBD5052EE194560005D525 /* PitchDeckCabinetApiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckCabinetApiKit; path = ../PitchDeckCabinetApiKit; sourceTree = SOURCE_ROOT; };
+		FECBD50C2EE2E1830005D525 /* PitchDeckRootKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckRootKit; path = ../PitchDeckRootKit; sourceTree = SOURCE_ROOT; };
+		FECBD5232EE2EEC80005D525 /* PitchDeckNavigationApiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckNavigationApiKit; path = ../PitchDeckNavigationApiKit; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +48,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FECBD5152EE2EB3E0005D525 /* PitchDeckCabinetKit in Frameworks */,
+				FE632A622EE2F7370059E01C /* PitchDeckNavigationApiKit in Frameworks */,
+				FECBD50F2EE2EB3E0005D525 /* PitchDeckAuthApiKit in Frameworks */,
+				FECBD5172EE2EB3E0005D525 /* PitchDeckCoreKit in Frameworks */,
+				FECBD5212EE2EB3E0005D525 /* PitchDeckUIKit in Frameworks */,
+				FECBD51F2EE2EB3E0005D525 /* PitchDeckRootKit in Frameworks */,
+				FECBD5192EE2EB3E0005D525 /* PitchDeckMainApiKit in Frameworks */,
+				FECBD51B2EE2EB3E0005D525 /* PitchDeckMainKit in Frameworks */,
+				FECBD51D2EE2EB3E0005D525 /* PitchDeckNavigationKit in Frameworks */,
+				FECBD5132EE2EB3E0005D525 /* PitchDeckCabinetApiKit in Frameworks */,
+				FECBD5112EE2EB3E0005D525 /* PitchDeckAuthKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +68,8 @@
 		FECBD4E02EE182C90005D525 = {
 			isa = PBXGroup;
 			children = (
+				FECBD5232EE2EEC80005D525 /* PitchDeckNavigationApiKit */,
+				FECBD50C2EE2E1830005D525 /* PitchDeckRootKit */,
 				FECBD5052EE194560005D525 /* PitchDeckCabinetApiKit */,
 				FECBD5042EE194400005D525 /* PitchDeckCabinetKit */,
 				FECBD5032EE194250005D525 /* PitchDeckMainApiKit */,
@@ -51,6 +80,7 @@
 				FECBD4FE2EE193A60005D525 /* PitchDeckUIKit */,
 				FECBD4FD2EE1938A0005D525 /* PitchDeckCoreKit */,
 				FECBD4EB2EE182C90005D525 /* PitchDeck */,
+				FECBD50D2EE2EB3E0005D525 /* Frameworks */,
 				FECBD4EA2EE182C90005D525 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,6 +91,13 @@
 				FECBD4E92EE182C90005D525 /* PitchDeck.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		FECBD50D2EE2EB3E0005D525 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +120,17 @@
 			);
 			name = PitchDeck;
 			packageProductDependencies = (
+				FECBD50E2EE2EB3E0005D525 /* PitchDeckAuthApiKit */,
+				FECBD5102EE2EB3E0005D525 /* PitchDeckAuthKit */,
+				FECBD5122EE2EB3E0005D525 /* PitchDeckCabinetApiKit */,
+				FECBD5142EE2EB3E0005D525 /* PitchDeckCabinetKit */,
+				FECBD5162EE2EB3E0005D525 /* PitchDeckCoreKit */,
+				FECBD5182EE2EB3E0005D525 /* PitchDeckMainApiKit */,
+				FECBD51A2EE2EB3E0005D525 /* PitchDeckMainKit */,
+				FECBD51C2EE2EB3E0005D525 /* PitchDeckNavigationKit */,
+				FECBD51E2EE2EB3E0005D525 /* PitchDeckRootKit */,
+				FECBD5202EE2EB3E0005D525 /* PitchDeckUIKit */,
+				FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */,
 			);
 			productName = PitchDeck;
 			productReference = FECBD4E92EE182C90005D525 /* PitchDeck.app */;
@@ -269,6 +317,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9BPHV593J8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -304,6 +353,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9BPHV593J8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -351,6 +401,53 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckNavigationApiKit;
+		};
+		FECBD50E2EE2EB3E0005D525 /* PitchDeckAuthApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckAuthApiKit;
+		};
+		FECBD5102EE2EB3E0005D525 /* PitchDeckAuthKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckAuthKit;
+		};
+		FECBD5122EE2EB3E0005D525 /* PitchDeckCabinetApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckCabinetApiKit;
+		};
+		FECBD5142EE2EB3E0005D525 /* PitchDeckCabinetKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckCabinetKit;
+		};
+		FECBD5162EE2EB3E0005D525 /* PitchDeckCoreKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckCoreKit;
+		};
+		FECBD5182EE2EB3E0005D525 /* PitchDeckMainApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckMainApiKit;
+		};
+		FECBD51A2EE2EB3E0005D525 /* PitchDeckMainKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckMainKit;
+		};
+		FECBD51C2EE2EB3E0005D525 /* PitchDeckNavigationKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckNavigationKit;
+		};
+		FECBD51E2EE2EB3E0005D525 /* PitchDeckRootKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckRootKit;
+		};
+		FECBD5202EE2EB3E0005D525 /* PitchDeckUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckUIKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FECBD4E12EE182C90005D525 /* Project object */;
 }

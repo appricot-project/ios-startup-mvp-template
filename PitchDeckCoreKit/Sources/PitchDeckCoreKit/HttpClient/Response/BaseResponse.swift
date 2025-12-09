@@ -7,17 +7,15 @@
 
 import Foundation
 
-open class BaseResponse: Codable {
+final class BaseResponse: Codable, Sendable {
     
     // MARK: - Public properties
     
-    public var code: Int?
-    public var msgCode: String?
-    public var msg: String?
+    public let code: Int?
+    public let msgCode: String?
+    public let msg: String?
     
     // MARK: - Init
-    
-    public init() {}
     
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

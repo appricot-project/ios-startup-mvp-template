@@ -14,7 +14,7 @@ public enum MainRoute: Hashable {
 }
 
 public final class MainCoordinator: BaseCoordinator<MainRoute> {
-
+    
     @ViewBuilder
     public func build(route: MainRoute) -> some View {
         switch route {

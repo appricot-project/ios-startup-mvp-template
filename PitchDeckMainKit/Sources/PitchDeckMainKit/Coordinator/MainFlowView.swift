@@ -19,9 +19,10 @@ public struct MainFlowView: View {
     
     public var body: some View {
         NavigationStack(path: $coordinator.path) {
-            MainScreen(onSelectDetail: { id in
-                coordinator.push(.details(id: id))
-            })
+            MainScreen.init(viewModel: StartupListViewModel())
+//            MainScreen(onSelectDetail: { id in
+//                coordinator.push(.details(id: id))
+//            })
             .navigationDestination(for: MainRoute.self) { route in
                 coordinator.build(route: route)
             }

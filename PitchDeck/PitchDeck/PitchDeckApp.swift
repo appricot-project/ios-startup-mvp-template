@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import PitchDeckNavigationKit
+import PitchDeckRootKit
 
 @main
 struct PitchDeckApp: App {
+    
+    @StateObject private var appCoordinator = AppCoordinator()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootFlowView(coordinator: appCoordinator.rootCoordinator)
         }
     }
 }

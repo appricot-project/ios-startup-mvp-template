@@ -18,7 +18,7 @@ let package = Package(
     targets: [
         .target(
             name: "PitchDeckMainKit",
-            dependencies: ["PitchDeckNavigationApiKit"],
-        ),
+            dependencies: ["PitchDeckNavigationApiKit"]
+        )
     ]
 )

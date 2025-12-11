@@ -20,7 +20,7 @@ let package = Package(
     targets: [
         .target(
             name: "PitchDeckRootKit",
-            dependencies: ["PitchDeckMainKit", "PitchDeckCabinetKit"],
+            dependencies: ["PitchDeckMainKit", "PitchDeckCabinetKit"]
         ),
     ]
 )

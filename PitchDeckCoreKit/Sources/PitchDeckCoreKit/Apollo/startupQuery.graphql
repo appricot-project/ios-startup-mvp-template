@@ -1,0 +1,17 @@
+query Startups {
+    startups {
+        documentId
+        startupId
+        title
+        description
+        location
+        createdAt
+        updatedAt
+        publishedAt
+        category {
+            title
+            categoryId
+        }
+        imageURL
+    }
+}

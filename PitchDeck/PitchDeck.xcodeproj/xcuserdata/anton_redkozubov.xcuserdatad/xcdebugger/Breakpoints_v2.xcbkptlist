@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2E1D541E-C5BB-4588-97D8-B11453ED696E"
+            uuid = "0689AA64-95E1-41A1-9462-96386B964851"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/StartupListViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "send(event:)"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "reduce(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -19,7 +19,7 @@ public struct MainFlowView: View {
     
     public var body: some View {
         NavigationStack(path: $coordinator.path) {
-            MainScreen.init(viewModel: StartupListViewModel())
+            MainScreen(viewModel: StartupListViewModel())
 //            MainScreen(onSelectDetail: { id in
 //                coordinator.push(.details(id: id))
 //            })

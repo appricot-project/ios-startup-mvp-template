@@ -1,0 +1,10 @@
+//
+//  Production.xcconfig
+//  PitchDeckApp
+//
+//  Created by Anton Redkozubov on 12.12.2025.
+//
+
+// API URL
+
+STRAPI_URL = AAEBQAwAAAAQAAAAIQAAAMNmBQ%2BGSczpyPTA2cZOL8ByogiimtaS2rXyobXJB5yYqvbFWwWgLlMX%2BaqvMWY%2F4PlZ26J3IUWXguEtHjI%3D

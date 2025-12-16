@@ -35,7 +35,26 @@
 		FECBD5232EE2EEC80005D525 /* PitchDeckNavigationApiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckNavigationApiKit; path = ../PitchDeckNavigationApiKit; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FEC260422EEC262B00D7AEBF /* Exceptions for "Build Configuration" folder in "PitchDeck" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				BuildConfiguration.swift,
+				Production.xcconfig,
+			);
+			target = FECBD4E82EE182C90005D525 /* PitchDeck */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		FEC2603F2EEC260700D7AEBF /* Build Configuration */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FEC260422EEC262B00D7AEBF /* Exceptions for "Build Configuration" folder in "PitchDeck" target */,
+			);
+			path = "Build Configuration";
+			sourceTree = "<group>";
+		};
 		FECBD4EB2EE182C90005D525 /* PitchDeck */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = PitchDeck;
@@ -79,6 +98,7 @@
 				FECBD4FF2EE193C00005D525 /* PitchDeckNavigationKit */,
 				FECBD4FE2EE193A60005D525 /* PitchDeckUIKit */,
 				FECBD4FD2EE1938A0005D525 /* PitchDeckCoreKit */,
+				FEC2603F2EEC260700D7AEBF /* Build Configuration */,
 				FECBD4EB2EE182C90005D525 /* PitchDeck */,
 				FECBD50D2EE2EB3E0005D525 /* Frameworks */,
 				FECBD4EA2EE182C90005D525 /* Products */,

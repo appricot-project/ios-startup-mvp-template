@@ -95,6 +95,14 @@ extension StartupListViewModel {
     private static func loadData() -> AnyPublisher<([StartupItem]?, [CategoryItem]?), BaseServiceError> {
         return Future() { promise in
             do {
+//                ApolloWebClient.shared.apollo.fetch(query: "") { [weak self] result in
+//                    switch result {
+//                    case .success(let value):
+//                        print("Value \(value)")
+//                    case .failure(let error):
+//                        debugPrint(error.localizedDescription)
+//                    }
+//                }
                 let categories: [CategoryItem] = [
                     .init(id: "1", title: "AI"),
                     .init(id: "2", title: "Fintech"),

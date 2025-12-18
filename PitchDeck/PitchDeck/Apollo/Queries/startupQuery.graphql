@@ -12,6 +12,8 @@ query Startups {
             title
             categoryId
         }
-        imageURL
+        ImageURL {
+            url
+        }
     }
 }

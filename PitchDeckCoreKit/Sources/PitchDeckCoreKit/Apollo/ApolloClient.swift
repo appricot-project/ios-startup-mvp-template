@@ -9,20 +9,25 @@ import Foundation
 import Apollo
 
 @MainActor
-class ApolloWebClient {
+public class ApolloWebClient {
     
-    static let shared = ApolloWebClient()
+    public static let shared = ApolloWebClient()
     
     // MARK: - Private properties
     
     private var baseUrl: String
-    private(set) lazy var apollo: ApolloClient = {
-        let url = URL(string: baseUrl)!
+    private(set) var apollo: ApolloClient = {
+        let url = URL(string: Config.strapiURL ?? "")!
         return ApolloClient(url: url)
     }()
     
     public init(baseUrl: String = Config.strapiURL ?? "") {
         self.baseUrl = baseUrl
     }
+    
+//    public func apollo() -> ApolloClient {
+//        let url = URL(string: baseUrl)!
+//        return ApolloClient(url: url)
+//    }
     
 }

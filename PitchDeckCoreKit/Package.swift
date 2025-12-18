@@ -21,6 +21,5 @@ let package = Package(
             name: "PitchDeckCoreKit",
             dependencies: ["Alamofire"]
         ),
-
     ]
 )

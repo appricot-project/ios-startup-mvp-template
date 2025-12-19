@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import PitchDeckCoreKit
+import PitchDeckStartupApi
 
 final class StartupListViewModel: ObservableObject {
 
@@ -19,6 +20,7 @@ final class StartupListViewModel: ObservableObject {
 
     // MARK: - Init
 
+    @MainActor
     init() {
         Publishers.system(
             initial: state,
@@ -82,6 +84,7 @@ extension StartupListViewModel {
         }
     }
 
+    @MainActor
     private static func whenLoading() -> Feedback<State, Event> {
         Feedback { (state: State) -> AnyPublisher<Event, Never> in
             guard case .loading = state.state else { return Empty().eraseToAnyPublisher() }
@@ -92,17 +95,21 @@ extension StartupListViewModel {
         }
     }
 
+    @MainActor
     private static func loadData() -> AnyPublisher<([StartupItem]?, [CategoryItem]?), BaseServiceError> {
         return Future() { promise in
             do {
-//                ApolloWebClient.shared.apollo.fetch(query: "") { [weak self] result in
-//                    switch result {
-//                    case .success(let value):
-//                        print("Value \(value)")
-//                    case .failure(let error):
-//                        debugPrint(error.localizedDescription)
-//                    }
-//                }
+                let query = StartupsQuery()
+                
+                ApolloWebClient.shared.apollo.fetch(query: query) { result in
+                    switch result {
+                    case .success(let value):
+                        print("Value \(value)")
+                    case .failure(let error):
+                        debugPrint(error.localizedDescription)
+                    }
+                }
+//                print(requestQuery.cURLCommand())
                 let categories: [CategoryItem] = [
                     .init(id: "1", title: "AI"),
                     .init(id: "2", title: "Fintech"),
@@ -132,5 +139,32 @@ extension StartupListViewModel {
 
     static func userInput(input: AnyPublisher<Event, Never>) -> Feedback<State, Event> {
         Feedback { _ in input }
+    }
+}
+
+
+extension URLRequest {
+    func cURLCommand() -> String {
+        guard let url = url else { return "" }
+
+        var command = ["curl \"\(url.absoluteString)\""]
+
+        if let method = httpMethod, method != "GET" {
+            command.append("-X \(method)")
+        }
+
+        if let headers = allHTTPHeaderFields {
+            for (key, value) in headers {
+                command.append("-H '\(key): \(value)'")
+            }
+        }
+
+        if let body = httpBody,
+           let bodyString = String(data: body, encoding: .utf8),
+           !bodyString.isEmpty {
+            command.append("-d '\(bodyString)'")
+        }
+
+        return command.joined(separator: " \\\n\t")
     }
 }

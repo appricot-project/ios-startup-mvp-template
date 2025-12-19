@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FE632A622EE2F7370059E01C /* PitchDeckNavigationApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */; };
+		FE8915F82EF4432F0009391A /* PitchDeckStartupApi in Frameworks */ = {isa = PBXBuildFile; productRef = FE8915F72EF4432F0009391A /* PitchDeckStartupApi */; };
 		FECBD50F2EE2EB3E0005D525 /* PitchDeckAuthApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD50E2EE2EB3E0005D525 /* PitchDeckAuthApiKit */; };
 		FECBD5112EE2EB3E0005D525 /* PitchDeckAuthKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5102EE2EB3E0005D525 /* PitchDeckAuthKit */; };
 		FECBD5132EE2EB3E0005D525 /* PitchDeckCabinetApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5122EE2EB3E0005D525 /* PitchDeckCabinetApiKit */; };
@@ -21,17 +22,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FE8915892EF418D60009391A /* StartupCategoriesQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupCategoriesQuery.graphql.swift; sourceTree = "<group>"; };
-		FE89158A2EF418D60009391A /* StartupsQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupsQuery.graphql.swift; sourceTree = "<group>"; };
-		FE89158D2EF418D60009391A /* DateTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTime.swift; sourceTree = "<group>"; };
-		FE89158E2EF418D60009391A /* ID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ID.swift; sourceTree = "<group>"; };
-		FE8915902EF418D60009391A /* Query.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.graphql.swift; sourceTree = "<group>"; };
-		FE8915912EF418D60009391A /* Startup.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Startup.graphql.swift; sourceTree = "<group>"; };
-		FE8915922EF418D60009391A /* StartupCategory.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupCategory.graphql.swift; sourceTree = "<group>"; };
-		FE8915932EF418D60009391A /* UploadFile.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFile.graphql.swift; sourceTree = "<group>"; };
-		FE8915952EF418D60009391A /* SchemaConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaConfiguration.swift; sourceTree = "<group>"; };
-		FE8915962EF418D60009391A /* SchemaMetadata.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaMetadata.graphql.swift; sourceTree = "<group>"; };
-		FE8915992EF418D60009391A /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		FECBD4E92EE182C90005D525 /* PitchDeck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchDeck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FECBD4FD2EE1938A0005D525 /* PitchDeckCoreKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckCoreKit; path = ../PitchDeckCoreKit; sourceTree = SOURCE_ROOT; };
 		FECBD4FE2EE193A60005D525 /* PitchDeckUIKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckUIKit; path = ../PitchDeckUIKit; sourceTree = SOURCE_ROOT; };
@@ -47,6 +37,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FE8915FA2EF445CC0009391A /* Exceptions for "PitchDeck" folder in "PitchDeck" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = FECBD4E82EE182C90005D525 /* PitchDeck */;
+		};
 		FEC260422EEC262B00D7AEBF /* Exceptions for "Build Configuration" folder in "PitchDeck" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -68,6 +65,9 @@
 		};
 		FECBD4EB2EE182C90005D525 /* PitchDeck */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FE8915FA2EF445CC0009391A /* Exceptions for "PitchDeck" folder in "PitchDeck" target */,
+			);
 			path = PitchDeck;
 			sourceTree = "<group>";
 		};
@@ -89,82 +89,16 @@
 				FECBD51D2EE2EB3E0005D525 /* PitchDeckNavigationKit in Frameworks */,
 				FECBD5132EE2EB3E0005D525 /* PitchDeckCabinetApiKit in Frameworks */,
 				FECBD5112EE2EB3E0005D525 /* PitchDeckAuthKit in Frameworks */,
+				FE8915F82EF4432F0009391A /* PitchDeckStartupApi in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FE89158B2EF418D60009391A /* Queries */ = {
-			isa = PBXGroup;
-			children = (
-				FE8915892EF418D60009391A /* StartupCategoriesQuery.graphql.swift */,
-				FE89158A2EF418D60009391A /* StartupsQuery.graphql.swift */,
-			);
-			path = Queries;
-			sourceTree = "<group>";
-		};
-		FE89158C2EF418D60009391A /* Operations */ = {
-			isa = PBXGroup;
-			children = (
-				FE89158B2EF418D60009391A /* Queries */,
-			);
-			path = Operations;
-			sourceTree = "<group>";
-		};
-		FE89158F2EF418D60009391A /* CustomScalars */ = {
-			isa = PBXGroup;
-			children = (
-				FE89158D2EF418D60009391A /* DateTime.swift */,
-				FE89158E2EF418D60009391A /* ID.swift */,
-			);
-			path = CustomScalars;
-			sourceTree = "<group>";
-		};
-		FE8915942EF418D60009391A /* Objects */ = {
-			isa = PBXGroup;
-			children = (
-				FE8915902EF418D60009391A /* Query.graphql.swift */,
-				FE8915912EF418D60009391A /* Startup.graphql.swift */,
-				FE8915922EF418D60009391A /* StartupCategory.graphql.swift */,
-				FE8915932EF418D60009391A /* UploadFile.graphql.swift */,
-			);
-			path = Objects;
-			sourceTree = "<group>";
-		};
-		FE8915972EF418D60009391A /* Schema */ = {
-			isa = PBXGroup;
-			children = (
-				FE89158F2EF418D60009391A /* CustomScalars */,
-				FE8915942EF418D60009391A /* Objects */,
-				FE8915952EF418D60009391A /* SchemaConfiguration.swift */,
-				FE8915962EF418D60009391A /* SchemaMetadata.graphql.swift */,
-			);
-			path = Schema;
-			sourceTree = "<group>";
-		};
-		FE8915982EF418D60009391A /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				FE89158C2EF418D60009391A /* Operations */,
-				FE8915972EF418D60009391A /* Schema */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		FE89159A2EF418D60009391A /* PitchDeckStartupApi */ = {
-			isa = PBXGroup;
-			children = (
-				FE8915982EF418D60009391A /* Sources */,
-				FE8915992EF418D60009391A /* Package.swift */,
-			);
-			path = PitchDeckStartupApi;
-			sourceTree = "<group>";
-		};
 		FECBD4E02EE182C90005D525 = {
 			isa = PBXGroup;
 			children = (
-				FE89159A2EF418D60009391A /* PitchDeckStartupApi */,
 				FECBD5232EE2EEC80005D525 /* PitchDeckNavigationApiKit */,
 				FECBD50C2EE2E1830005D525 /* PitchDeckRootKit */,
 				FECBD5052EE194560005D525 /* PitchDeckCabinetApiKit */,
@@ -230,6 +164,7 @@
 				FECBD51E2EE2EB3E0005D525 /* PitchDeckRootKit */,
 				FECBD5202EE2EB3E0005D525 /* PitchDeckUIKit */,
 				FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */,
+				FE8915F72EF4432F0009391A /* PitchDeckStartupApi */,
 			);
 			productName = PitchDeck;
 			productReference = FECBD4E92EE182C90005D525 /* PitchDeck.app */;
@@ -260,6 +195,7 @@
 			mainGroup = FECBD4E02EE182C90005D525;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				FE8915F62EF4432F0009391A /* XCLocalSwiftPackageReference "PitchDeckStartupApi" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FECBD4EA2EE182C90005D525 /* Products */;
@@ -438,6 +374,8 @@
 		};
 		FECBD4F52EE182CB0005D525 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = FEC2603F2EEC260700D7AEBF /* Build Configuration */;
+			baseConfigurationReferenceRelativePath = Production.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -447,6 +385,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PitchDeck/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -475,6 +414,8 @@
 		};
 		FECBD4F62EE182CB0005D525 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = FEC2603F2EEC260700D7AEBF /* Build Configuration */;
+			baseConfigurationReferenceRelativePath = Production.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -484,6 +425,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PitchDeck/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -530,10 +472,21 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		FE8915F62EF4432F0009391A /* XCLocalSwiftPackageReference "PitchDeckStartupApi" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = PitchDeckStartupApi;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PitchDeckNavigationApiKit;
+		};
+		FE8915F72EF4432F0009391A /* PitchDeckStartupApi */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckStartupApi;
 		};
 		FECBD50E2EE2EB3E0005D525 /* PitchDeckAuthApiKit */ = {
 			isa = XCSwiftPackageProductDependency;

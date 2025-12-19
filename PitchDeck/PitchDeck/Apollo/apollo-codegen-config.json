@@ -1,5 +1,5 @@
 {
-  "schemaNamespace": "API",
+  "schemaNamespace": "PitchDeckStartupApi",
   "input": {
     "schemaSearchPaths": [
       "Schema/schema.graphql"

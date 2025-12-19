@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PitchDeckUIKit
 
 struct MainScreen: View {
     
@@ -32,7 +33,7 @@ struct MainScreen: View {
         case .idle:
             return Color.clear.eraseToAnyView()
         case .loading:
-            return ProgressView("Loading").eraseToAnyView()
+            return LoadingView().eraseToAnyView()
         case .loaded(let startUps, let categories):
             return main(filteredStartups: startUps, categories: categories).eraseToAnyView()
         case .error(let error):

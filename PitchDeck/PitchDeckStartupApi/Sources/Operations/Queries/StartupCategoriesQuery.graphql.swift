@@ -13,11 +13,11 @@ public struct StartupCategoriesQuery: GraphQLQuery {
 
   public init() {}
 
-  public struct Data: API.SelectionSet {
+  public struct Data: PitchDeckStartupApi.SelectionSet {
     @_spi(Unsafe) public let __data: DataDict
     @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
 
-    @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { API.Objects.Query }
+    @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { PitchDeckStartupApi.Objects.Query }
     @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
       .field("startupCategories", [StartupCategory?].self),
     ] }
@@ -30,11 +30,11 @@ public struct StartupCategoriesQuery: GraphQLQuery {
     /// StartupCategory
     ///
     /// Parent Type: `StartupCategory`
-    public struct StartupCategory: API.SelectionSet {
+    public struct StartupCategory: PitchDeckStartupApi.SelectionSet {
       @_spi(Unsafe) public let __data: DataDict
       @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
 
-      @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { API.Objects.StartupCategory }
+      @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { PitchDeckStartupApi.Objects.StartupCategory }
       @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
         .field("__typename", String.self),
         .field("title", String?.self),

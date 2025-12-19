@@ -14,12 +14,14 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../PitchDeckNavigationApiKit"),
-        .package(path: "../PitchDeckCoreKit")
+        .package(path: "../PitchDeckCoreKit"),
+        .package(path: "../PitchDeckStartupApi"),
+        .package(path: "../PitchDeckUIKit")
     ],
     targets: [
         .target(
             name: "PitchDeckMainKit",
-            dependencies: ["PitchDeckNavigationApiKit", "PitchDeckCoreKit"],
+            dependencies: ["PitchDeckNavigationApiKit", "PitchDeckCoreKit", "PitchDeckStartupApi", "PitchDeckUIKit"],
         ),
     ]
 )

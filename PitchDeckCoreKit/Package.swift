@@ -23,6 +23,5 @@ let package = Package(
             name: "PitchDeckCoreKit",
             dependencies: ["Alamofire", .product(name: "Apollo", package: "apollo-ios"), "themis"]
         ),
-
     ]
 )

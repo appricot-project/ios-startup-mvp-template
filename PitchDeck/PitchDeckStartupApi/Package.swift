@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-  name: "API",
+  name: "PitchDeckStartupApi",
   platforms: [
     .iOS(.v15),
     .macOS(.v12),
@@ -12,14 +12,14 @@ let package = Package(
     .visionOS(.v1),
   ],
   products: [
-    .library(name: "API", targets: ["API"]),
+    .library(name: "PitchDeckStartupApi", targets: ["PitchDeckStartupApi"]),
   ],
   dependencies: [
     .package(url: "https://github.com/apollographql/apollo-ios", exact: "2.0.4"),
   ],
   targets: [
     .target(
-      name: "API",
+      name: "PitchDeckStartupApi",
       dependencies: [
         .product(name: "ApolloAPI", package: "apollo-ios"),
       ],

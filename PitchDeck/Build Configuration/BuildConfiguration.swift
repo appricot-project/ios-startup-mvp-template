@@ -17,6 +17,7 @@ public struct BuildConfiguration {
         case apiURL = "API_URL"
         case apiSecretKey = "SL_API_SECRET_KEY"
         case strapiURL = "STRAPI_URL"
+        case strapiAuthToken = "STRAPI_AUTH_TOKEN"
     }
 
     static let apiURL: String = {

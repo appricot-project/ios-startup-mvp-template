@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PitchDeckMainApiKit
 
 struct StartupRow: View {
     let item: StartupItem

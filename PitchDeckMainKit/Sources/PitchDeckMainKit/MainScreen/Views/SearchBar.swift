@@ -11,6 +11,7 @@ struct SearchBar: View {
     @Binding var text: String
     
     let onSearchChanged: (String) -> Void
+    let onTextDeleted: () -> Void
     
     @State private var debouncedTask: DispatchWorkItem?
     
@@ -29,6 +30,8 @@ struct SearchBar: View {
                     let task = DispatchWorkItem {
                         if newValue.count >= 3 || newValue.isEmpty {
                             onSearchChanged(newValue)
+                        } else if newValue.count == 0 {
+                            onTextDeleted()
                         }
                     }
                     

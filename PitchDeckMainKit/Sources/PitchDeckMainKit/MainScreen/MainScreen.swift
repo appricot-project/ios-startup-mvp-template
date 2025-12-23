@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PitchDeckUIKit
+import PitchDeckMainApiKit
 
 struct MainScreen: View {
     
@@ -25,31 +26,35 @@ struct MainScreen: View {
         content
             .onAppear { self.viewModel.send(event: .onAppear) }
     }
-
+    
     // MARK: - Private methods
-
+    
     private var content: some View {
         switch viewModel.state.state {
         case .idle:
             return Color.clear.eraseToAnyView()
-        case .loading:
+        case .loading, .serach:
             return LoadingView().eraseToAnyView()
-        case .loaded(let startUps, let categories):
-            return main(filteredStartups: startUps, categories: categories).eraseToAnyView()
+        case .loaded(let startUps, let categories, let hasMore):
+            return main(filteredStartups: startUps, categories: categories, hasMore: hasMore).eraseToAnyView()
+        case .loadingMore:
+            return LoadingView().eraseToAnyView()
         case .error(let error):
             print(error)
             return main().eraseToAnyView()
         }
     }
-
-    private func main(filteredStartups: [StartupItem]? = nil, categories: [CategoryItem]? = nil) -> some View {
+    
+    private func main(filteredStartups: [StartupItem]? = nil, categories: [CategoryItem]? = nil, hasMore: Bool = false) -> some View {
         NavigationView {
             ScrollView {
                 LazyVStack(pinnedViews: [.sectionHeaders]) {
                     Section {
                         VStack(spacing: 10) {
                             SearchBar(text: $serachText) { text in
-                                print(text)
+                                viewModel.send(event: .onSerach(text))
+                            } onTextDeleted: {
+                                viewModel.send(event: .onAppear)
                             }
                             CategoryRow(categories: categories ?? [])
                         }
@@ -58,9 +63,18 @@ struct MainScreen: View {
                     .padding(.bottom, 10)
                     Section {
                         VStack(spacing: 12) {
-                            ForEach(filteredStartups ?? []) { item in
-                                StartupRow(item: item)
-//                                    .padding(.vertical, 2)
+                            if let items = filteredStartups {
+                                ForEach(items) { item in
+                                    StartupRow(item: item)
+                                        .onAppear {
+                                            let itemIndex = items.firstIndex(where: { $0.id == item.id }) ?? 0
+                                            if itemIndex == items.count - 1, hasMore {
+                                                viewModel.send(event: .onLoadingMore)
+                                            }
+                                        }
+                                }
+                            } else {
+                                Text("No available")
                             }
                         }
                     }
@@ -72,11 +86,6 @@ struct MainScreen: View {
     }
 }
 
-extension View {
-    func eraseToAnyView() -> AnyView { AnyView(self) }
-}
-
-
 
 //
 //    private var filteredStartups: [StartupItem] {
@@ -86,28 +95,3 @@ extension View {
 //            return vm.startups
 //        }
 //    }
-
-
-extension View {
-    func hideKeyboardOnTap() -> some View {
-        self.onTapGesture {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
-                                           to: nil,
-                                           from: nil,
-                                           for: nil)
-        }
-    }
-    
-    func hideKeyboardOnTapBackground() -> some View {
-        self.background(
-            Color.clear
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
-                                                   to: nil,
-                                                   from: nil,
-                                                   for: nil)
-                }
-        )
-    }
-}

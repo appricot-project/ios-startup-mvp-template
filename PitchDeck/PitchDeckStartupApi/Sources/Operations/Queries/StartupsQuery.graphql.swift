@@ -8,10 +8,28 @@ public struct StartupsQuery: GraphQLQuery {
   public static let operationName: String = "Startups"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query Startups { startups { __typename documentId startupId title description location createdAt updatedAt publishedAt category { __typename title categoryId } ImageURL { __typename url } } }"#
+      #"query Startups($filters: StartupFiltersInput, $page: Int, $pageSize: Int) { startups(filters: $filters, pagination: { page: $page, pageSize: $pageSize }) { __typename documentId startupId title description location createdAt updatedAt publishedAt category { __typename title categoryId } ImageURL { __typename url } } }"#
     ))
 
-  public init() {}
+  public var filters: GraphQLNullable<StartupFiltersInput>
+  public var page: GraphQLNullable<Int32>
+  public var pageSize: GraphQLNullable<Int32>
+
+  public init(
+    filters: GraphQLNullable<StartupFiltersInput>,
+    page: GraphQLNullable<Int32>,
+    pageSize: GraphQLNullable<Int32>
+  ) {
+    self.filters = filters
+    self.page = page
+    self.pageSize = pageSize
+  }
+
+  @_spi(Unsafe) public var __variables: Variables? { [
+    "filters": filters,
+    "page": page,
+    "pageSize": pageSize
+  ] }
 
   public struct Data: PitchDeckStartupApi.SelectionSet {
     @_spi(Unsafe) public let __data: DataDict
@@ -19,7 +37,13 @@ public struct StartupsQuery: GraphQLQuery {
 
     @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { PitchDeckStartupApi.Objects.Query }
     @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
-      .field("startups", [Startup?].self),
+      .field("startups", [Startup?].self, arguments: [
+        "filters": .variable("filters"),
+        "pagination": [
+          "page": .variable("page"),
+          "pageSize": .variable("pageSize")
+        ]
+      ]),
     ] }
     @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
       StartupsQuery.Data.self

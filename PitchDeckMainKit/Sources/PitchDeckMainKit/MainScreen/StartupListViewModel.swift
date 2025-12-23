@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 import PitchDeckCoreKit
-import PitchDeckStartupApi
+import PitchDeckMainApiKit
 
 final class StartupListViewModel: ObservableObject {
 
@@ -17,17 +17,19 @@ final class StartupListViewModel: ObservableObject {
     @Published private(set) var state = State(state: .idle)
     private var bag = Set<AnyCancellable>()
     private let input = PassthroughSubject<Event, Never>()
+    private let service: StartupService
 
     // MARK: - Init
 
     @MainActor
-    init() {
+    init(service: StartupService) {
+        self.service = service
         Publishers.system(
             initial: state,
             reduce: Self.reduce,
             scheduler: RunLoop.main,
             feedbacks: [
-                Self.whenLoading(),
+                Self.whenLoading(service: service),
                 Self.userInput(input: input.eraseToAnyPublisher())
             ]
         )
@@ -54,18 +56,30 @@ extension StartupListViewModel {
         enum State: Equatable {
             case idle
             case loading
-            case loaded([StartupItem]?, [CategoryItem]?)
+            case loaded([StartupItem], [CategoryItem]?, Bool)
+            case loadingMore(Int)
             case error(String)
+            case serach(String)
         }
         
         var state = State.idle
+        var currentPage: Int = 1
+        var statups: [StartupItem] = []
+        var categories: [CategoryItem] = []
+        var hasMore: Bool = false
     }
 
     enum Event {
         case onAppear
-        case onLoaded([StartupItem]?, [CategoryItem]?)
+        case onLoaded([StartupItem], [CategoryItem]?, Bool)
+        case onLoadingMore
+        case onLoadedMore([StartupItem], Bool)
         case onError(String)
+        case onSerach(String)
+        case onLoadedSerch([StartupItem])
     }
+    
+    static let pageSize = 10
 }
 
 // MARK: - State Machine
@@ -75,96 +89,110 @@ extension StartupListViewModel {
         switch (state.state, event) {
         case (.idle, .onAppear):
             return State(state: .loading)
-        case (_, .onLoaded(let items, let categories)):
-            return State(state: .loaded(items, categories))
+        case (_, .onLoaded(let items, let categories, let hasMore)):
+            var newState = state
+            newState.currentPage += 1
+            newState.statups = items
+            newState.categories = categories ?? []
+            newState.hasMore = hasMore
+            newState.state = .loaded(items, categories, hasMore)
+            return newState
+        case (_, .onLoadingMore):
+            var newState = state
+            guard newState.hasMore else { return state }
+            newState.state = .loadingMore(newState.currentPage)
+            return newState
+        case (_, .onLoadedMore(let newItems, let hasMore)):
+            var newState = state
+            let items = newState.statups + newItems
+            newState.statups = items
+            newState.hasMore = hasMore
+            newState.state = .loaded(items, newState.categories, hasMore)
+            return newState
         case (_, .onError(let error)):
             return State(state: .error(error))
+        case (_, .onSerach(let text)):
+            var newState = state
+            newState.currentPage = 1
+            newState.state = .serach(text)
+            return newState
+        case (_, .onLoadedSerch(let items)):
+            var newState = state
+            newState.statups = items
+            newState.hasMore = false
+            newState.state = .loaded(items, newState.categories, false)
+            return newState
         default:
             return state
         }
     }
 
     @MainActor
-    private static func whenLoading() -> Feedback<State, Event> {
+    private static func whenLoading(service: StartupService) -> Feedback<State, Event> {
         Feedback { (state: State) -> AnyPublisher<Event, Never> in
-            guard case .loading = state.state else { return Empty().eraseToAnyPublisher() }
-            return Self.loadData()
-                .map { Event.onLoaded($0.0, $0.1) }
-                .catch { Just(Event.onError($0.localizedDescription)) }
-                .eraseToAnyPublisher()
+            switch state.state {
+            case .loading:
+                return Self.loadData(service: service, page: 1)
+                    .map { Event.onLoaded($0.0, $0.1, $0.2) }
+                    .catch { Just(Event.onError($0.localizedDescription)) }
+                    .eraseToAnyPublisher()
+            case .loadingMore(let currentPage):
+                return Self.loadData(service: service, page: currentPage)
+                    .map { Event.onLoadedMore($0.0, $0.2) }
+                    .catch { Just(Event.onError($0.localizedDescription)) }
+                    .eraseToAnyPublisher()
+            case .serach(let text):
+                return Self.searchStartup(service: service, filter: text)
+                    .map { Event.onLoadedSerch($0) }
+                    .catch { Just(Event.onError($0.localizedDescription)) }
+                    .eraseToAnyPublisher()
+            default:
+                return Empty().eraseToAnyPublisher()
+            }
         }
     }
-
+    
     @MainActor
-    private static func loadData() -> AnyPublisher<([StartupItem]?, [CategoryItem]?), BaseServiceError> {
-        return Future() { promise in
-            do {
-                let query = StartupsQuery()
-                
-                ApolloWebClient.shared.apollo.fetch(query: query) { result in
-                    switch result {
-                    case .success(let value):
-                        print("Value \(value)")
-                    case .failure(let error):
-                        debugPrint(error.localizedDescription)
+    private static func loadData(service: StartupService, page: Int) -> AnyPublisher<([StartupItem], [CategoryItem]?, Bool), BaseServiceError> {
+        Future { promise in
+            Task {
+                do {
+                    if page == 1 {
+                        async let startupsTask = service.startups(page: page, pageSize: pageSize)
+                        async let categoriesTask = service.startupsCategoris()
+                        let (startups, categories) = try await (startupsTask, categoriesTask)
+                        let hasMore = startups.count == pageSize
+                        promise(.success((startups, categories, hasMore)))
+                    } else {
+                        let startups = try await service.startups(page: page, pageSize: pageSize)
+                        let hasMore = startups.count == pageSize
+                        promise(.success((startups, nil, hasMore)))
                     }
+                } catch {
+                    promise(.failure(error as? BaseServiceError ?? .custom(error.localizedDescription)))
                 }
-//                print(requestQuery.cURLCommand())
-                let categories: [CategoryItem] = [
-                    .init(id: "1", title: "AI"),
-                    .init(id: "2", title: "Fintech"),
-                    .init(id: "3", title: "Health")
-                ]
-
-                let startups: [StartupItem] = [
-                    .init(id: "1", title: "NeuroGen", description: "New AI Startup", image: nil, category: "AI", location: "Moscow" ),
-                    .init(id: "2", title: "HeartWell", description: "New AI Startup", image: nil, category: "Health", location: "London" ),
-                    .init(id: "3", title: "PayWave", description: "New AI Startup", image: nil, category: "Fintech", location: "Vashington" ),
-                    .init(id: "4", title: "NeuroPhoto", description: "New AI Startup", image: nil, category: "AI", location: "Moscow" ),
-                    .init(id: "5", title: "NewLife", description: "New AI Startup", image: nil, category: "Health", location: "Vashington" ),
-                    .init(id: "6", title: "PayWithoutCard", description: "New AI Startup", image: nil, category: "Fintech", location: "London" ),
-                    .init(id: "7", title: "GPT-999", description: "New AI Startup", image: nil, category: "AI", location: "Moscow" ),
-                    .init(id: "8", title: "Free Life", description: "New AI Startup", image: nil, category: "Health", location: "Moscow" ),
-                    .init(id: "9", title: "AI-GPT", description: "New AI Startup", image: nil, category: "AI", location: "Moscow" ),
-                    .init(id: "10", title: "Free Life", description: "New AI Startup", image: nil, category: "Health", location: "Moscow" ),
-                ]
-
-                let result = (startups, categories)
-                promise(Result<([StartupItem]?, [CategoryItem]?) , BaseServiceError>.success(result))
-            } catch {
-                promise(Result<([StartupItem]?, [CategoryItem]?), BaseServiceError>.failure(error as? BaseServiceError ?? BaseServiceError.custom(error.localizedDescription)))
             }
-        }.delay(for: .seconds(2), scheduler: DispatchQueue.main).eraseToAnyPublisher()
+        }
+        .eraseToAnyPublisher()
     }
-
+    
+    @MainActor
+    private static func searchStartup(service: StartupService, filter: String) -> AnyPublisher<([StartupItem]), BaseServiceError> {
+        Future { promise in
+            Task {
+                do {
+                    let startups = try await service.serchStartup(filter: filter, page: 1, pageSize: pageSize)
+//                    let hasMore = startups.count == pageSize
+                    promise(.success(startups))
+                } catch {
+                    promise(.failure(error as? BaseServiceError ?? .custom(error.localizedDescription)))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
     static func userInput(input: AnyPublisher<Event, Never>) -> Feedback<State, Event> {
         Feedback { _ in input }
-    }
-}
-
-
-extension URLRequest {
-    func cURLCommand() -> String {
-        guard let url = url else { return "" }
-
-        var command = ["curl \"\(url.absoluteString)\""]
-
-        if let method = httpMethod, method != "GET" {
-            command.append("-X \(method)")
-        }
-
-        if let headers = allHTTPHeaderFields {
-            for (key, value) in headers {
-                command.append("-H '\(key): \(value)'")
-            }
-        }
-
-        if let body = httpBody,
-           let bodyString = String(data: body, encoding: .utf8),
-           !bodyString.isEmpty {
-            command.append("-d '\(bodyString)'")
-        }
-
-        return command.joined(separator: " \\\n\t")
     }
 }

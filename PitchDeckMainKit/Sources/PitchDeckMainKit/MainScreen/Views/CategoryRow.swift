@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PitchDeckMainApiKit
 
 struct CategoryRow: View {
     let categories: [CategoryItem]

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE5BFF772EF94996006FC38C /* PitchDeckStartupApi in Frameworks */ = {isa = PBXBuildFile; productRef = FE5BFF762EF94996006FC38C /* PitchDeckStartupApi */; };
 		FE632A622EE2F7370059E01C /* PitchDeckNavigationApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */; };
 		FE8915F82EF4432F0009391A /* PitchDeckStartupApi in Frameworks */ = {isa = PBXBuildFile; productRef = FE8915F72EF4432F0009391A /* PitchDeckStartupApi */; };
 		FECBD50F2EE2EB3E0005D525 /* PitchDeckAuthApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD50E2EE2EB3E0005D525 /* PitchDeckAuthApiKit */; };
@@ -86,6 +87,7 @@
 				FECBD51F2EE2EB3E0005D525 /* PitchDeckRootKit in Frameworks */,
 				FECBD5192EE2EB3E0005D525 /* PitchDeckMainApiKit in Frameworks */,
 				FECBD51B2EE2EB3E0005D525 /* PitchDeckMainKit in Frameworks */,
+				FE5BFF772EF94996006FC38C /* PitchDeckStartupApi in Frameworks */,
 				FECBD51D2EE2EB3E0005D525 /* PitchDeckNavigationKit in Frameworks */,
 				FECBD5132EE2EB3E0005D525 /* PitchDeckCabinetApiKit in Frameworks */,
 				FECBD5112EE2EB3E0005D525 /* PitchDeckAuthKit in Frameworks */,
@@ -165,6 +167,7 @@
 				FECBD5202EE2EB3E0005D525 /* PitchDeckUIKit */,
 				FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */,
 				FE8915F72EF4432F0009391A /* PitchDeckStartupApi */,
+				FE5BFF762EF94996006FC38C /* PitchDeckStartupApi */,
 			);
 			productName = PitchDeck;
 			productReference = FECBD4E92EE182C90005D525 /* PitchDeck.app */;
@@ -195,7 +198,7 @@
 			mainGroup = FECBD4E02EE182C90005D525;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				FE8915F62EF4432F0009391A /* XCLocalSwiftPackageReference "PitchDeckStartupApi" */,
+				FE5BFF752EF94996006FC38C /* XCLocalSwiftPackageReference "PitchDeckStartupApi" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FECBD4EA2EE182C90005D525 /* Products */;
@@ -238,7 +241,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\nset -euo pipefail\n\n# Folder containing CLI and config — everything is now in one place\nAPOLLO_DIR=\"${SRCROOT}/PitchDeck/Apollo\"\n\nCLI_PATH=\"${APOLLO_DIR}/apollo-ios-cli\"\nCONFIG_PATH=\"${APOLLO_DIR}/apollo-codegen-config.json\"  # your file name\n\n# Check CLI existence\nif [ ! -f \"$CLI_PATH\" ]; then\n    echo \"error: apollo-ios-cli not found at path: $CLI_PATH\"\n    exit 1\nfi\n\n# Check config existence\nif [ ! -f \"$CONFIG_PATH\" ]; then\n    echo \"error: apollo-codegen-config.json not found at path: $CONFIG_PATH\"\n    exit 1\nfi\n\nchmod +x \"$CLI_PATH\"\n\necho \"Launching Apollo code generation...\"\n\n# Run generation with explicit config path (to avoid dependency on file name)\n\"$CLI_PATH\" generate --path \"$CONFIG_PATH\"\n\necho \"Apollo code generation completed successfully!\"\n";
+			shellScript = "#!/bin/bash\n\nset -euo pipefail\n\n# Folder containing CLI and config — everything is now in one place\nAPOLLO_DIR=\"${SRCROOT}/PitchDeck/Apollo\"\n\nCLI_PATH=\"${APOLLO_DIR}/apollo-ios-cli\"\nCONFIG_PATH=\"${APOLLO_DIR}/apollo-codegen-config.json\"\n\n# Check CLI existence\nif [ ! -f \"$CLI_PATH\" ]; then\n    echo \"error: apollo-ios-cli not found at path: $CLI_PATH\"\n    exit 1\nfi\n\n# Check config existence\nif [ ! -f \"$CONFIG_PATH\" ]; then\n    echo \"error: apollo-codegen-config.json not found at path: $CONFIG_PATH\"\n    exit 1\nfi\n\nchmod +x \"$CLI_PATH\"\n\necho \"Launching Apollo code generation...\"\n\n# Run generation with explicit config path (to avoid dependency on file name)\n\"$CLI_PATH\" generate --path \"$CONFIG_PATH\"\n\necho \"Apollo code generation completed successfully!\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -473,13 +476,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		FE8915F62EF4432F0009391A /* XCLocalSwiftPackageReference "PitchDeckStartupApi" */ = {
+		FE5BFF752EF94996006FC38C /* XCLocalSwiftPackageReference "PitchDeckStartupApi" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = PitchDeckStartupApi;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FE5BFF762EF94996006FC38C /* PitchDeckStartupApi */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckStartupApi;
+		};
 		FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PitchDeckNavigationApiKit;

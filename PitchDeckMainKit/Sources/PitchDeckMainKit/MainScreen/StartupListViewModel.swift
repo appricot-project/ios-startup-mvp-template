@@ -55,11 +55,11 @@ extension StartupListViewModel {
     struct State {
         enum State: Equatable {
             case idle
-            case loading
+            case loading(Int)
             case loaded([StartupItem], [CategoryItem]?, Bool)
             case loadingMore(Int)
             case error(String)
-            case serach(String)
+            case serach(String, Int)
         }
         
         var state = State.idle
@@ -67,6 +67,7 @@ extension StartupListViewModel {
         var statups: [StartupItem] = []
         var categories: [CategoryItem] = []
         var hasMore: Bool = false
+        var searchText: String? = nil
     }
 
     enum Event {
@@ -87,8 +88,11 @@ extension StartupListViewModel {
 extension StartupListViewModel {
     private static func reduce(_ state: State, _ event: Event) -> State {
         switch (state.state, event) {
-        case (.idle, .onAppear):
-            return State(state: .loading)
+        case (_, .onAppear):
+            var newState = state
+            newState.currentPage = 1
+            newState.state = .loading(newState.currentPage)
+            return newState
         case (_, .onLoaded(let items, let categories, let hasMore)):
             var newState = state
             newState.currentPage += 1
@@ -112,18 +116,21 @@ extension StartupListViewModel {
         case (_, .onError(let error)):
             return State(state: .error(error))
         case (_, .onSerach(let text)):
-            var newState = state
-            newState.currentPage = 1
-            newState.state = .serach(text)
-            return newState
+            if text != state.searchText {
+                var newState = state
+                newState.currentPage = 1
+                newState.searchText = text
+                newState.state = .serach(text, 1)
+                return newState
+            } else {
+                return state
+            }
         case (_, .onLoadedSerch(let items)):
             var newState = state
             newState.statups = items
             newState.hasMore = false
             newState.state = .loaded(items, newState.categories, false)
             return newState
-        default:
-            return state
         }
     }
 
@@ -131,8 +138,8 @@ extension StartupListViewModel {
     private static func whenLoading(service: StartupService) -> Feedback<State, Event> {
         Feedback { (state: State) -> AnyPublisher<Event, Never> in
             switch state.state {
-            case .loading:
-                return Self.loadData(service: service, page: 1)
+            case .loading(let currentPage):
+                return Self.loadData(service: service, page: currentPage)
                     .map { Event.onLoaded($0.0, $0.1, $0.2) }
                     .catch { Just(Event.onError($0.localizedDescription)) }
                     .eraseToAnyPublisher()
@@ -141,8 +148,8 @@ extension StartupListViewModel {
                     .map { Event.onLoadedMore($0.0, $0.2) }
                     .catch { Just(Event.onError($0.localizedDescription)) }
                     .eraseToAnyPublisher()
-            case .serach(let text):
-                return Self.searchStartup(service: service, filter: text)
+            case .serach(let text, let currentPage):
+                return Self.searchStartup(service: service, title: text, page: currentPage)
                     .map { Event.onLoadedSerch($0) }
                     .catch { Just(Event.onError($0.localizedDescription)) }
                     .eraseToAnyPublisher()
@@ -158,13 +165,13 @@ extension StartupListViewModel {
             Task {
                 do {
                     if page == 1 {
-                        async let startupsTask = service.startups(page: page, pageSize: pageSize)
+                        async let startupsTask = service.startups(title: nil, page: page, pageSize: pageSize)
                         async let categoriesTask = service.startupsCategoris()
                         let (startups, categories) = try await (startupsTask, categoriesTask)
                         let hasMore = startups.count == pageSize
                         promise(.success((startups, categories, hasMore)))
                     } else {
-                        let startups = try await service.startups(page: page, pageSize: pageSize)
+                        let startups = try await service.startups(title: nil, page: page, pageSize: pageSize)
                         let hasMore = startups.count == pageSize
                         promise(.success((startups, nil, hasMore)))
                     }
@@ -177,11 +184,11 @@ extension StartupListViewModel {
     }
     
     @MainActor
-    private static func searchStartup(service: StartupService, filter: String) -> AnyPublisher<([StartupItem]), BaseServiceError> {
+    private static func searchStartup(service: StartupService, title: String, page: Int) -> AnyPublisher<([StartupItem]), BaseServiceError> {
         Future { promise in
             Task {
                 do {
-                    let startups = try await service.serchStartup(filter: filter, page: 1, pageSize: pageSize)
+                    let startups = try await service.startups(title: title, page: page, pageSize: pageSize)
 //                    let hasMore = startups.count == pageSize
                     promise(.success(startups))
                 } catch {

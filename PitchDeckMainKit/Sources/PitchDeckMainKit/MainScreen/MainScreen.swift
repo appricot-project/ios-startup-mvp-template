@@ -52,9 +52,11 @@ struct MainScreen: View {
                     Section {
                         VStack(spacing: 10) {
                             SearchBar(text: $serachText) { text in
-                                viewModel.send(event: .onSerach(text))
-                            } onTextDeleted: {
-                                viewModel.send(event: .onAppear)
+                                if text == "" {
+                                    viewModel.send(event: .onAppear)
+                                } else {
+                                    viewModel.send(event: .onSerach(text))
+                                }
                             }
                             CategoryRow(categories: categories ?? [])
                         }

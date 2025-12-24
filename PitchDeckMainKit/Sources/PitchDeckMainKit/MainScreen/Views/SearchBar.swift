@@ -11,9 +11,11 @@ struct SearchBar: View {
     @Binding var text: String
     
     let onSearchChanged: (String) -> Void
-    let onTextDeleted: () -> Void
     
     @State private var debouncedTask: DispatchWorkItem?
+    @State private var hasEverReachedMinLength = false  // Новое состояние
+    
+    private let minSearchLength = 3
     
     var body: some View {
         HStack {
@@ -24,20 +26,31 @@ struct SearchBar: View {
                 .textFieldStyle(.plain)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
-                .onChange(of: text) { newValue in
+                .onChange(of: text) { oldValue, newValue in
                     debouncedTask?.cancel()
-                    
                     let task = DispatchWorkItem {
-                        if newValue.count >= 3 || newValue.isEmpty {
+                        if newValue.count >= minSearchLength {
                             onSearchChanged(newValue)
-                        } else if newValue.count == 0 {
-                            onTextDeleted()
+                        } else if newValue.isEmpty &&
+                                    oldValue.count >= minSearchLength {
+                            onSearchChanged("")
                         }
                     }
                     
                     debouncedTask = task
-                    DispatchQueue.main.async(execute: task)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: task)
                 }
+            
+            if !text.isEmpty {
+                Button(action: {
+                    text = ""
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.secondary)
+                }
+                .transition(.opacity)
+                .animation(.default, value: text.isEmpty)
+            }
         }
         .padding(12)
         .background(Color(.systemGray6))

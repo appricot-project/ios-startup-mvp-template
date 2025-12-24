@@ -16,39 +16,21 @@ public final class StartupServiceImpl: StartupService {
     
     public init() {}
     
-    public func startups(page: Int, pageSize: Int) async throws -> [StartupItem] {
-        let query = StartupsQuery(
-            filters: .some(
-                StartupFiltersInput(
-                    title: .none
-                )
-            ),
-            page: .some(Int32(page)),
-            pageSize: .some(Int32(pageSize))
-        )
-        let result = try await ApolloWebClient.shared.apollo.fetch(query: query)
+    public func startups(title: String? = nil, page: Int, pageSize: Int) async throws -> [StartupItem] {
         
-        return result.data?.startups.compactMap { startup in
-            PitchDeckMainApiKit.StartupItem(
-                id: startup?.startupId ?? 0,
-                title: startup?.title ?? "",
-                description: startup?.description ?? "",
-                image: startup?.imageURL?.url ?? "",
-                category: startup?.category?.title ?? "",
-                location: startup?.location ?? ""
-            )
-        } ?? []
-    }
-    
-    public func serchStartup(filter: String, page: Int, pageSize: Int) async throws -> [StartupItem] {
+        let titleFilter: GraphQLNullable<StringFilterInput>
+        if let title {
+            titleFilter = .some(StringFilterInput(contains: .some(title)))
+        } else {
+            titleFilter = .none
+        }
+        
+        let filters = StartupFiltersInput(
+               title: titleFilter
+           )
+        
         let query = StartupsQuery(
-            filters: .some(
-                StartupFiltersInput(
-                    title: .some(
-                        .init(contains: .some(filter))
-                    )
-                )
-            ),
+            filters: .some(filters),
             page: .some(Int32(page)),
             pageSize: .some(Int32(pageSize))
         )

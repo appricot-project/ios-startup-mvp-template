@@ -16,13 +16,34 @@ public final class StartupServiceImpl: StartupService {
     
     public init() {}
     
-    public func startups(
+    public func getStartup(documentId: String) async throws -> StartupItem {
+        let query = StartupQuery(
+            documentId: documentId
+        )
+        
+        let result = try await ApolloWebClient.shared.apollo.fetch(query: query)
+        
+        guard let startup = result.data?.startup else {
+            throw NSError(domain: "No data", code: -1)
+        }
+        
+        return StartupItem(
+            id: startup.startupId ?? 0,
+            documentId: startup.documentId,
+            title: startup.title ?? "",
+            description: startup.description ?? "",
+            image: startup.imageURL?.url ?? "",
+            category: startup.category?.title ?? "",
+            location: startup.location ?? ""
+        )
+    }
+    
+    public func getStartups(
         title: String? = nil,
         categoryId: Int? = nil,
         page: Int,
         pageSize: Int
     ) async throws -> [StartupItem] {
-        
         let titleFilter: GraphQLNullable<StringFilterInput> = {
             if let title = title, !title.isEmpty {
                 return .some(StringFilterInput(contains: .some(title)))
@@ -54,9 +75,9 @@ public final class StartupServiceImpl: StartupService {
         let result = try await ApolloWebClient.shared.apollo.fetch(query: query)
         
         return result.data?.startups.compactMap { startup in
-            
             return StartupItem(
                 id: startup?.startupId ?? 0,
+                documentId: startup?.documentId ?? "",
                 title: startup?.title ?? "",
                 description: startup?.description ?? "",
                 image: startup?.imageURL?.url ?? "",
@@ -66,7 +87,7 @@ public final class StartupServiceImpl: StartupService {
         } ?? []
     }
     
-    public func startupsCategoris() async throws -> [CategoryItem] {
+    public func getStartupsCategoris() async throws -> [CategoryItem] {
         let query = StartupCategoriesQuery()
         let result = try await ApolloWebClient.shared.apollo.fetch(query: query)
         

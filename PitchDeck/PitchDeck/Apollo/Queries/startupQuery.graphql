@@ -1,19 +1,18 @@
-query Startups($filters: StartupFiltersInput, $page: Int, $pageSize: Int) {
-  startups(filters: $filters, pagination: { page: $page, pageSize: $pageSize }) {
-    documentId
-    startupId
-    title
-    description
-    location
-    createdAt
-    updatedAt
-    publishedAt
-    category {
-      title
-      categoryId
+query Startup($documentId: ID!) {
+    startup(documentId: $documentId) {
+        documentId
+        startupId
+        title
+        description
+        location
+        createdAt
+        updatedAt
+        publishedAt
+        ImageURL {
+            url
+        }
+        category {
+            title
+        }
     }
-    ImageURL {
-      url
-    }
-  }
 }

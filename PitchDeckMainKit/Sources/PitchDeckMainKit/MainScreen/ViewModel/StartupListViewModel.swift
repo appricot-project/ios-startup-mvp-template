@@ -11,16 +11,16 @@ import PitchDeckCoreKit
 import PitchDeckMainApiKit
 
 final class StartupListViewModel: ObservableObject {
-
+    
     // MARK: - Private properties
-
+    
     @Published private(set) var state = State(state: .idle)
     private var bag = Set<AnyCancellable>()
     private let input = PassthroughSubject<Event, Never>()
     private let service: StartupService
-
+    
     // MARK: - Init
-
+    
     @MainActor
     init(service: StartupService) {
         self.service = service
@@ -36,11 +36,11 @@ final class StartupListViewModel: ObservableObject {
         .assign(to: \.state, weakly: self)
         .store(in: &bag)
     }
-
+    
     deinit {
         bag.removeAll()
     }
-
+    
     // MARK: - Public methods
     
     func send(event: Event) {
@@ -51,7 +51,7 @@ final class StartupListViewModel: ObservableObject {
 // MARK: - Inner types
 
 extension StartupListViewModel {
-
+    
     struct State {
         enum State: Equatable {
             case idle
@@ -70,7 +70,7 @@ extension StartupListViewModel {
         var searchText: String? = nil
         var selectedCategory: Int? = nil
     }
-
+    
     enum Event {
         case onAppear
         case onLoaded([StartupItem], [CategoryItem]?, Bool)
@@ -143,7 +143,7 @@ extension StartupListViewModel {
             return newState
         }
     }
-
+    
     @MainActor
     private static func whenLoading(service: StartupService) -> Feedback<State, Event> {
         Feedback { (state: State) -> AnyPublisher<Event, Never> in
@@ -175,13 +175,13 @@ extension StartupListViewModel {
             Task {
                 do {
                     if page == 1 {
-                        async let startupsTask = service.startups(title: nil, categoryId: nil, page: page, pageSize: pageSize)
-                        async let categoriesTask = service.startupsCategoris()
+                        async let startupsTask = service.getStartups(title: nil, categoryId: nil, page: page, pageSize: pageSize)
+                        async let categoriesTask = service.getStartupsCategoris()
                         let (startups, categories) = try await (startupsTask, categoriesTask)
                         let hasMore = startups.count == pageSize
                         promise(.success((startups, categories, hasMore)))
                     } else {
-                        let startups = try await service.startups(title: nil, categoryId: nil, page: page, pageSize: pageSize)
+                        let startups = try await service.getStartups(title: nil, categoryId: nil, page: page, pageSize: pageSize)
                         let hasMore = startups.count == pageSize
                         promise(.success((startups, nil, hasMore)))
                     }
@@ -198,8 +198,8 @@ extension StartupListViewModel {
         Future { promise in
             Task {
                 do {
-                    let startups = try await service.startups(title: title, categoryId: category, page: page, pageSize: pageSize)
-//                    let hasMore = startups.count == pageSize
+                    let startups = try await service.getStartups(title: title, categoryId: category, page: page, pageSize: pageSize)
+                    //                    let hasMore = startups.count == pageSize
                     promise(.success(startups))
                 } catch {
                     promise(.failure(error as? BaseServiceError ?? .custom(error.localizedDescription)))

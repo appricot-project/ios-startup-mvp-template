@@ -12,7 +12,7 @@ struct SearchBar: View {
     @Binding var text: String
     @State private var debouncedTask: DispatchWorkItem?
     @State private var hasEverReachedMinLength = false
-
+    
     private let minSearchLength = 3
     
     let onSearchChanged: (String) -> Void

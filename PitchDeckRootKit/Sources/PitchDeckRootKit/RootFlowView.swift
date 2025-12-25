@@ -20,7 +20,7 @@ public struct RootFlowView: View {
 
     public var body: some View {
         TabView(selection: $coordinator.selectedTab) {
-            MainFlowView(coordinator: coordinator.main, service: StartupServiceImpl())
+            MainFlowView(coordinator: coordinator.main)
                 .tabItem { Label("Startups", systemImage: "house") }
                 .tag(RootCoordinator.Tab.main)
             CabinetFlowView(coordinator: coordinator.cabinet)

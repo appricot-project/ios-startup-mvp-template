@@ -1,6 +1,0 @@
-query StartupCategories {
-    startupCategories {
-        title
-        categoryId
-    }
-}

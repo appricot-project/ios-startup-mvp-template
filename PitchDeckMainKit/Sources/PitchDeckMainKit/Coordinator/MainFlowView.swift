@@ -22,7 +22,7 @@ public struct MainFlowView: View {
     
     public var body: some View {
         NavigationStack(path: $coordinator.path) {
-            MainScreen(viewModel: StartupListViewModel(service: service))
+            StartupsView(viewModel: StartupListViewModel(service: service))
 //            MainScreen(onSelectDetail: { id in
 //                coordinator.push(.details(id: id))
 //            })

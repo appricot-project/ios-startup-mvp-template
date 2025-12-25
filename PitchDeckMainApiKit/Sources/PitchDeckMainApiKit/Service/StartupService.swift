@@ -9,6 +9,6 @@ import Foundation
 
 @MainActor
 public protocol StartupService: Sendable {
-    func startups(title: String?, page: Int, pageSize: Int) async throws -> [StartupItem]
+    func startups(title: String?, categoryId: Int?, page: Int, pageSize: Int) async throws -> [StartupItem]
     func startupsCategoris() async throws -> [CategoryItem]
 }

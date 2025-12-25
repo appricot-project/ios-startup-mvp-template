@@ -6,16 +6,16 @@
 //
 
 import SwiftUI
+import PitchDeckUIKit
 
 struct SearchBar: View {
     @Binding var text: String
+    @State private var debouncedTask: DispatchWorkItem?
+    @State private var hasEverReachedMinLength = false
+
+    private let minSearchLength = 3
     
     let onSearchChanged: (String) -> Void
-    
-    @State private var debouncedTask: DispatchWorkItem?
-    @State private var hasEverReachedMinLength = false  // Новое состояние
-    
-    private let minSearchLength = 3
     
     var body: some View {
         HStack {
@@ -31,8 +31,7 @@ struct SearchBar: View {
                     let task = DispatchWorkItem {
                         if newValue.count >= minSearchLength {
                             onSearchChanged(newValue)
-                        } else if newValue.isEmpty &&
-                                    oldValue.count >= minSearchLength {
+                        } else if newValue.isEmpty {
                             onSearchChanged("")
                         }
                     }
@@ -46,15 +45,15 @@ struct SearchBar: View {
                     text = ""
                 }) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color(uiColor: .blueD1))
                 }
                 .transition(.opacity)
                 .animation(.default, value: text.isEmpty)
             }
         }
         .padding(12)
-        .background(Color(.systemGray6))
-        .cornerRadius(10)
+        .background(Color(uiColor: .grayD7))
+        .cornerRadius(16)
         .padding(8)
     }
 }

@@ -16,28 +16,46 @@ public final class StartupServiceImpl: StartupService {
     
     public init() {}
     
-    public func startups(title: String? = nil, page: Int, pageSize: Int) async throws -> [StartupItem] {
+    public func startups(
+        title: String? = nil,
+        categoryId: Int? = nil,
+        page: Int,
+        pageSize: Int
+    ) async throws -> [StartupItem] {
         
-        let titleFilter: GraphQLNullable<StringFilterInput>
-        if let title {
-            titleFilter = .some(StringFilterInput(contains: .some(title)))
-        } else {
-            titleFilter = .none
-        }
+        let titleFilter: GraphQLNullable<StringFilterInput> = {
+            if let title = title, !title.isEmpty {
+                return .some(StringFilterInput(contains: .some(title)))
+            } else {
+                return .none
+            }
+        }()
+        let categoryFilter: GraphQLNullable<StartupCategoryFiltersInput> = {
+            if let categoryId = categoryId {
+                return .some(StartupCategoryFiltersInput(
+                    categoryId: .some(IntFilterInput(eq: .some(Int32(categoryId))))
+                ))
+            } else {
+                return .none
+            }
+        }()
         
         let filters = StartupFiltersInput(
-               title: titleFilter
-           )
+            title: titleFilter,
+            category: categoryFilter
+        )
         
         let query = StartupsQuery(
             filters: .some(filters),
             page: .some(Int32(page)),
             pageSize: .some(Int32(pageSize))
         )
+        
         let result = try await ApolloWebClient.shared.apollo.fetch(query: query)
         
         return result.data?.startups.compactMap { startup in
-            PitchDeckMainApiKit.StartupItem(
+            
+            return StartupItem(
                 id: startup?.startupId ?? 0,
                 title: startup?.title ?? "",
                 description: startup?.description ?? "",

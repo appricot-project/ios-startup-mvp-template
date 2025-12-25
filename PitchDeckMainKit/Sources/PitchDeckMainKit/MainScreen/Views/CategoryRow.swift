@@ -6,32 +6,44 @@
 //
 
 import SwiftUI
+import PitchDeckUIKit
 import PitchDeckMainApiKit
 
 struct CategoryRow: View {
     let categories: [CategoryItem]
-//    @Binding var selected: String?
-
+    let selectedCategoryId: Int?
+    let onCategoryChanged: (Int?) -> Void
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+            HStack(spacing: 12) {
                 ForEach(categories) { category in
-                    Text(category.title)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                        .background(
-//                            selected == category.id
-//                            ? Color.blue.opacity(0.2)
-//                            :
-                                Color.gray.opacity(0.1)
-                        )
-                        .cornerRadius(16)
-                        .onTapGesture {
-//                            selected = category.id
-                        }
+                    categoryChip(for: category)
                 }
             }
-            .padding(.horizontal, 8)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
         }
+    }
+    
+    @ViewBuilder
+    private func categoryChip(for category: CategoryItem) -> some View {
+        let isSelected = selectedCategoryId == category.id
+        
+        Text(category.title)
+            .font(.system(size: 15, weight: isSelected ? .semibold : .medium))
+            .foregroundStyle(isSelected ? Color(uiColor: .whiteD1) : Color(uiColor: .globalTitleColor))
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(
+                Capsule()
+                    .fill(isSelected ? Color(uiColor: .blueD1) : Color(uiColor: .grayD7))
+            )
+            .onTapGesture {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    let newValue = isSelected ? nil : category.id
+                    onCategoryChanged(newValue)
+                }
+            }
     }
 }

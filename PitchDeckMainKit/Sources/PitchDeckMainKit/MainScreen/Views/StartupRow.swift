@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PitchDeckUIKit
 import PitchDeckMainApiKit
 
 struct StartupRow: View {
@@ -39,11 +40,11 @@ struct StartupRow: View {
             
             Text(item.location)
                 .font(.headline)
-                .foregroundColor(.purple)
+                .foregroundColor(Color(uiColor: .blueD1))
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .background(Color(.systemGray6))
+        .background(Color(uiColor: .grayD7))
         .cornerRadius(16)
         .padding(.horizontal, 8)
         .listRowInsets(EdgeInsets())

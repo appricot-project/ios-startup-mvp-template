@@ -21,7 +21,7 @@ public struct RootFlowView: View {
     public var body: some View {
         TabView(selection: $coordinator.selectedTab) {
             MainFlowView(coordinator: coordinator.main, service: StartupServiceImpl())
-                .tabItem { Label("Home", systemImage: "house") }
+                .tabItem { Label("Startups", systemImage: "house") }
                 .tag(RootCoordinator.Tab.main)
             CabinetFlowView(coordinator: coordinator.cabinet)
                 .tabItem { Label("Cabinet", systemImage: "person") }

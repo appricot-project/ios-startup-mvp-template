@@ -21,8 +21,7 @@ struct CategoryRow: View {
                     categoryChip(for: category)
                 }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
+            .padding(.horizontal, 8)
         }
     }
     

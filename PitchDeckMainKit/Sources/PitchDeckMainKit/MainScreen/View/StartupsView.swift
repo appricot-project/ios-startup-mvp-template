@@ -30,6 +30,7 @@ struct StartupsView: View {
     
     var body: some View {
         content
+            .background(Color(UIColor.globalBackgroundColor))
             .onAppear { self.viewModel.send(event: .onAppear) }
     }
     
@@ -67,7 +68,7 @@ struct StartupsView: View {
         ScrollView {
             LazyVStack(pinnedViews: [.sectionHeaders]) {
                 Section {
-                    VStack(spacing: 10) {
+                    VStack {
                         SearchBar(text: $serachText) { text in
                             if text == "" {
                                 viewModel.send(event: .onAppear)
@@ -83,9 +84,9 @@ struct StartupsView: View {
                             }
                         )
                     }
-                    .background(Color(.systemBackground))
+                    .background(Color(UIColor.globalBackgroundColor))
                 }
-                .padding(.bottom, 10)
+                .padding(.bottom, 8)
                 
                 Section {
                     VStack(spacing: 12) {
@@ -105,6 +106,7 @@ struct StartupsView: View {
                             Text("No available")
                         }
                     }
+                    .background(Color(UIColor.globalBackgroundColor))
                 }
             }
         }

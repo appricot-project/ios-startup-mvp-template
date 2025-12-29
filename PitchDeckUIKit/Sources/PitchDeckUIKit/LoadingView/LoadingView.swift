@@ -10,10 +10,6 @@ import Lottie
 
 public struct LoadingView: View {
     
-    // MARK: - Public properties
-    
-    var alphaComponent: CGFloat = 0.8
-    
     // MARK: - View
     
     public init() { }
@@ -21,13 +17,12 @@ public struct LoadingView: View {
     public var body: some View {
         ZStack {
             Color(UIColor.globalBackgroundColor)
-                .opacity(alphaComponent)
                 .ignoresSafeArea()
             LottieView(animation: .named("loader"))
                 .configure(\.contentMode, to: .scaleAspectFit)
                 .looping()
                 .playing()
-                .frame(width: 100, height: 100)
+                .frame(width: 240, height: 240)
         }
         .navigationBarHidden(true)
         .ignoresSafeArea()

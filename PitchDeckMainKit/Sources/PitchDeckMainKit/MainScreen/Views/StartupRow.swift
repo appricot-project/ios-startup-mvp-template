@@ -55,6 +55,6 @@ struct StartupRow: View {
         }
         .listRowInsets(EdgeInsets())
         .listRowSeparator(.hidden)
-        .listRowBackground(Color.clear)
+        .listRowBackground(Color(UIColor.globalBackgroundColor))
     }
 }

@@ -23,6 +23,7 @@ struct StartupDetailView: View {
     
     var body: some View {
         content
+            .background(Color(UIColor.globalBackgroundColor))
             .onAppear { self.viewModel.send(event: .onAppear) }
     }
     
@@ -38,7 +39,7 @@ struct StartupDetailView: View {
             return main(startupItem: startupItem).eraseToAnyView()
         case .error(let error):
             print(error)
-            return Text("Error loading details").eraseToAnyView()  // Или кастомный ErrorView
+            return Text("Error loading details").eraseToAnyView()
         }
     }
     

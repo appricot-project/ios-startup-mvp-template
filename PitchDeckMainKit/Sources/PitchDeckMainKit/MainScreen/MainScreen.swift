@@ -5,7 +5,6 @@
 //  Created by Anton Redkozubov on 05.12.2025.
 //
 
-import Foundation
 import SwiftUI
 
 public struct MainScreen: View {

@@ -19,7 +19,9 @@ public struct AuthFlowView: View {
     
     public var body: some View {
         NavigationStack(path: $coordinator.path) {
-            AuthMainScreen()
+            AuthMainScreen(onSelectConfirmation: { email in
+                coordinator.push(.confirmation(email))
+            })
             .navigationDestination(for: AuthRoute.self) { route in
                 coordinator.build(route: route)
             }

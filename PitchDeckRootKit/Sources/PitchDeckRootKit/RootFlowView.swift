@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import PitchDeckMainKit
 import PitchDeckCabinetKit
-
+import PitchDeckAuthKit
 public struct RootFlowView: View {
 
     @ObservedObject var coordinator: RootCoordinator
@@ -26,6 +26,9 @@ public struct RootFlowView: View {
             CabinetFlowView(coordinator: coordinator.cabinet)
                 .tabItem { Label("Cabinet", systemImage: "person") }
                 .tag(RootCoordinator.Tab.cabinet)
+            AuthFlowView(coordinator: coordinator.auth)
+                .tabItem { Label("Auth", systemImage: "key") }
+                .tag(RootCoordinator.Tab.auth)
         }
     }
 }

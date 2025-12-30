@@ -11,7 +11,7 @@ import PitchDeckMainApiKit
 
 struct StartupDetailView: View {
     
-    // MARK: - Public properties
+    // MARK: - Private properties
     
     @ObservedObject private var viewModel: StartupDetailViewModel
     
@@ -29,31 +29,37 @@ struct StartupDetailView: View {
     
     // MARK: - Private methods
     
+    @ViewBuilder
     private var content: some View {
-        switch viewModel.state.state {
-        case .idle:
-            return Color.clear.eraseToAnyView()
-        case .loading:
-            return LoadingView().eraseToAnyView()
-        case .loaded(let startupItem):
-            return main(startupItem: startupItem).eraseToAnyView()
-        case .error(let error):
-            print(error)
-            return Text("Error loading details").eraseToAnyView()
+        if viewModel.isLoading {
+            LoadingView()
+        } else if let error = viewModel.errorMessage {
+            Text("Error loading details: \(error)")
+                .foregroundColor(.red)
+                .multilineTextAlignment(.center)
+                .padding()
+        } else if let item = viewModel.startupItem {
+            mainContent(item: item)
+        } else {
+            Text("No details available")
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
     
-    private func main(startupItem: StartupItem) -> some View {
+    private func mainContent(item: StartupItem) -> some View {
         ScrollView {
             VStack(spacing: 20) {
-                if let imageURL = startupItem.image, !imageURL.isEmpty, let url = URL(string: imageURL) {
+                if let imageURL = item.image,
+                   !imageURL.isEmpty,
+                   let url = URL(string: imageURL) {
                     AsyncImage(url: url) { phase in
                         switch phase {
                         case .success(let image):
                             image
                                 .resizable()
                                 .scaledToFit()
-                        case .failure, .empty:
+                        case .empty, .failure:
                             placeholderImage
                         @unknown default:
                             placeholderImage
@@ -67,12 +73,12 @@ struct StartupDetailView: View {
                 
                 VStack {
                     HStack(spacing: 8) {
-                        Text(startupItem.category)
+                        Text(item.category)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                         Text("•")
                             .foregroundStyle(.secondary)
-                        Text(startupItem.location)
+                        Text(item.location)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -80,7 +86,7 @@ struct StartupDetailView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal)
                 
-                Text(startupItem.description ?? "No description available.")
+                Text(item.description ?? "No description available.")
                     .font(.body)
                     .lineSpacing(6)
                     .padding(.horizontal)
@@ -89,8 +95,7 @@ struct StartupDetailView: View {
             }
             .padding(.top, 10)
         }
-        .navigationTitle(startupItem.title)
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(item.title)
     }
     
     private var placeholderImage: some View {

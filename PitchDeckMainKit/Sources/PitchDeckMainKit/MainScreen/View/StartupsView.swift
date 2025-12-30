@@ -14,71 +14,52 @@ struct StartupsView: View {
     // MARK: - Private properties
     
     @ObservedObject private var viewModel: StartupListViewModel
-    @State private var serachText: String = ""
-    
-    // MARK: - Public properties
+    @State private var searchText: String = ""
     
     let onStartupSelected: (String) -> Void
     
     // MARK: - Init
     
     public init(
-        viewModel: StartupListViewModel, onStartupSelected: @escaping (String) -> Void) {
-            self.viewModel = viewModel
-            self.onStartupSelected = onStartupSelected
-        }
+        viewModel: StartupListViewModel,
+        onStartupSelected: @escaping (String) -> Void
+    ) {
+        self.viewModel = viewModel
+        self.onStartupSelected = onStartupSelected
+    }
     
     var body: some View {
         content
             .background(Color(UIColor.globalBackgroundColor))
-            .onAppear { self.viewModel.send(event: .onAppear) }
+            .task {
+                viewModel.send(event: .onAppear)
+            }
     }
     
     // MARK: - Private methods
     
     private var content: some View {
-        switch viewModel.state.state {
-        case .idle:
-            return Color.white.eraseToAnyView()
-        case .loading, .serach:
+        if viewModel.isInitialLoading || (viewModel.isLoading && viewModel.startups.isEmpty) {
             return LoadingView().eraseToAnyView()
-        case .loaded(let startUps, let categories, let selectedCategoryId, let hasMore):
-            return main(
-                filteredStartups: startUps,
-                categories: categories,
-                selectedCategoryId: selectedCategoryId,
-                hasMore: hasMore,
-                onStartupSelected: onStartupSelected
-            ).eraseToAnyView()
-        case .loadingMore:
-            return LoadingView().eraseToAnyView()
-        case .error(let error):
-            print(error)
-            return main(onStartupSelected: onStartupSelected).eraseToAnyView()
+        } else if let error = viewModel.errorMessage {
+            return Text("Error: \(error)").foregroundColor(.red).eraseToAnyView()
+        } else {
+            return mainList.eraseToAnyView()
         }
     }
     
-    private func main(
-        filteredStartups: [StartupItem]? = nil,
-        categories: [CategoryItem]? = nil,
-        selectedCategoryId: Int? = nil,
-        hasMore: Bool = false,
-        onStartupSelected: @escaping (String) -> Void
-    ) -> some View {
+    private var mainList: some View {
         ScrollView {
             LazyVStack(pinnedViews: [.sectionHeaders]) {
                 Section {
                     VStack {
-                        SearchBar(text: $serachText) { text in
-                            if text == "" {
-                                viewModel.send(event: .onAppear)
-                            } else {
-                                viewModel.send(event: .onSerach(text))
-                            }
+                        SearchBar(text: $searchText) { text in
+                            viewModel.send(event: .onSearch(text))
                         }
+                        
                         CategoryRow(
-                            categories: categories ?? [],
-                            selectedCategoryId: selectedCategoryId,
+                            categories: viewModel.categories,
+                            selectedCategoryId: viewModel.selectedCategoryId,
                             onCategoryChanged: { id in
                                 viewModel.send(event: .onSelectedCategory(id))
                             }
@@ -90,20 +71,23 @@ struct StartupsView: View {
                 
                 Section {
                     VStack(spacing: 12) {
-                        if let items = filteredStartups {
-                            ForEach(items) { item in
+                        if viewModel.startups.isEmpty {
+                            Text("No available")
+                        } else {
+                            ForEach(viewModel.startups) { item in
                                 StartupRow(item: item) {
                                     onStartupSelected(item.documentId)
                                 }
                                 .onAppear {
-                                    let itemIndex = items.firstIndex(where: { $0.id == item.id }) ?? 0
-                                    if itemIndex == items.count - 1, hasMore {
-                                        viewModel.send(event: .onLoadingMore)
+                                    if item.id == viewModel.startups.last?.id && viewModel.hasMore {
+                                        viewModel.send(event: .onLoadMore)
                                     }
                                 }
                             }
-                        } else {
-                            Text("No available")
+                            if viewModel.isLoadingMore {
+                                ProgressView()
+                                    .padding()
+                            }
                         }
                     }
                     .background(Color(UIColor.globalBackgroundColor))

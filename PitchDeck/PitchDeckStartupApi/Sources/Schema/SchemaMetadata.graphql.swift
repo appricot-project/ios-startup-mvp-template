@@ -20,9 +20,11 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
 
   @_spi(Execution) public static func objectType(forTypename typename: String) -> ApolloAPI.Object? {
     switch typename {
+    case "Pagination": return PitchDeckStartupApi.Objects.Pagination
     case "Query": return PitchDeckStartupApi.Objects.Query
     case "Startup": return PitchDeckStartupApi.Objects.Startup
     case "StartupCategory": return PitchDeckStartupApi.Objects.StartupCategory
+    case "StartupEntityResponseCollection": return PitchDeckStartupApi.Objects.StartupEntityResponseCollection
     case "UploadFile": return PitchDeckStartupApi.Objects.UploadFile
     default: return nil
     }

@@ -10,6 +10,6 @@ import Foundation
 @MainActor
 public protocol StartupService: Sendable {
     func getStartup(documentId: String) async throws -> StartupItem
-    func getStartups(title: String?, categoryId: Int?, page: Int, pageSize: Int) async throws -> [StartupItem]
-    func getStartupsCategoris() async throws -> [CategoryItem]
+    func getStartups(title: String?, categoryId: Int?, page: Int, pageSize: Int) async throws -> StartupPageResult
+    func getStartupsCategories() async throws -> [CategoryItem]
 }

@@ -42,7 +42,7 @@ struct StartupsView: View {
         if viewModel.isInitialLoading || (viewModel.isLoading && viewModel.startups.isEmpty) {
             return LoadingView().eraseToAnyView()
         } else if let error = viewModel.errorMessage {
-            return Text("Error: \(error)").foregroundColor(.red).eraseToAnyView()
+            return Text(String(format: "startups.error.title".localized, error)).foregroundColor(.red).eraseToAnyView()
         } else {
             return mainList.eraseToAnyView()
         }
@@ -72,7 +72,7 @@ struct StartupsView: View {
                 Section {
                     VStack(spacing: 12) {
                         if viewModel.startups.isEmpty {
-                            Text("No available")
+                            Text("startups.empty.title".localized)
                         } else {
                             ForEach(viewModel.startups) { item in
                                 StartupRow(item: item) {
@@ -94,7 +94,7 @@ struct StartupsView: View {
                 }
             }
         }
-        .navigationTitle("Startups")
+        .navigationTitle("startups.title".localized)
         .toolbarTitleDisplayMode(.inline)
     }
 }

@@ -1,5 +1,6 @@
 query Startups($filters: StartupFiltersInput, $page: Int, $pageSize: Int) {
-  startups(filters: $filters, pagination: { page: $page, pageSize: $pageSize }) {
+  startups_connection(filters: $filters, pagination: { page: $page, pageSize: $pageSize }) {
+    nodes {
     documentId
     startupId
     title
@@ -14,6 +15,13 @@ query Startups($filters: StartupFiltersInput, $page: Int, $pageSize: Int) {
     }
     ImageURL {
       url
+    }
+        }
+    pageInfo {
+      page
+      pageSize
+      pageCount
+      total
     }
   }
 }

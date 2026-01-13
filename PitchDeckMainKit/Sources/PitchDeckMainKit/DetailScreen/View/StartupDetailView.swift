@@ -25,6 +25,9 @@ struct StartupDetailView: View {
         content
             .background(Color(UIColor.globalBackgroundColor))
             .onAppear { self.viewModel.send(event: .onAppear) }
+            .sheet(isPresented: $viewModel.showShareSheet) {
+                ShareSheet(activityItems: viewModel.shareStartup())
+            }
     }
     
     // MARK: - Private methods
@@ -34,14 +37,14 @@ struct StartupDetailView: View {
         if viewModel.isLoading {
             LoadingView()
         } else if let error = viewModel.errorMessage {
-            Text("Error loading details: \(error)")
+            Text(String(format: "startups.details.error.title".localized, error))
                 .foregroundColor(.red)
                 .multilineTextAlignment(.center)
                 .padding()
         } else if let item = viewModel.startupItem {
             mainContent(item: item)
         } else {
-            Text("No details available")
+            Text("startups.details.empty.title".localized)
                 .foregroundColor(.secondary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
@@ -65,10 +68,11 @@ struct StartupDetailView: View {
                             placeholderImage
                         }
                     }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 250)
+                    .frame(width: 250, height: 250)
                     .cornerRadius(16)
                     .padding(.horizontal)
+                } else {
+                    placeholderImage
                 }
                 
                 VStack {
@@ -86,7 +90,7 @@ struct StartupDetailView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal)
                 
-                Text(item.description ?? "No description available.")
+                Text(item.description ?? "startups.details.empty.description".localized)
                     .font(.body)
                     .lineSpacing(6)
                     .padding(.horizontal)
@@ -96,15 +100,25 @@ struct StartupDetailView: View {
             .padding(.top, 10)
         }
         .navigationTitle(item.title)
+        .safeAreaInset(edge: .bottom) {
+            PrimaryButton("startups.details.button.title".localized) {
+                viewModel.send(event: .onShareTapped)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 16)
+            .background(Color(UIColor.globalBackgroundColor))
+        }
     }
     
     private var placeholderImage: some View {
         Rectangle()
-            .fill(Color.gray.opacity(0.3))
+            .fill(Color(uiColor: .grayD7))
             .overlay(
                 Image(systemName: "photo")
                     .font(.largeTitle)
                     .foregroundColor(.secondary)
             )
+            .frame(width: 250, height: 250)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }

@@ -36,7 +36,7 @@ public extension UIColor {
     
     static let globalBackgroundColor = color(light: whiteD2, dark: blackD1)
     static let globalTitleColor = color(light: blackD1, dark: whiteD1)
-    static let globalSubtitleColor = color(light: grayD5, dark: grayD5)
+    static let globalSubtitleColor = color(light: whiteD1, dark: blackD1)
     static let globalSeciondarySubtitleColor = color(light: grayD4, dark: grayD5)
     static let globalHighlightedTextColor = color(light: .blueD1, dark: .blueD1)
     static let globalBorderColor = color(light: grayD6, dark: grayD2)

@@ -107,15 +107,19 @@ final class StartupListViewModel: ObservableObject {
         
         do {
             let nextPage = currentPage + 1
-            let newItems = try await service.getStartups(
+            let result = try await service.getStartups(
                 title: searchText,
                 categoryId: selectedCategoryId,
                 page: nextPage,
                 pageSize: pageSize
             )
             
-            startups.append(contentsOf: newItems)
-            hasMore = newItems.count == pageSize
+            startups.append(contentsOf: result.items)
+            if let pageInfo = result.pageInfo {
+                hasMore = nextPage < pageInfo.pageCount
+            } else {
+                hasMore = false
+            }
             currentPage = nextPage
         } catch {
             if !(error is CancellationError) {
@@ -133,32 +137,45 @@ final class StartupListViewModel: ObservableObject {
         }
         
         do {
-            let startupsTask = try await service.getStartups(
-                title: title,
-                categoryId: categoryId,
-                page: 1,
-                pageSize: pageSize
-            )
-            
+            let startupsResult: StartupPageResult
             if loadCategories {
-                async let categoriesTask = service.getStartupsCategoris()
-                let (results, cats) = try await (startupsTask, categoriesTask)
+                async let startupsTask = service.getStartups(
+                    title: title,
+                    categoryId: categoryId,
+                    page: 1,
+                    pageSize: pageSize
+                )
+                
+                async let categoriesTask = service.getStartupsCategories()
+                
+                let (startupsPage, cats) = try await (startupsTask, categoriesTask)
                 
                 try Task.checkCancellation()
                 
-                self.startups = results
+                startupsResult = startupsPage
                 self.categories = cats
             } else {
-                let results = try await startupsTask
+                startupsResult = try await service.getStartups(
+                    title: title,
+                    categoryId: categoryId,
+                    page: 1,
+                    pageSize: pageSize
+                )
                 
                 try Task.checkCancellation()
-                
-                self.startups = results
             }
             
-            self.hasMore = startups.count == pageSize
+            self.startups = startupsResult.items
+            
+            if let pageInfo = startupsResult.pageInfo {
+                self.hasMore = 1 < pageInfo.pageCount
+            } else {
+                self.hasMore = startupsResult.items.count == pageSize
+            }
+            
             self.currentPage = 1
             self.errorMessage = nil
+            
         } catch is CancellationError {
             return
         } catch {

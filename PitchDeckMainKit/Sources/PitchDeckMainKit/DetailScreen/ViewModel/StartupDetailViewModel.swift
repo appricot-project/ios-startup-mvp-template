@@ -17,6 +17,7 @@ final class StartupDetailViewModel: ObservableObject {
     @Published var startupItem: StartupItem?
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var showShareSheet = false
     
     // MARK: - Private properties
     
@@ -38,8 +39,17 @@ final class StartupDetailViewModel: ObservableObject {
             switch event {
             case .onAppear:
                 await handleOnAppear()
+            case .onShareTapped:
+                showShareSheet = true
             }
         }
+    }
+    
+    func shareStartup() -> [Any] {
+        guard let item = startupItem else { return [] }
+        let shareText = "Check out this startup: \(item.title)"
+        let shareURL = URL(string: "https://example.com/startup/\(item.id)")!
+        return [shareText, shareURL]
     }
     
     // MARK: - Private methods
@@ -69,9 +79,14 @@ final class StartupDetailViewModel: ObservableObject {
         await loadTask?.value
     }
     
+    private func didTapShare() {
+        showShareSheet = true
+    }
+    
     // MARK: - Event
     
     enum Event {
         case onAppear
+        case onShareTapped
     }
 }

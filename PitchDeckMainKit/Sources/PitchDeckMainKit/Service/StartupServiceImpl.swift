@@ -43,7 +43,7 @@ public final class StartupServiceImpl: StartupService {
         categoryId: Int? = nil,
         page: Int,
         pageSize: Int
-    ) async throws -> [StartupItem] {
+    ) async throws -> StartupPageResult {
         let titleFilter: GraphQLNullable<StringFilterInput> = {
             if let title = title, !title.isEmpty {
                 return .some(StringFilterInput(contains: .some(title)))
@@ -74,20 +74,38 @@ public final class StartupServiceImpl: StartupService {
         
         let result = try await ApolloWebClient.shared.apollo.fetch(query: query)
         
-        return result.data?.startups.compactMap { startup in
+        let connection = result.data?.startups_connection
+        
+        let items = connection?.nodes.compactMap { startup -> StartupItem? in
             return StartupItem(
-                id: startup?.startupId ?? 0,
-                documentId: startup?.documentId ?? "",
-                title: startup?.title ?? "",
-                description: startup?.description ?? "",
-                image: startup?.imageURL?.url ?? "",
-                category: startup?.category?.title ?? "",
-                location: startup?.location ?? ""
+                id: Int(startup.startupId ?? 0),
+                documentId: startup.documentId,
+                title: startup.title ?? "",
+                description: startup.description,
+                image: startup.imageURL?.url ?? "",
+                category: startup.category?.title ?? "",
+                location: startup.location ?? ""
             )
         } ?? []
+        
+        let graphQLPageInfo = connection?.pageInfo
+
+        let appPageInfo: PageInfo? = graphQLPageInfo.map { item in
+            PageInfo(
+                page: Int(item.page),
+                pageSize: Int(item.pageSize),
+                pageCount: Int(item.pageCount),
+                total: Int(item.total)
+            )
+        }
+
+        return StartupPageResult(
+            items: items,
+            pageInfo: appPageInfo
+        )
     }
     
-    public func getStartupsCategoris() async throws -> [CategoryItem] {
+    public func getStartupsCategories() async throws -> [CategoryItem] {
         let query = StartupCategoriesQuery()
         let result = try await ApolloWebClient.shared.apollo.fetch(query: query)
         

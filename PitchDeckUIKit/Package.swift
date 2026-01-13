@@ -19,6 +19,6 @@ let package = Package(
         .target(
             name: "PitchDeckUIKit",
             dependencies: [.product(name: "Lottie", package: "lottie-spm")]
-        )
+        ),
     ]
 )

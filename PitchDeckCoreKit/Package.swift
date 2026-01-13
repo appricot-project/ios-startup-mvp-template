@@ -15,11 +15,13 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.10.0")),
+        .package(url: "https://github.com/apollographql/apollo-ios.git", .upToNextMajor(from: "2.0.4")),
+        .package(url: "https://github.com/cossacklabs/themis.git", from: "0.15.5"),
     ],
     targets: [
         .target(
             name: "PitchDeckCoreKit",
-            dependencies: ["Alamofire"]
+            dependencies: ["Alamofire", .product(name: "Apollo", package: "apollo-ios"), "themis"]
         ),
     ]
 )

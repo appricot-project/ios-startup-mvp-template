@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "PitchDeckMainKit",
+    defaultLocalization: "en",
     platforms: [.iOS(.v17)],
     products: [
         .library(
@@ -14,11 +15,15 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../PitchDeckNavigationApiKit"),
+        .package(path: "../PitchDeckCoreKit"),
+        .package(path: "../PitchDeckUIKit"),
+        .package(path: "../PitchDeckMainApiKit"),
+        .package(path: "../PitchDeckStartupApi")
     ],
     targets: [
         .target(
             name: "PitchDeckMainKit",
-            dependencies: ["PitchDeckNavigationApiKit"]
-        )
+            dependencies: ["PitchDeckNavigationApiKit", "PitchDeckCoreKit", "PitchDeckUIKit", "PitchDeckMainApiKit", "PitchDeckStartupApi"],
+        ),
     ]
 )

@@ -1,5 +1,5 @@
 {
-  "originHash" : "653a765238c3d6e7b978843f68824428293c8a958f18bfad24a05b86b541fd80",
+  "originHash" : "3130ea1e85314217fbdd5d252411f298cd3ddae06823eab4e69d3b1de88065f3",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -11,12 +11,30 @@
       }
     },
     {
+      "identity" : "apollo-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apollographql/apollo-ios.git",
+      "state" : {
+        "revision" : "68aba4be6a951a26f2f587e132ed8f82b5a63511",
+        "version" : "2.0.4"
+      }
+    },
+    {
       "identity" : "lottie-spm",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/airbnb/lottie-spm.git",
       "state" : {
         "revision" : "04f2fd18cc9404a0a0917265a449002674f24ec9",
         "version" : "4.5.2"
+      }
+    },
+    {
+      "identity" : "themis",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/cossacklabs/themis.git",
+      "state" : {
+        "revision" : "024f19470629d7d452bb51c0e95375b4cc4cd52d",
+        "version" : "0.15.5"
       }
     }
   ],

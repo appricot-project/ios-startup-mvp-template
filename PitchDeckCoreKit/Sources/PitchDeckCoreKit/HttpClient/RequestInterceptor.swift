@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  RequestInterceptor.swift
 //  PitchDeckCoreKit
 //
 //  Created by Anatoly Nevmerzhitsky on 05.12.2025.
@@ -12,7 +12,6 @@ final class RequestInterceptor: Alamofire.RequestInterceptor {
 
     init() {}
 
-    // Добавляем токен
     func adapt(
         _ urlRequest: URLRequest,
         for session: Session,
@@ -23,7 +22,6 @@ final class RequestInterceptor: Alamofire.RequestInterceptor {
         completion(.success(request))
     }
 
-    // Примитивный retry (например, при 401)
     func retry(
         _ request: Request,
         for session: Session,

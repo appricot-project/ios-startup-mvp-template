@@ -10,6 +10,7 @@ import PitchDeckMainKit
 import PitchDeckCabinetKit
 import PitchDeckAuthKit
 
+@MainActor
 public final class RootCoordinator: ObservableObject {
 
     @Published public var selectedTab: Tab = .main
@@ -22,7 +23,7 @@ public final class RootCoordinator: ObservableObject {
     
     public init() { }
 
-    public let main = MainCoordinator()
+    public let main = MainCoordinator(service: StartupServiceImpl())
     public let cabinet = CabinetCoordinator()
     public let auth = AuthCoordinator()
 }

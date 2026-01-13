@@ -1,0 +1,18 @@
+query Startup($documentId: ID!) {
+    startup(documentId: $documentId) {
+        documentId
+        startupId
+        title
+        description
+        location
+        createdAt
+        updatedAt
+        publishedAt
+        ImageURL {
+            url
+        }
+        category {
+            title
+        }
+    }
+}

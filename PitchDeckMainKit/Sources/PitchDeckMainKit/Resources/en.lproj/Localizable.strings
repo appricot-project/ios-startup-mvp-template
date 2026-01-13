@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  PitchDeckMainKit
+
+  Created by Anton Redkozubov on 13.01.2026.
+  
+*/
+
+
+"startups.title" = "Startups";
+"startups.empty.title" = "No available";
+"startups.error.title" = "Error: %@";
+
+"startups.details.empty.title" = "No details available";
+"startups.details.empty.description" = "No description available";
+"startups.details.error.title" = "Error loading details: %@";
+"startups.details.button.title" = "Share";

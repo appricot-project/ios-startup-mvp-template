@@ -2,7 +2,6 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
-
 let package = Package(
     name: "PitchDeckUIKit",
     defaultLocalization: "en",
@@ -14,12 +13,12 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/airbnb/lottie-spm.git", upToNextMajor(from: "4.5.0")),
+        .package(url: "https://github.com/airbnb/lottie-spm.git", .upToNextMajor(from: "4.5.0")),
     ],
     targets: [
         .target(
             name: "PitchDeckUIKit",
-            dependencies: [.product(name: "Lottie", package: "lottie-spm")]),
+            dependencies: [.product(name: "Lottie", package: "lottie-spm")]
         ),
     ]
 )

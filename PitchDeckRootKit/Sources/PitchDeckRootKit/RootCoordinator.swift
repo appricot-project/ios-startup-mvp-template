@@ -10,6 +10,7 @@ import SwiftUI
 import PitchDeckMainKit
 import PitchDeckCabinetKit
 
+@MainActor
 public final class RootCoordinator: ObservableObject {
 
     @Published public var selectedTab: Tab = .main
@@ -21,6 +22,6 @@ public final class RootCoordinator: ObservableObject {
     
     public init() { }
 
-    public let main = MainCoordinator()
+    public let main = MainCoordinator(service: StartupServiceImpl())
     public let cabinet = CabinetCoordinator()
 }

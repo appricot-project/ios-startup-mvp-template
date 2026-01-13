@@ -12,6 +12,7 @@ import PitchDeckRootKit
 @main
 struct PitchDeckApp: App {
     
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var appCoordinator = AppCoordinator()
     
     var body: some Scene {

@@ -1,0 +1,25 @@
+{
+  "schemaNamespace": "PitchDeckStartupApi",
+  "input": {
+    "schemaSearchPaths": [
+      "Schema/schema.graphql"
+    ],
+    "operationSearchPaths": [
+      "Queries/*.graphql"
+    ]
+  },
+  "output": {
+    "schemaTypes": {
+      "path": "../../PitchDeckStartupApi",
+      "moduleType": {
+        "swiftPackage": {}
+      }
+    },
+    "operations": {
+      "inSchemaModule": {}
+    },
+    "testMocks": {
+      "none": {}
+    }
+  }
+}

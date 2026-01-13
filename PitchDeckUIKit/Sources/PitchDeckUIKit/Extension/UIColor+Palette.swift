@@ -15,7 +15,6 @@ public extension UIColor {
     static let blackD2 = UIColor(red: 18 / 255.0, green: 18 / 255.0, blue: 19 / 255.0, alpha: 1.0)
     static let blackD3 = UIColor(red: 24 / 255.0, green: 24 / 255.0, blue: 25 / 255.0, alpha: 1.0)
     static let blackD4 = UIColor(red: 0 / 255.0, green: 0 / 255.0, blue: 0 / 255.0, alpha: 0.65)
-    static let blueD1 = UIColor(red: 0 / 255.0, green: 122 / 255.0, blue: 255 / 255.0, alpha: 1.0)
     static let whiteD1 = UIColor(red: 255 / 255.0, green: 255 / 255.0, blue: 255 / 255.0, alpha: 1.0)
     static let whiteD2 = UIColor(red: 246 / 255.0, green: 246 / 255.0, blue: 246 / 255.0, alpha: 1.0)
     static let whiteD3 =  UIColor(red: 243 / 255.0, green: 243 / 255.0, blue: 243 / 255.0, alpha: 1.0)
@@ -37,7 +36,7 @@ public extension UIColor {
     
     static let globalBackgroundColor = color(light: whiteD2, dark: blackD1)
     static let globalTitleColor = color(light: blackD1, dark: whiteD1)
-    static let globalSubtitleColor = color(light: grayD5, dark: grayD5)
+    static let globalSubtitleColor = color(light: whiteD1, dark: blackD1)
     static let globalSeciondarySubtitleColor = color(light: grayD4, dark: grayD5)
     static let globalHighlightedTextColor = color(light: .blueD1, dark: .blueD1)
     static let globalBorderColor = color(light: grayD6, dark: grayD2)

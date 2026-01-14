@@ -11,6 +11,8 @@ public enum LocalStorageKey {
     public typealias RawValue = String
     case accessToken
     case refreshToken
+    case authUserId
+    case authExpiresAt
     case login
     case password
     case apiUser
@@ -28,6 +30,8 @@ public enum LocalStorageKey {
         case .password: return addBundlePrefixForKey("password")
         case .accessToken: return addBundlePrefixForKey("accessToken")
         case .refreshToken: return addBundlePrefixForKey("refreshToken")
+        case .authUserId: return addBundlePrefixForKey("authUserId")
+        case .authExpiresAt:   return addBundlePrefixForKey("authExpiresAt")
         case .apiUser: return addBundlePrefixForKey("apiUser")
         case .apiPassword: return addBundlePrefixForKey("apiPassword")
         case .apiSecretKey: return addBundlePrefixForKey("apiSecretKey")

@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "PitchDeckAuthKit",
+    defaultLocalization: "en",
     platforms: [.iOS(.v17)],
     products: [
         .library(
@@ -15,12 +16,14 @@ let package = Package(
     dependencies: [
         .package(path: "../PitchDeckNavigationApiKit"),
         .package(path: "../PitchDeckUIKit"),
-
+        .package(path: "../PitchDeckAuthApiKit"),
+        .package(path: "../PitchDeckCoreKit"),
+        .package(url: "https://github.com/openid/AppAuth-iOS.git", .upToNextMajor(from: "2.0.0")),
     ],
     targets: [
         .target(
             name: "PitchDeckAuthKit",
-            dependencies: ["PitchDeckNavigationApiKit", "PitchDeckUIKit"]
+            dependencies: ["PitchDeckNavigationApiKit", "PitchDeckUIKit", "PitchDeckAuthApiKit", "PitchDeckCoreKit", .product(name: "AppAuth", package: "AppAuth-iOS")]
         ),
     ]
 )

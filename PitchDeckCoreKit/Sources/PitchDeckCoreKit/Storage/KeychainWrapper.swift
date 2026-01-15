@@ -131,4 +131,16 @@ extension KeychainWrapper {
         else { return [] }
         return unarchvedData
     }
+    
+    public func setData(_ data: Data, forKey key: String) async {
+        await set(data, for: key)
+    }
+    
+    public func data(forKey key: String) -> Data? {
+        load(key: key)
+    }
+    
+    public func remove(_ key: String) async {
+        remove(key: key)
+    }
 }

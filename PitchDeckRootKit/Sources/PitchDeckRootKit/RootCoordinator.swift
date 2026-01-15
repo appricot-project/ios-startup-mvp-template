@@ -25,5 +25,5 @@ public final class RootCoordinator: ObservableObject {
 
     public let main = MainCoordinator(service: StartupServiceImpl())
     public let cabinet = CabinetCoordinator()
-    public let auth = AuthCoordinator()
+    public let auth = AuthCoordinator(authService: AuthServiceImpl())
 }

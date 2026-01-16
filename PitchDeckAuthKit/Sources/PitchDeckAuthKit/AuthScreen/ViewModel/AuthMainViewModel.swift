@@ -68,10 +68,11 @@ public final class AuthMainViewModel: ObservableObject {
         defer { isLoading = false }
 
         do {
-            _ = try await authService.authorize(
+            let (tokens, profile) = try await authService.authorize(
                 loginHint: email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : email,
                 presentationContext: presenter
             )
+            print("[AuthMainViewModel] login success: profile=\(profile)")
             didAuthorize = true
         } catch {
             errorMessage = error.localizedDescription

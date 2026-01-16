@@ -13,6 +13,7 @@ import PitchDeckAuthApiKit
 public final class AuthServiceImpl: AuthService {
     
     private var authState: OIDAuthState?
+    private var _userProfile: UserProfile?
     
     private let keychain: KeychainWrapper
     
@@ -21,37 +22,45 @@ public final class AuthServiceImpl: AuthService {
         restoreAuthState()
     }
     
+    public var userProfile: UserProfile? {
+        return _userProfile
+    }
+    
     // MARK: - Public API
     
     public func authorize(
         loginHint: String?,
         presentationContext: AnyObject
-    ) async throws -> AuthTokens {
-        
+    ) async throws -> (tokens: AuthTokens, profile: UserProfile) {
+        print("[AuthServiceImpl] authorize start")
         let configSnapshot = try await discoverConfiguration()
+        print("[AuthServiceImpl] discovery success: \(configSnapshot.authorizationEndpoint), token: \(configSnapshot.tokenEndpoint)")
         
         guard let viewController = presentationContext as? UIViewController else {
             throw AuthError.invalidPresenter
         }
         
-        let tokens = try await presentAuthorization(
+        let (tokens, profile) = try await presentAuthorization(
             configSnapshot: configSnapshot,
             loginHint: loginHint,
             presenter: viewController
         )
         
         await saveAuthState()
-        
-        return tokens
+        print("[AuthServiceImpl] authorize success, tokens and profile saved")
+        return (tokens, profile)
     }
     
     public func refreshTokenIfNeeded() async throws -> AuthTokens {
+        print("[AuthServiceImpl] refreshTokenIfNeeded start")
         guard let authState else {
+            print("[AuthServiceImpl] no authState, throwing notAuthorized")
             throw AuthError.notAuthorized
         }
         
         let idToken = authState.lastTokenResponse?.idToken
         let refreshToken = authState.lastTokenResponse?.refreshToken
+        print("[AuthServiceImpl] existing tokens: idToken=\(idToken != nil ? "present" : "nil"), refreshToken=\(refreshToken != nil ? "present" : "nil")")
         
         return try await withCheckedThrowingContinuation { continuation in
             authState.performAction { accessToken, error, _  in
@@ -85,8 +94,15 @@ public final class AuthServiceImpl: AuthService {
     }
     
     public func logout() async {
+        print("[AuthServiceImpl] logout start")
         authState = nil
-        await keychain.remove(key: "authState")
+        _userProfile = nil
+        do {
+            await keychain.remove(key: "authState")
+            print("[AuthServiceImpl] logout success, keychain cleared")
+        } catch {
+            print("[AuthServiceImpl] logout keychain error: \(error)")
+        }
     }
     
     public var accessToken: String? {
@@ -95,6 +111,43 @@ public final class AuthServiceImpl: AuthService {
     
     public var isAuthorized: Bool {
         accessToken != nil
+    }
+    
+    // MARK: - Private helpers
+    
+    private func parseUserProfile(from idToken: String?) -> UserProfile {
+        guard let idToken = idToken else {
+            print("[AuthServiceImpl] parseUserProfile: idToken is nil")
+            return UserProfile(id: "", email: nil, name: nil)
+        }
+        
+        let parts = idToken.components(separatedBy: ".")
+        guard parts.count >= 2,
+              let payloadData = base64UrlDecode(parts[1]),
+              let json = try? JSONSerialization.jsonObject(with: payloadData) as? [String: Any] else {
+            print("[AuthServiceImpl] parseUserProfile: failed to decode JWT payload")
+            return UserProfile(id: "", email: nil, name: nil)
+        }
+        
+        let id = json["sub"] as? String ?? ""
+        let email = json["email"] as? String
+        let name = json["name"] as? String
+        
+        print("[AuthServiceImpl] parseUserProfile: id=\(id), email=\(email ?? "nil"), name=\(name ?? "nil")")
+        return UserProfile(id: id, email: email, name: name)
+    }
+    
+    private func base64UrlDecode(_ base64Url: String) -> Data? {
+        var base64 = base64Url
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        
+        let length = Double(base64.count)
+        if length.truncatingRemainder(dividingBy: 4) != 0 {
+            base64.append(String(repeating: "=", count: Int(4 - length.truncatingRemainder(dividingBy: 4))))
+        }
+        
+        return Data(base64Encoded: base64)
     }
 }
 
@@ -129,18 +182,19 @@ private extension AuthServiceImpl {
         }
     }
     
-    func discoverConfiguration() async throws -> KeycloakConfigSnapshot {
-        try await withCheckedThrowingContinuation { continuation in
-            OIDAuthorizationService.discoverConfiguration(
-                forIssuer: KeycloakConfig.issuer
-            ) { config, error in
-                if let config {
+    private func discoverConfiguration() async throws -> KeycloakConfigSnapshot {
+        print("[AuthServiceImpl] discoverConfiguration start for issuer: \(KeycloakConfig.issuer)")
+        return try await withCheckedThrowingContinuation { continuation in
+            OIDAuthorizationService.discoverConfiguration(forIssuer: KeycloakConfig.issuer) { configuration, error in
+                if let configuration {
                     let snapshot = KeycloakConfigSnapshot(
-                        authorizationEndpoint: config.authorizationEndpoint,
-                        tokenEndpoint: config.tokenEndpoint
+                        authorizationEndpoint: configuration.authorizationEndpoint,
+                        tokenEndpoint: configuration.tokenEndpoint
                     )
+                    print("[AuthServiceImpl] discoverConfiguration success")
                     continuation.resume(returning: snapshot)
                 } else {
+                    print("[AuthServiceImpl] discoverConfiguration failed: \(error?.localizedDescription ?? "unknown")")
                     continuation.resume(
                         throwing: error ?? AuthError.discoveryFailed
                     )
@@ -153,7 +207,8 @@ private extension AuthServiceImpl {
         configSnapshot: KeycloakConfigSnapshot,
         loginHint: String?,
         presenter: UIViewController
-    ) async throws -> AuthTokens {
+    ) async throws -> (AuthTokens, UserProfile) {
+        print("[AuthServiceImpl] presentAuthorization start")
         let request = OIDAuthorizationRequest(
             configuration: OIDServiceConfiguration(
                 authorizationEndpoint: configSnapshot.authorizationEndpoint,
@@ -166,13 +221,13 @@ private extension AuthServiceImpl {
             responseType: OIDResponseTypeCode,
             additionalParameters: loginHint.map { ["login_hint": $0] }
         )
-        
-        print("qweqwe", request.redirectURL!.absoluteString)
+        print("[AuthServiceImpl] OIDAuthorizationRequest created: redirectURL=\(request.redirectURL?.absoluteString ?? "nil"), clientId=\(request.clientID)")
         
         return try await withCheckedThrowingContinuation { continuation in
             let flow = OIDAuthState.authState(byPresenting: request, presenting: presenter) { [weak self] authState, error in
                 Task { @MainActor [weak self] in
                     guard let self else {
+                        print("[AuthServiceImpl] AppAuth callback: self is nil")
                         continuation.resume(
                             throwing: AuthError.authorizationFailed
                         )
@@ -182,14 +237,21 @@ private extension AuthServiceImpl {
                     AppAuthFlowManager.setCurrentAuthorizationFlow(nil)
                     
                     if let authState {
+                        print("[AuthServiceImpl] AppAuth callback success")
                         self.authState = authState
+                        
                         let tokens = AuthTokens(
                             accessToken: authState.lastTokenResponse?.accessToken ?? "",
                             idToken: authState.lastTokenResponse?.idToken,
                             refreshToken: authState.lastTokenResponse?.refreshToken
                         )
-                        continuation.resume(returning: tokens)
+                        
+                        let profile = self.parseUserProfile(from: authState.lastTokenResponse?.idToken)
+                        self._userProfile = profile
+                        
+                        continuation.resume(returning: (tokens, profile))
                     } else {
+                        print("[AuthServiceImpl] AppAuth callback error: \(error?.localizedDescription ?? "unknown")")
                         continuation.resume(
                             throwing: error ?? AuthError.authorizationFailed
                         )

@@ -11,11 +11,12 @@ import Foundation
 public protocol AuthService: Sendable {
     var accessToken: String? { get }
     var isAuthorized: Bool { get }
+    var userProfile: UserProfile? { get }
 
     func authorize(
         loginHint: String?,
         presentationContext: AnyObject
-    ) async throws -> AuthTokens
+    ) async throws -> (tokens: AuthTokens, profile: UserProfile)
 
     func refreshTokenIfNeeded() async throws -> AuthTokens
     func logout() async

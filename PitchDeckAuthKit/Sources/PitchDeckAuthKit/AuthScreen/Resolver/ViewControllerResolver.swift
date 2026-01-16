@@ -8,19 +8,19 @@
 import UIKit
 import SwiftUI
 
-private struct ViewControllerResolver: UIViewControllerRepresentable {
+public struct ViewControllerResolver: UIViewControllerRepresentable {
     
     let onResolve: (UIViewController) -> Void
     
-    func makeUIViewController(context: Context) -> ResolverViewController {
+    public func makeUIViewController(context: Context) -> ResolverViewController {
         ResolverViewController(onResolve: onResolve)
     }
     
-    func updateUIViewController(_ uiViewController: ResolverViewController, context: Context) {
+    public func updateUIViewController(_ uiViewController: ResolverViewController, context: Context) {
         uiViewController.onResolve = onResolve
     }
     
-    final class ResolverViewController: UIViewController {
+    final public class ResolverViewController: UIViewController {
         
         var onResolve: (UIViewController) -> Void
         
@@ -33,7 +33,7 @@ private struct ViewControllerResolver: UIViewControllerRepresentable {
             return nil
         }
         
-        override func didMove(toParent parent: UIViewController?) {
+        public override func didMove(toParent parent: UIViewController?) {
             super.didMove(toParent: parent)
             guard let parent else { return }
             onResolve(parent)

@@ -5,10 +5,10 @@
 //  Created by Anton Redkozubov on 05.12.2025.
 //
 
-import Foundation
 import SwiftUI
 import PitchDeckMainKit
 import PitchDeckCabinetKit
+import PitchDeckAuthKit
 
 @MainActor
 public final class RootCoordinator: ObservableObject {
@@ -18,10 +18,12 @@ public final class RootCoordinator: ObservableObject {
     public enum Tab {
         case main
         case cabinet
+        case auth
     }
     
     public init() { }
 
     public let main = MainCoordinator(service: StartupServiceImpl())
     public let cabinet = CabinetCoordinator()
+    public let auth = AuthCoordinator()
 }

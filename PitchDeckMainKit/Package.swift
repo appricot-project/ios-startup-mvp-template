@@ -18,12 +18,28 @@ let package = Package(
         .package(path: "../PitchDeckCoreKit"),
         .package(path: "../PitchDeckUIKit"),
         .package(path: "../PitchDeckMainApiKit"),
-        .package(path: "../PitchDeckStartupApi")
+        .package(path: "../PitchDeckStartupApi"),
+        .package(
+           url: "https://github.com/pointfreeco/swift-snapshot-testing",
+           from: "1.18.7"
+         ),
     ],
     targets: [
         .target(
             name: "PitchDeckMainKit",
             dependencies: ["PitchDeckNavigationApiKit", "PitchDeckCoreKit", "PitchDeckUIKit", "PitchDeckMainApiKit", "PitchDeckStartupApi"],
+        ),
+        .testTarget(
+            name: "PitchDeckMainKitTests",
+            dependencies: [
+                "PitchDeckMainKit", 
+                "PitchDeckMainApiKit",
+                "PitchDeckNavigationApiKit",
+                "PitchDeckCoreKit", 
+                "PitchDeckUIKit",
+                "PitchDeckStartupApi",
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
+            ]
         ),
     ]
 )

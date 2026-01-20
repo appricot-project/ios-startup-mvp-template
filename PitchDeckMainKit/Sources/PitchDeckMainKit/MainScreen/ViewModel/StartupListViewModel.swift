@@ -26,7 +26,7 @@ final class StartupListViewModel: ObservableObject {
     
     // MARK: - Private properties
     
-    private var currentPage = 1
+    private(set) var currentPage = 1
     private let pageSize = 10
     private let service: StartupService
     private var activeTask: Task<Void, Never>? = nil

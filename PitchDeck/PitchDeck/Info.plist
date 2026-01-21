@@ -24,6 +24,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>STRAPI_DATA_URL</key>
+	<string>$(STRAPI_DATA_URL)</string>
 	<key>STRAPI_AUTH_TOKEN</key>
 	<string>$(STRAPI_AUTH_TOKEN)</string>
 	<key>STRAPI_URL</key>

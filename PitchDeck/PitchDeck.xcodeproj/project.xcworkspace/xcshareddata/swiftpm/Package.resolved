@@ -1,5 +1,5 @@
 {
-  "originHash" : "3130ea1e85314217fbdd5d252411f298cd3ddae06823eab4e69d3b1de88065f3",
+  "originHash" : "ebe2fa66bf1d4685ae7b84fb386a1726e42d0ecf770af23f7912d01fea079770",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -29,12 +29,48 @@
       }
     },
     {
+      "identity" : "swift-custom-dump",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-custom-dump",
+      "state" : {
+        "revision" : "93a8aa4937030b606de42f44b17870249f49af0b",
+        "version" : "1.3.4"
+      }
+    },
+    {
+      "identity" : "swift-snapshot-testing",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-snapshot-testing",
+      "state" : {
+        "revision" : "a8b7c5e0ed33d8ab8887d1654d9b59f2cbad529b",
+        "version" : "1.18.7"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax",
+      "state" : {
+        "revision" : "4799286537280063c85a32f09884cfbca301b1a1",
+        "version" : "602.0.0"
+      }
+    },
+    {
       "identity" : "themis",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/cossacklabs/themis.git",
       "state" : {
         "revision" : "024f19470629d7d452bb51c0e95375b4cc4cd52d",
         "version" : "0.15.5"
+      }
+    },
+    {
+      "identity" : "xctest-dynamic-overlay",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
+      "state" : {
+        "revision" : "34e463e98ab8541c604af706c99bed7160f5ec70",
+        "version" : "1.8.1"
       }
     }
   ],

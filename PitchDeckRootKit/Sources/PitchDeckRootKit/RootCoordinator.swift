@@ -18,12 +18,12 @@ public final class RootCoordinator: ObservableObject {
     public enum Tab {
         case main
         case cabinet
-        case auth
+//        case auth
     }
     
     public init() { }
 
     public let main = MainCoordinator(service: StartupServiceImpl())
     public let cabinet = CabinetCoordinator()
-    public let auth = AuthCoordinator()
+//    public let auth = AuthCoordinator()
 }

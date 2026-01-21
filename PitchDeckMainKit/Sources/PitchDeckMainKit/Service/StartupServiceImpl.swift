@@ -32,7 +32,7 @@ public final class StartupServiceImpl: StartupService {
             documentId: startup.documentId,
             title: startup.title ?? "",
             description: startup.description ?? "",
-            image: startup.imageURL?.url ?? "",
+            image: (Config.strapiDataURL ?? "") + (startup.imageURL?.url ?? ""),
             category: startup.category?.title ?? "",
             location: startup.location ?? ""
         )
@@ -82,7 +82,7 @@ public final class StartupServiceImpl: StartupService {
                 documentId: startup.documentId,
                 title: startup.title ?? "",
                 description: startup.description,
-                image: startup.imageURL?.url ?? "",
+                image: (Config.strapiDataURL ?? "") + (startup.imageURL?.url ?? ""),
                 category: startup.category?.title ?? "",
                 location: startup.location ?? ""
             )

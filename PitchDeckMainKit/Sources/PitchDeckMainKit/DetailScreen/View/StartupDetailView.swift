@@ -62,15 +62,15 @@ struct StartupDetailView: View {
                             image
                                 .resizable()
                                 .scaledToFit()
+                                .cornerRadius(16)
                         case .empty, .failure:
                             placeholderImage
                         @unknown default:
                             placeholderImage
                         }
                     }
-                    .frame(width: 250, height: 250)
-                    .cornerRadius(16)
-                    .padding(.horizontal)
+                    .frame(height: 250)
+                    .padding(.horizontal, 16)
                 } else {
                     placeholderImage
                 }
@@ -118,7 +118,8 @@ struct StartupDetailView: View {
                     .font(.largeTitle)
                     .foregroundColor(.secondary)
             )
-            .frame(width: 250, height: 250)
+            .frame(height: 250)
             .clipShape(RoundedRectangle(cornerRadius: 16))
+            .padding(.horizontal, 16)
     }
 }

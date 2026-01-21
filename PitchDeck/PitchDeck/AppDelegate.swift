@@ -14,6 +14,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         PitchDeckCoreKit.Config.strapiURL = encryptionEngine.encondingData(api: BuildConfiguration.string(forKey: .strapiURL), key: BuildConfiguration.Key.strapiURL.rawValue)
+        PitchDeckCoreKit.Config.strapiDataURL = encryptionEngine.encondingData(api: BuildConfiguration.string(forKey: .strapiDataURL), key: BuildConfiguration.Key.strapiDataURL.rawValue)
         PitchDeckCoreKit.Config.strapiAuthToken = encryptionEngine.encondingData(api: BuildConfiguration.string(forKey: .strapiAuthToken), key: BuildConfiguration.Key.strapiAuthToken.rawValue)
         return true
     }

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>STRAPI_DATA_URL</key>
+	<string>$(STRAPI_DATA_URL)</string>
 	<key>STRAPI_AUTH_TOKEN</key>
 	<string>$(STRAPI_AUTH_TOKEN)</string>
 	<key>STRAPI_URL</key>

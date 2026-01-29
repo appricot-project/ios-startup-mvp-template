@@ -14,4 +14,7 @@ public class Config: NSObject  {
     public static var strapiURL: String?
     public static var strapiDataURL: String?
     public static var strapiAuthToken: String?
+    public static var keycloakIssuerURL: String?
+    public static var keycloakClientId: String?
+    public static var keycloakClientSecret: String?
 }

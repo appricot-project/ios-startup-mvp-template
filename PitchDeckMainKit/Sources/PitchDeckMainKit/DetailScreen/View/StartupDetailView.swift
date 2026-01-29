@@ -98,8 +98,10 @@ struct StartupDetailView: View {
                 Spacer(minLength: 40)
             }
             .padding(.top, 10)
+            .padding(.bottom, 80)
         }
         .navigationTitle(item.title)
+        .toolbarTitleDisplayMode(.inline)
         .safeAreaInset(edge: .bottom) {
             PrimaryButton("startups.details.button.title".localized) {
                 viewModel.send(event: .onShareTapped)

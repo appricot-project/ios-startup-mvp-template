@@ -6,20 +6,21 @@
 //
 
 import Foundation
+import PitchDeckCoreKit
 
 public struct KeycloakConfigSnapshot {
     public let authorizationEndpoint: URL
     public let tokenEndpoint: URL
 }
 
+@MainActor
 enum KeycloakConfig {
     static let issuer = URL(
-        string: "http://id.appricot.ru/realms/foundation"
+        string: Config.keycloakIssuerURL ?? ""
     )!
-
-    static let clientId = "PitchDeck_App"
-
+    static let clientId = Config.keycloakClientId ?? ""
+    static let clientSecret = Config.keycloakClientSecret ?? ""
     static let redirectURL = URL(
-        string: "pitch://auth/callback"
+        string: "pitchdeck://auth/callback"
     )!
 }

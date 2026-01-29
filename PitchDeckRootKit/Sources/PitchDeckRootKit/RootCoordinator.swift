@@ -18,7 +18,6 @@ public final class RootCoordinator: ObservableObject {
     public enum Tab {
         case main
         case cabinet
-        case auth
     }
     
     public init() { }

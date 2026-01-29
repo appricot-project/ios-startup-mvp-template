@@ -24,6 +24,14 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>API_URL</key>
+	<string>$(API_URL)</string>
+	<key>KEYCLOAK_ISSUER_URL</key>
+	<string>$(KEYCLOAK_ISSUER_URL)</string>
+	<key>KEYCLOAK_CLIENT_ID</key>
+	<string>$(KEYCLOAK_CLIENT_ID)</string>
+	<key>KEYCLOAK_CLIENT_SECRET</key>
+	<string>$(KEYCLOAK_CLIENT_SECRET)</string>
 	<key>STRAPI_DATA_URL</key>
 	<string>$(STRAPI_DATA_URL)</string>
 	<key>STRAPI_AUTH_TOKEN</key>

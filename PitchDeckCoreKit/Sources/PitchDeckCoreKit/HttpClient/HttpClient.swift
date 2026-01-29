@@ -8,6 +8,7 @@
 import Foundation
 import Alamofire
 
+@MainActor
 open class HttpClient {
     
     // MARK: - Private properties

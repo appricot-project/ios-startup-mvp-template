@@ -10,25 +10,61 @@ import SwiftUI
 import PitchDeckMainKit
 import PitchDeckCabinetKit
 import PitchDeckAuthKit
+import PitchDeckCoreKit
+
 public struct RootFlowView: View {
 
     @ObservedObject var coordinator: RootCoordinator
+    @State private var isAuthPresented: Bool = false
+    @State private var previousTab: RootCoordinator.Tab = .main
 
     public init(coordinator: RootCoordinator) {
         self.coordinator = coordinator
     }
 
     public var body: some View {
-        TabView(selection: $coordinator.selectedTab) {
+        TabView(selection: Binding(
+            get: { coordinator.selectedTab },
+            set: { newValue in
+                if newValue == .cabinet {
+                    let currentTab = coordinator.selectedTab
+                    previousTab = currentTab
+                    coordinator.selectedTab = currentTab
+
+                    Task { @MainActor in
+                        let accessToken = await KeychainWrapper.shared.string(for: LocalStorageKey.accessToken.rawValue)
+                        if accessToken == nil || accessToken?.isEmpty == true {
+                            isAuthPresented = true
+                        } else {
+                            coordinator.selectedTab = newValue
+                        }
+                    }
+                } else {
+                    previousTab = coordinator.selectedTab
+                    coordinator.selectedTab = newValue
+                }
+            }
+        )) {
             MainFlowView(coordinator: coordinator.main)
                 .tabItem { Label("Startups", systemImage: "house") }
                 .tag(RootCoordinator.Tab.main)
             CabinetFlowView(coordinator: coordinator.cabinet)
                 .tabItem { Label("Cabinet", systemImage: "person") }
                 .tag(RootCoordinator.Tab.cabinet)
-            AuthFlowView(coordinator: coordinator.auth)
-                .tabItem { Label("Auth", systemImage: "key") }
-                .tag(RootCoordinator.Tab.auth)
+        }
+        .fullScreenCover(isPresented: $isAuthPresented) {
+            AuthFlowView(
+                coordinator: coordinator.auth,
+                onClose: {
+                    isAuthPresented = false
+                    coordinator.selectedTab = previousTab
+                },
+                onAuthorized: {
+                    isAuthPresented = false
+                    coordinator.selectedTab = .cabinet
+                }
+            )
+            .interactiveDismissDisabled(true)
         }
     }
 }

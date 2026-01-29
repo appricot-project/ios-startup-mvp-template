@@ -17,12 +17,13 @@ let package = Package(
         .package(path: "../PitchDeckMainKit"),
         .package(path: "../PitchDeckCabinetKit"),
         .package(path: "../PitchDeckAuthKit"),
+        .package(path: "../PitchDeckCoreKit")
 
     ],
     targets: [
         .target(
             name: "PitchDeckRootKit",
-            dependencies: ["PitchDeckMainKit", "PitchDeckCabinetKit", "PitchDeckAuthKit"]
+            dependencies: ["PitchDeckMainKit", "PitchDeckCabinetKit", "PitchDeckAuthKit", "PitchDeckCoreKit"]
         ),
     ]
 )

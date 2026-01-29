@@ -1,8 +1,8 @@
 //
-//  AuthMainScreen.swift
+//  AuthStartScreen.swift
 //  PitchDeckAuthKit
 //
-//  Created by Anatoly Nevmerzhitsky on 10.12.2025.
+//  Created by Anton Redkozubov on 21.01.2026.
 //
 
 import SwiftUI
@@ -27,16 +27,17 @@ public struct AuthMainScreen: View {
         ZStack {
             Color(UIColor.globalBackgroundColor)
                 .ignoresSafeArea()
+            
             VStack {
-                Text("Auth sceen")
+                Text("auth.signIn.title".localized)
                     .font(.title)
                     .padding(.top, 24)
                 Spacer()
             }
-
+            
             VStack(spacing: 0) {
                 BasicTextField(
-                    title: "Email",
+                    title: "auth.signIn.email.textField".localized,
                     fieldName: "",
                     fieldValue: $viewModel.email,
                     isSecure: false
@@ -44,29 +45,32 @@ public struct AuthMainScreen: View {
                 .onChange(of: viewModel.email) { _ in
                     viewModel.emailError = nil
                 }
-
+                
                 if let emailError = viewModel.emailError {
                     Text(emailError)
                         .foregroundColor(.red)
                         .font(.caption)
                         .padding(.top, 4)
                 }
-
-                PrimaryButton("Auth") {
-                    guard let presenter else { return }
-                    viewModel.send(event: .loginTapped(presenter: presenter))
-                }
-                .disabled(!viewModel.isLoginEnabled)
-                .padding(.top, 40)
-
+                
                 if let error = viewModel.errorMessage {
                     Text(error)
                         .foregroundColor(.red)
                         .padding(.top, 16)
                 }
+                
+                Spacer()
+                
+                PrimaryButton("auth.signIn.button.title".localized) {
+                    guard let presenter else { return }
+                    viewModel.send(event: .loginTapped(presenter: presenter))
+                }
+                .disabled(!viewModel.isLoginEnabled)
+                .padding(.bottom, 40)
             }
             .padding(.horizontal, 16)
-
+            .padding(.top, 80)
+            
             if viewModel.isLoading {
                 Color(UIColor.globalBackgroundColor)
                     .ignoresSafeArea()

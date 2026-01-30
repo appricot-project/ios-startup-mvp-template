@@ -8,5 +8,4 @@
 import Foundation
 
 class Constants {
-//    public static var
 }

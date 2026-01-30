@@ -51,58 +51,60 @@ struct StartupDetailView: View {
     }
     
     private func mainContent(item: StartupItem) -> some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                if let imageURL = item.image,
-                   !imageURL.isEmpty,
-                   let url = URL(string: imageURL) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .cornerRadius(16)
-                        case .empty, .failure:
-                            placeholderImage
-                        @unknown default:
-                            placeholderImage
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(spacing: 20) {
+                    if let imageURL = item.image,
+                       !imageURL.isEmpty,
+                       let url = URL(string: imageURL) {
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .cornerRadius(16)
+                            case .empty, .failure:
+                                placeholderImage
+                            @unknown default:
+                                placeholderImage
+                            }
+                        }
+                        .frame(height: 250)
+                        .padding(.horizontal, 16)
+                    } else {
+                        placeholderImage
+                    }
+                    
+                    VStack {
+                        HStack(spacing: 8) {
+                            Text(item.category)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                            Text("•")
+                                .foregroundStyle(.secondary)
+                            Text(item.location)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
                         }
                     }
-                    .frame(height: 250)
-                    .padding(.horizontal, 16)
-                } else {
-                    placeholderImage
-                }
-                
-                VStack {
-                    HStack(spacing: 8) {
-                        Text(item.category)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                        Text("•")
-                            .foregroundStyle(.secondary)
-                        Text(item.location)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal)
-                
-                Text(item.description ?? "startups.details.empty.description".localized)
-                    .font(.body)
-                    .lineSpacing(6)
+                    .frame(maxWidth: .infinity)
                     .padding(.horizontal)
-                
-                Spacer(minLength: 40)
+                    
+                    Text(item.description ?? "startups.details.empty.description".localized)
+                        .font(.body)
+                        .lineSpacing(6)
+                        .padding(.horizontal)
+                    
+                    Spacer()
+                        .frame(height: 100)
+                }
+                .padding(.top, 10)
+                .padding(.bottom, 20)
             }
-            .padding(.top, 10)
-            .padding(.bottom, 80)
-        }
-        .navigationTitle(item.title)
-        .toolbarTitleDisplayMode(.inline)
-        .safeAreaInset(edge: .bottom) {
+            .navigationTitle(item.title)
+            .toolbarTitleDisplayMode(.inline)
+            
             PrimaryButton("startups.details.button.title".localized) {
                 viewModel.send(event: .onShareTapped)
             }

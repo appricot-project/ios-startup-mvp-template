@@ -17,6 +17,7 @@ public struct RootFlowView: View {
     @ObservedObject var coordinator: RootCoordinator
     @State private var isAuthPresented: Bool = false
     @State private var previousTab: RootCoordinator.Tab = .main
+    @State private var refreshTrigger: UUID = UUID()
 
     public init(coordinator: RootCoordinator) {
         self.coordinator = coordinator
@@ -52,15 +53,18 @@ public struct RootFlowView: View {
                 .tabItem { Label("Cabinet", systemImage: "person") }
                 .tag(RootCoordinator.Tab.cabinet)
         }
+        .id(refreshTrigger)
         .fullScreenCover(isPresented: $isAuthPresented) {
             AuthFlowView(
                 coordinator: coordinator.auth,
                 onClose: {
                     isAuthPresented = false
+                    refreshTrigger = UUID()
                     coordinator.selectedTab = previousTab
                 },
                 onAuthorized: {
                     isAuthPresented = false
+                    refreshTrigger = UUID()
                     coordinator.selectedTab = .cabinet
                 }
             )

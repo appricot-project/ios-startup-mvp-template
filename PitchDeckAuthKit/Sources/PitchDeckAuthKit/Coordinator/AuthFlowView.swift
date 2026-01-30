@@ -23,8 +23,6 @@ public struct AuthFlowView: View {
         self.coordinator = coordinator
         self.onClose = onClose
         self.onAuthorized = onAuthorized
-        
-        // Пробрасываем колбэк успешной авторизации из координатора наружу
         self.coordinator.onAuthorizationCompleted = onAuthorized
     }
     

@@ -34,13 +34,7 @@ public final class AuthCoordinator: BaseCoordinator<AuthRoute> {
         case .registration:
             buildRegistrationView()
         case .confirmation(let email):
-            AuthConfirmationScreen(
-                email: email,
-                onConfirmationSuccess: { [weak self] in
-                    guard let self else { return }
-                    onAuthorizationCompleted?()
-                }
-            )
+            buildConfirmationView(email: email)
         }
     }
 }
@@ -61,5 +55,15 @@ private extension AuthCoordinator {
         return AuthRegistrationScreen(viewModel: viewModel, onRegistered: { email in
             self.push(.login(prefillEmail: email))
         })
+    }
+    
+    func buildConfirmationView(email: String) -> some View {
+        return AuthConfirmationScreen(
+            email: email,
+            onConfirmationSuccess: { [weak self] in
+                guard let self else { return }
+                onAuthorizationCompleted?()
+            }
+        )
     }
 }

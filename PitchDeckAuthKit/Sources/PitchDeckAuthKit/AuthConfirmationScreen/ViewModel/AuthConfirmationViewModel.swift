@@ -19,11 +19,10 @@ public final class AuthConfirmationViewModel: ObservableObject {
     @Published public var errorMessage: String? = nil
     @Published public var codeError: String? = nil
     @Published public var didConfirm: Bool = false
+    @Published public var activeIndex: Int = 0
     
     public var isConfirmationEnabled: Bool {
-        !confirmationCode.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        confirmationCode.trimmingCharacters(in: .whitespacesAndNewlines).count == 6 &&
-        codeError == nil
+        confirmationCode.count == 6 && codeError == nil
     }
     
     // MARK: - Private properties
@@ -46,6 +45,42 @@ public final class AuthConfirmationViewModel: ObservableObject {
         }
     }
     
+    public func digit(at index: Int) -> String {
+        guard index < confirmationCode.count else { return "" }
+        let stringIndex = confirmationCode.index(confirmationCode.startIndex, offsetBy: index)
+        return String(confirmationCode[stringIndex])
+    }
+    
+    public func setActiveIndex(_ index: Int) {
+        activeIndex = index
+    }
+    
+    public func addDigit(_ digit: String) {
+        guard digit.count == 1, confirmationCode.count < 6 else { return }
+        
+        let newCode = confirmationCode + digit
+        confirmationCode = String(newCode.prefix(6))
+        
+        if confirmationCode.count < 6 {
+            activeIndex = confirmationCode.count
+        } else {
+            activeIndex = 5
+        }
+        
+        codeError = nil
+        errorMessage = nil
+    }
+    
+    public func removeDigit() {
+        guard !confirmationCode.isEmpty else { return }
+        
+        confirmationCode.removeLast()
+        activeIndex = max(0, confirmationCode.count)
+        
+        codeError = nil
+        errorMessage = nil
+    }
+    
     // MARK: - Private methods
     
     private func performConfirmation() async {
@@ -53,9 +88,7 @@ public final class AuthConfirmationViewModel: ObservableObject {
         errorMessage = nil
         codeError = nil
         
-        let trimmedCode = confirmationCode.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        guard trimmedCode.count == 6 else {
+        guard confirmationCode.count == 6 else {
             codeError = "Confirmation code must be 6 digits"
             isLoading = false
             return
@@ -64,7 +97,7 @@ public final class AuthConfirmationViewModel: ObservableObject {
         // TODO: Implement actual API call for code confirmation
         do {
             try await Task.sleep(nanoseconds: 1_500_000_000)
-            if trimmedCode == "123456" {
+            if confirmationCode == "123456" {
                 didConfirm = true
             } else {
                 codeError = "Invalid confirmation code"
@@ -78,6 +111,7 @@ public final class AuthConfirmationViewModel: ObservableObject {
     
     public func updateConfirmationCode(_ code: String) {
         confirmationCode = String(code.prefix(6))
+        activeIndex = min(confirmationCode.count, 5)
         codeError = nil
         errorMessage = nil
     }

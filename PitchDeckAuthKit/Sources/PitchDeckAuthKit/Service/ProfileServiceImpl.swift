@@ -27,7 +27,6 @@ public final class ProfileServiceImpl: ProfileService, @unchecked Sendable {
         ]
         
         let headers: HTTPHeaders = [
-            "accept": "text/plain",
             "Content-Type": "application/json",
             "X-Requested-With": "XMLHttpRequest"
         ]

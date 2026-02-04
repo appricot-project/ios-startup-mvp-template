@@ -9,13 +9,13 @@ import Foundation
 import Security
 import CryptoKit
 
-final class KeychainStorage: LocalStorage {
+public final class KeychainStorage: LocalStorage, @unchecked Sendable {
     
     // MARK: - Private properties
     
     private let keychainWrapper = KeychainWrapper.shared
     
-    private init() { }
+    public init() { }
     
     // MARK: - LocalStorage
     

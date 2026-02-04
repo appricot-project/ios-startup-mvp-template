@@ -19,9 +19,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         PitchDeckCoreKit.Config.strapiURL = encryptionEngine.encondingData(api: BuildConfiguration.string(forKey: .strapiURL), key: BuildConfiguration.Key.strapiURL.rawValue)
         PitchDeckCoreKit.Config.strapiDataURL = encryptionEngine.encondingData(api: BuildConfiguration.string(forKey: .strapiDataURL), key: BuildConfiguration.Key.strapiDataURL.rawValue)
         PitchDeckCoreKit.Config.strapiAuthToken = encryptionEngine.encondingData(api: BuildConfiguration.string(forKey: .strapiAuthToken), key: BuildConfiguration.Key.strapiAuthToken.rawValue)
-        PitchDeckCoreKit.Config.keycloakIssuerURL = BuildConfiguration.string(forKey: .keycloakIssuerURL)
-        PitchDeckCoreKit.Config.keycloakClientId = BuildConfiguration.string(forKey: .keycloakClientId)
-        PitchDeckCoreKit.Config.keycloakClientSecret = BuildConfiguration.string(forKey: .keycloakClientSecret)
+        PitchDeckCoreKit.Config.keycloakIssuerURL = encryptionEngine.encondingData(api: BuildConfiguration.string(forKey: .keycloakIssuerURL), key: BuildConfiguration.Key.keycloakIssuerURL.rawValue)
+        PitchDeckCoreKit.Config.keycloakClientId = encryptionEngine.encondingData(api: BuildConfiguration.string(forKey: .keycloakClientId), key: BuildConfiguration.Key.keycloakClientId.rawValue)
+        PitchDeckCoreKit.Config.keycloakClientSecret = encryptionEngine.encondingData(api: BuildConfiguration.string(forKey: .keycloakClientSecret), key: BuildConfiguration.Key.keycloakClientSecret.rawValue)
         
         return true
     }

@@ -45,9 +45,15 @@ private extension AuthCoordinator {
     func buildLoginView(prefillEmail: String?) -> some View {
         let viewModel = AuthMainViewModel(authService: authService)
         viewModel.email = prefillEmail ?? ""
-        return AuthMainScreen(viewModel: viewModel, onSelectConfirmation: { email in
-            self.push(.confirmation(email))
-        })
+        return AuthMainScreen(
+            viewModel: viewModel, 
+            onSelectConfirmation: { email in
+                self.push(.confirmation(email))
+            },
+            onAuthorizationCompleted: { [weak self] in
+                self?.onAuthorizationCompleted?()
+            }
+        )
     }
 
     func buildRegistrationView() -> some View {

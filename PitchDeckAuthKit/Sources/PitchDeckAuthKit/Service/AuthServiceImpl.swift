@@ -16,9 +16,11 @@ public final class AuthServiceImpl: AuthService {
     private var _userProfile: UserProfile?
     
     private let keychain: KeychainWrapper
+    private let localStorage: LocalStorage
     
-    public init(keychain: KeychainWrapper = .shared) {
+    public init(keychain: KeychainWrapper = .shared, localStorage: LocalStorage = KeychainStorage()) {
         self.keychain = keychain
+        self.localStorage = localStorage
         restoreAuthState()
     }
     
@@ -97,6 +99,13 @@ public final class AuthServiceImpl: AuthService {
         print("[AuthServiceImpl] logout start")
         authState = nil
         _userProfile = nil
+        
+        await Task.detached {
+            await self.localStorage.remove(forKey: .accessToken)
+            await self.localStorage.remove(forKey: .refreshToken)
+            await self.localStorage.remove(forKey: .authUserId)
+        }.value
+        
         do {
             await keychain.remove(key: "authState")
             print("[AuthServiceImpl] logout success, keychain cleared")
@@ -245,6 +254,16 @@ private extension AuthServiceImpl {
                             idToken: authState.lastTokenResponse?.idToken,
                             refreshToken: authState.lastTokenResponse?.refreshToken
                         )
+                        
+                        await Task.detached {
+                            await self.localStorage.set(tokens.accessToken, forKey: .accessToken)
+                            if let refreshToken = tokens.refreshToken {
+                                await self.localStorage.set(refreshToken, forKey: .refreshToken)
+                            }
+                            if let idToken = tokens.idToken {
+                                await self.localStorage.set(idToken, forKey: .authUserId)
+                            }
+                        }.value
                         
                         let profile = self.parseUserProfile(from: authState.lastTokenResponse?.idToken)
                         self._userProfile = profile

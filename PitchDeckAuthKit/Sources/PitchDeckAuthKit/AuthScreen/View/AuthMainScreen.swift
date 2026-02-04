@@ -11,16 +11,19 @@ import PitchDeckUIKit
 public struct AuthMainScreen: View {
     
     let onSelectConfirmation: (String) -> Void
+    let onAuthorizationCompleted: (() -> Void)?
     @ObservedObject private var viewModel: AuthMainViewModel
     @State private var presenter: UIViewController?
     
     
     public init(
         viewModel: AuthMainViewModel,
-        onSelectConfirmation: @escaping (String) -> Void
+        onSelectConfirmation: @escaping (String) -> Void,
+        onAuthorizationCompleted: (() -> Void)? = nil
     ) {
         self.viewModel = viewModel
         self.onSelectConfirmation = onSelectConfirmation
+        self.onAuthorizationCompleted = onAuthorizationCompleted
     }
     
     public var body: some View {
@@ -89,7 +92,7 @@ public struct AuthMainScreen: View {
         }
         .onChange(of: viewModel.didAuthorize) { didAuthorize in
             guard didAuthorize else { return }
-            onSelectConfirmation(viewModel.email)
+            onAuthorizationCompleted?()
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol LocalStorage {
+public protocol LocalStorage: Sendable {
     
     func string(forKey key: LocalStorageKey) async -> String
     func set(_ value: String, forKey key: LocalStorageKey) async

@@ -1,0 +1,26 @@
+//
+//  CreateStartupRequest.swift
+//  PitchDeckCabinetApiKit
+//
+//  Created by Anton Redkozubov on 03.02.2026.
+//
+
+import Foundation
+
+public struct CreateStartupRequest: Sendable {
+    public let startupId: String
+    public let title: String
+    public let description: String
+    public let location: String
+    public let categoryId: Int
+    public let imageData: Data?
+    
+    public init(startupId: String, title: String, description: String, location: String, categoryId: Int, imageData: Data?) {
+        self.startupId = startupId
+        self.title = title
+        self.description = description
+        self.location = location
+        self.categoryId = categoryId
+        self.imageData = imageData
+    }
+}

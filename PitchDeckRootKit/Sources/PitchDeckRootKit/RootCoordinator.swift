@@ -23,6 +23,6 @@ public final class RootCoordinator: ObservableObject {
     public init() { }
 
     public let main = MainCoordinator(service: StartupServiceImpl())
-    public let cabinet = CabinetCoordinator()
+    public let cabinet = CabinetCoordinator(cabinetService: CabinetServiceImpl(localStorage: <#T##any LocalStorage#>, startupService: <#T##any StartupService#>), createStartupService: <#any CreateStartupService#>)
     public let auth = AuthCoordinator(authService: AuthServiceImpl())
 }

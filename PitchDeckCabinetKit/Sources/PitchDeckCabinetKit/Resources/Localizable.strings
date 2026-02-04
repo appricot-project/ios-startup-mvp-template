@@ -1,0 +1,30 @@
+/* Cabinet Screen */
+
+"cabinet.title" = "Cabinet";
+
+"cabinet.profile.title" = "Profile Information";
+"cabinet.profile.firstName" = "First Name";
+"cabinet.profile.lastName" = "Last Name";
+"cabinet.profile.email" = "Email";
+
+"cabinet.startups.title" = "My Startups";
+"cabinet.startups.empty" = "You don't have any startups yet. Create your first startup!";
+"cabinet.startups.create" = "Create Startup";
+
+/* Create Startup Screen */
+
+"create.startup.title" = "Create Startup";
+
+"create.startup.image.title" = "Startup Image";
+"create.startup.image.placeholder" = "Tap to add image";
+
+"create.startup.basic.title" = "Basic Information";
+"create.startup.startupId" = "Startup ID";
+"create.startup.title" = "Title";
+"create.startup.description" = "Description";
+"create.startup.location" = "Location";
+
+"create.startup.category.title" = "Category";
+"create.startup.category.placeholder" = "Select category";
+
+"create.startup.button.title" = "Create Startup";

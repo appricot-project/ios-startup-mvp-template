@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		FE5BFF772EF94996006FC38C /* PitchDeckStartupApi in Frameworks */ = {isa = PBXBuildFile; productRef = FE5BFF762EF94996006FC38C /* PitchDeckStartupApi */; };
 		FE632A622EE2F7370059E01C /* PitchDeckNavigationApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */; };
-		FE8915F82EF4432F0009391A /* PitchDeckStartupApi in Frameworks */ = {isa = PBXBuildFile; productRef = FE8915F72EF4432F0009391A /* PitchDeckStartupApi */; };
 		FECBD50F2EE2EB3E0005D525 /* PitchDeckAuthApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD50E2EE2EB3E0005D525 /* PitchDeckAuthApiKit */; };
 		FECBD5112EE2EB3E0005D525 /* PitchDeckAuthKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5102EE2EB3E0005D525 /* PitchDeckAuthKit */; };
 		FECBD5132EE2EB3E0005D525 /* PitchDeckCabinetApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5122EE2EB3E0005D525 /* PitchDeckCabinetApiKit */; };
@@ -91,8 +90,7 @@
 				FECBD51D2EE2EB3E0005D525 /* PitchDeckNavigationKit in Frameworks */,
 				FECBD5132EE2EB3E0005D525 /* PitchDeckCabinetApiKit in Frameworks */,
 				FECBD5112EE2EB3E0005D525 /* PitchDeckAuthKit in Frameworks */,
-				FE8915F82EF4432F0009391A /* PitchDeckStartupApi in Frameworks */,
-			);
+				);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -166,7 +164,6 @@
 				FECBD51E2EE2EB3E0005D525 /* PitchDeckRootKit */,
 				FECBD5202EE2EB3E0005D525 /* PitchDeckUIKit */,
 				FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */,
-				FE8915F72EF4432F0009391A /* PitchDeckStartupApi */,
 				FE5BFF762EF94996006FC38C /* PitchDeckStartupApi */,
 			);
 			productName = PitchDeck;
@@ -498,7 +495,7 @@
 /* Begin XCLocalSwiftPackageReference section */
 		FE5BFF752EF94996006FC38C /* XCLocalSwiftPackageReference "PitchDeckStartupApi" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = PitchDeckStartupApi;
+			relativePath = PitchDeck/PitchDeckStartupApi;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -510,10 +507,6 @@
 		FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PitchDeckNavigationApiKit;
-		};
-		FE8915F72EF4432F0009391A /* PitchDeckStartupApi */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PitchDeckStartupApi;
 		};
 		FECBD50E2EE2EB3E0005D525 /* PitchDeckAuthApiKit */ = {
 			isa = XCSwiftPackageProductDependency;

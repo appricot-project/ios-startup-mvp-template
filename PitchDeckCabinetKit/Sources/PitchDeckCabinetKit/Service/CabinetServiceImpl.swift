@@ -10,7 +10,7 @@ import PitchDeckCoreKit
 import PitchDeckCabinetApiKit
 import PitchDeckMainApiKit
 
-public final class CabinetServiceImpl: CabinetService, @unchecked Sendable {
+public final class CabinetServiceImpl: CabinetService {
     
     public init() {}
     

@@ -21,8 +21,6 @@ public final class RootCoordinator: ObservableObject {
         case cabinet
     }
     
-    let localStorage = KeychainStorage()
-    
     public init() { }
 
     public let main = MainCoordinator(service: StartupServiceImpl())

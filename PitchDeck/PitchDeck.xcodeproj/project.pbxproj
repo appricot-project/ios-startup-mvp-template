@@ -90,7 +90,7 @@
 				FECBD51D2EE2EB3E0005D525 /* PitchDeckNavigationKit in Frameworks */,
 				FECBD5132EE2EB3E0005D525 /* PitchDeckCabinetApiKit in Frameworks */,
 				FECBD5112EE2EB3E0005D525 /* PitchDeckAuthKit in Frameworks */,
-				);
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -195,7 +195,7 @@
 			mainGroup = FECBD4E02EE182C90005D525;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				FE5BFF752EF94996006FC38C /* XCLocalSwiftPackageReference "PitchDeckStartupApi" */,
+				FE5BFF752EF94996006FC38C /* XCLocalSwiftPackageReference "PitchDeck/PitchDeckStartupApi" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FECBD4EA2EE182C90005D525 /* Products */;
@@ -393,8 +393,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -443,8 +443,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -493,7 +493,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		FE5BFF752EF94996006FC38C /* XCLocalSwiftPackageReference "PitchDeckStartupApi" */ = {
+		FE5BFF752EF94996006FC38C /* XCLocalSwiftPackageReference "PitchDeck/PitchDeckStartupApi" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = PitchDeck/PitchDeckStartupApi;
 		};

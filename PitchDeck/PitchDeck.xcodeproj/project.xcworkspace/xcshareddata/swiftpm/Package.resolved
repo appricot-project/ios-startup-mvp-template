@@ -1,5 +1,5 @@
 {
-  "originHash" : "56e09697d49e72c2a8c41b35baf474621dc99450d62f6f0562a859d1c9321df2",
+  "originHash" : "92cb8773f3eee90e22c0fddd71f11e45d6b7c039db6bf5bdec8f81e40a54cca5",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -26,15 +26,6 @@
       "state" : {
         "revision" : "145104f5ea9d58ae21b60add007c33c1cc0c948e",
         "version" : "2.0.0"
-      }
-    },
-    {
-      "identity" : "jwtdecode.swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/auth0/JWTDecode.swift",
-      "state" : {
-        "revision" : "3cd207fb9e943b6168a117baa3936c823204c2dc",
-        "version" : "2.6.3"
       }
     },
     {

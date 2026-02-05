@@ -20,15 +20,15 @@ public enum CabinetRoute: Hashable {
 public final class CabinetCoordinator: BaseCoordinator<CabinetRoute> {
     
     public let cabinetService: CabinetService
-    public let createStartupService: CreateStartupService
+    public let startupService: StartupService
     public var onStartupCreated: (() -> Void)?
     
     public init(
         cabinetService: CabinetService,
-        createStartupService: CreateStartupService
+        startupService: StartupService
     ) {
         self.cabinetService = cabinetService
-        self.createStartupService = createStartupService
+        self.startupService = startupService
         super.init()
     }
     
@@ -47,7 +47,7 @@ public final class CabinetCoordinator: BaseCoordinator<CabinetRoute> {
 
 private extension CabinetCoordinator {
     func buildCabinetView() -> some View {
-        let viewModel = CabinetViewModel(cabinetService: cabinetService)
+        let viewModel = CabinetViewModel(cabinetService: cabinetService, startupService: startupService)
         return CabinetScreen(
             viewModel: viewModel,
             coordinator: self
@@ -55,7 +55,7 @@ private extension CabinetCoordinator {
     }
     
     func buildCreateStartupView() -> some View {
-        let viewModel = CreateStartupViewModel(createStartupService: createStartupService)
+        let viewModel = CreateStartupViewModel(startupService: startupService)
         return CreateStartupScreen(
             viewModel: viewModel,
             onStartupCreated: { [weak self] in

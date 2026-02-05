@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PitchDeckCabinetApiKit
 import PitchDeckMainApiKit
 
 @MainActor
@@ -38,12 +37,12 @@ public final class CreateStartupViewModel: ObservableObject {
     
     // MARK: - Private properties
     
-    private let createStartupService: CreateStartupService
+    private let startupService: StartupService
     
     // MARK: - Init
     
-    public init(createStartupService: CreateStartupService) {
-        self.createStartupService = createStartupService
+    public init(startupService: StartupService) {
+        self.startupService = startupService
     }
     
     // MARK: - Public methods
@@ -54,7 +53,7 @@ public final class CreateStartupViewModel: ObservableObject {
         
         do {
             categories = try await Task.detached {
-                try await self.createStartupService.getStartupsCategories()
+                try await self.startupService.getStartupsCategories()
             }.value
         } catch {
             errorMessage = error.localizedDescription
@@ -80,7 +79,7 @@ public final class CreateStartupViewModel: ObservableObject {
             )
             
             _ = try await Task.detached {
-                try await self.createStartupService.createStartup(request: request)
+                try await self.startupService.createStartup(request: request)
             }.value
             didCreateStartup = true
         } catch {

@@ -9,53 +9,48 @@ import Foundation
 import PitchDeckCoreKit
 import PitchDeckCabinetApiKit
 import PitchDeckMainApiKit
-import JWTDecode
 
 public final class CabinetServiceImpl: CabinetService, @unchecked Sendable {
     
-    private let localStorage: LocalStorage
-    private let startupService: StartupService
-    
-    public init(localStorage: LocalStorage, startupService: StartupService) {
-        self.localStorage = localStorage
-        self.startupService = startupService
-    }
+    public init() {}
     
     public func getUserProfile() async throws -> UserProfile {
-        guard let accessToken = try? await localStorage.string(forKey: .accessToken),
+        guard let accessToken = await KeychainStorage().string(forKey: .accessToken),
               !accessToken.isEmpty else {
             throw CabinetError.noAccessToken
         }
         
-        do {
-            let jwt = try decode(jwt: accessToken)
-            let firstName = jwt.claim(name: "first_name").string ?? ""
-            let lastName = jwt.claim(name: "second_name").string ?? ""
-            let email = jwt.claim(name: "email").string ?? ""
-            
-            return UserProfile(firstName: firstName, lastName: lastName, email: email)
-        } catch {
+        let parts = accessToken.components(separatedBy: ".")
+        guard parts.count >= 2,
+              let payloadData = base64UrlDecode(parts[1]),
+              let json = try? JSONSerialization.jsonObject(with: payloadData) as? [String: Any] else {
             throw CabinetError.tokenDecodingFailed
         }
+        
+        let firstName = json["first_name"] as? String ?? ""
+        let lastName = json["second_name"] as? String ?? ""
+        let email = json["email"] as? String ?? ""
+        
+        return UserProfile(firstName: firstName, lastName: lastName, email: email)
     }
     
-    public func getUserStartups(email: String) async throws -> [StartupItem] {
-        do {
-            let result = try await startupService.getStartups(title: nil, categoryId: nil, page: 1, pageSize: 100)
-            return result.items.filter { startup in
-                // TODO: Implement proper filtering by user email when API supports it
-                return true
-            }
-        } catch {
-            throw CabinetError.failedToLoadStartups
+    private func base64UrlDecode(_ base64Url: String) -> Data? {
+        var base64 = base64Url
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        
+        let length = Double(base64.count)
+        if length.truncatingRemainder(dividingBy: 4) != 0 {
+            base64.append(String(repeating: "=", count: Int(4 - length.truncatingRemainder(dividingBy: 4))))
         }
+        
+        return Data(base64Encoded: base64)
     }
 }
 
 public enum CabinetError: LocalizedError {
     case noAccessToken
     case tokenDecodingFailed
-    case failedToLoadStartups
     
     public var errorDescription: String? {
         switch self {
@@ -63,8 +58,6 @@ public enum CabinetError: LocalizedError {
             return "No access token found"
         case .tokenDecodingFailed:
             return "Failed to decode access token"
-        case .failedToLoadStartups:
-            return "Failed to load user startups"
         }
     }
 }

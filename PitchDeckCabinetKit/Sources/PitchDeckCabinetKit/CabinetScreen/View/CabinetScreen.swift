@@ -53,7 +53,8 @@ public struct CabinetScreen: View {
                 profileField(title: "cabinet.profile.email".localized, value: viewModel.userProfile?.email ?? "")
             }
         }
-        .padding()
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(UIColor.secondarySystemBackground))
         .cornerRadius(12)
     }
@@ -96,7 +97,8 @@ public struct CabinetScreen: View {
                 }
             }
         }
-        .padding()
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(UIColor.secondarySystemBackground))
         .cornerRadius(12)
     }
@@ -111,6 +113,7 @@ public struct CabinetScreen: View {
                 .font(.body)
                 .foregroundColor(.primary)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

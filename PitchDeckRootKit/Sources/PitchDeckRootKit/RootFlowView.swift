@@ -18,8 +18,7 @@ public struct RootFlowView: View {
     @State private var isAuthPresented: Bool = false
     @State private var previousTab: RootCoordinator.Tab = .main
     @State private var refreshTrigger: UUID = UUID()
-    var localStorage: LocalStorage = KeychainStorage()
-
+    
     public init(coordinator: RootCoordinator) {
         self.coordinator = coordinator
     }
@@ -34,8 +33,8 @@ public struct RootFlowView: View {
                     coordinator.selectedTab = currentTab
 
                     Task { @MainActor in
-                        let accessToken = await localStorage.string(forKey: .accessToken)
-                        if accessToken == nil {
+                        let isAuthorized = await coordinator.auth.authService.isAuthorizedAsync()
+                        if !isAuthorized {
                             isAuthPresented = true
                         } else {
                             coordinator.selectedTab = newValue

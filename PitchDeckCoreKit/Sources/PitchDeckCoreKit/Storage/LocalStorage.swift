@@ -9,7 +9,7 @@ import Foundation
 
 public protocol LocalStorage: Sendable {
     
-    func string(forKey key: LocalStorageKey) async -> String
+    func string(forKey key: LocalStorageKey) async -> String?
     func set(_ value: String, forKey key: LocalStorageKey) async
     func bool(forKey key: LocalStorageKey) async -> Bool
     func set(_ value: Bool, forKey key: LocalStorageKey) async

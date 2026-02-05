@@ -9,6 +9,7 @@ import SwiftUI
 import PitchDeckMainKit
 import PitchDeckCabinetKit
 import PitchDeckAuthKit
+import PitchDeckCoreKit
 
 @MainActor
 public final class RootCoordinator: ObservableObject {
@@ -20,9 +21,14 @@ public final class RootCoordinator: ObservableObject {
         case cabinet
     }
     
+    let localStorage = KeychainStorage()
+    
     public init() { }
 
     public let main = MainCoordinator(service: StartupServiceImpl())
-    public let cabinet = CabinetCoordinator(cabinetService: CabinetServiceImpl(localStorage: <#T##any LocalStorage#>, startupService: <#T##any StartupService#>), createStartupService: <#any CreateStartupService#>)
+    public lazy var cabinet = CabinetCoordinator(
+        cabinetService: CabinetServiceImpl(),
+        startupService: StartupServiceImpl()
+    )
     public let auth = AuthCoordinator(authService: AuthServiceImpl())
 }

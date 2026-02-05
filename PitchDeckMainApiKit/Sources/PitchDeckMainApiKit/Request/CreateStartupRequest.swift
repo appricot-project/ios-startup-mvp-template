@@ -1,6 +1,6 @@
 //
 //  CreateStartupRequest.swift
-//  PitchDeckCabinetApiKit
+//  PitchDeckMainApiKit
 //
 //  Created by Anton Redkozubov on 03.02.2026.
 //

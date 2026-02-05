@@ -19,8 +19,8 @@ public final class KeychainStorage: LocalStorage, @unchecked Sendable {
     
     // MARK: - LocalStorage
     
-    public func string(forKey key: LocalStorageKey) async -> String {
-        return await keychainWrapper.string(for: key.rawValue) ?? ""
+    public func string(forKey key: LocalStorageKey) async -> String? {
+        return await keychainWrapper.string(for: key.rawValue)
     }
     
     public func set(_ value: String, forKey key: LocalStorageKey) async {

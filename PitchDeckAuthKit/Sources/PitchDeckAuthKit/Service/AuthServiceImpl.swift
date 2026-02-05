@@ -15,12 +15,7 @@ public final class AuthServiceImpl: AuthService {
     private var authState: OIDAuthState?
     private var _userProfile: UserProfile?
     
-    private let keychain: KeychainWrapper
-    private let localStorage: LocalStorage
-    
-    public init(keychain: KeychainWrapper = .shared, localStorage: LocalStorage = KeychainStorage()) {
-        self.keychain = keychain
-        self.localStorage = localStorage
+    public init() {
         restoreAuthState()
     }
     
@@ -34,9 +29,7 @@ public final class AuthServiceImpl: AuthService {
         loginHint: String?,
         presentationContext: AnyObject
     ) async throws -> (tokens: AuthTokens, profile: UserProfile) {
-        print("[AuthServiceImpl] authorize start")
         let configSnapshot = try await discoverConfiguration()
-        print("[AuthServiceImpl] discovery success: \(configSnapshot.authorizationEndpoint), token: \(configSnapshot.tokenEndpoint)")
         
         guard let viewController = presentationContext as? UIViewController else {
             throw AuthError.invalidPresenter
@@ -49,20 +42,16 @@ public final class AuthServiceImpl: AuthService {
         )
         
         await saveAuthState()
-        print("[AuthServiceImpl] authorize success, tokens and profile saved")
         return (tokens, profile)
     }
     
     public func refreshTokenIfNeeded() async throws -> AuthTokens {
-        print("[AuthServiceImpl] refreshTokenIfNeeded start")
         guard let authState else {
-            print("[AuthServiceImpl] no authState, throwing notAuthorized")
             throw AuthError.notAuthorized
         }
         
         let idToken = authState.lastTokenResponse?.idToken
         let refreshToken = authState.lastTokenResponse?.refreshToken
-        print("[AuthServiceImpl] existing tokens: idToken=\(idToken != nil ? "present" : "nil"), refreshToken=\(refreshToken != nil ? "present" : "nil")")
         
         return try await withCheckedThrowingContinuation { continuation in
             authState.performAction { accessToken, error, _  in
@@ -101,16 +90,13 @@ public final class AuthServiceImpl: AuthService {
         _userProfile = nil
         
         await Task.detached {
-            await self.localStorage.remove(forKey: .accessToken)
-            await self.localStorage.remove(forKey: .refreshToken)
-            await self.localStorage.remove(forKey: .authUserId)
+            await KeychainStorage().remove(forKey: .accessToken)
+            await KeychainStorage().remove(forKey: .refreshToken)
+            await KeychainStorage().remove(forKey: .authUserId)
         }.value
         
         do {
-            await keychain.remove(key: "authState")
-            print("[AuthServiceImpl] logout success, keychain cleared")
-        } catch {
-            print("[AuthServiceImpl] logout keychain error: \(error)")
+            await KeychainWrapper.shared.remove(key: "authState")
         }
     }
     
@@ -119,14 +105,22 @@ public final class AuthServiceImpl: AuthService {
     }
     
     public var isAuthorized: Bool {
-        accessToken != nil
+        // Check both authState and localStorage since authState restores asynchronously
+        return authState?.lastTokenResponse?.accessToken != nil
+    }
+    
+    public func isAuthorizedAsync() async -> Bool {
+        let accessToken = await KeychainStorage().string(forKey: .accessToken)
+        print("[AuthServiceImpl] isAuthorizedAsync: accessToken = \(accessToken != nil ? "PRESENT" : "NIL")")
+        let isAuthorized = accessToken != nil && !accessToken!.isEmpty
+        print("[AuthServiceImpl] isAuthorizedAsync: result = \(isAuthorized)")
+        return isAuthorized
     }
     
     // MARK: - Private helpers
     
     private func parseUserProfile(from idToken: String?) -> UserProfile {
         guard let idToken = idToken else {
-            print("[AuthServiceImpl] parseUserProfile: idToken is nil")
             return UserProfile(id: "", email: nil, name: nil)
         }
         
@@ -134,7 +128,6 @@ public final class AuthServiceImpl: AuthService {
         guard parts.count >= 2,
               let payloadData = base64UrlDecode(parts[1]),
               let json = try? JSONSerialization.jsonObject(with: payloadData) as? [String: Any] else {
-            print("[AuthServiceImpl] parseUserProfile: failed to decode JWT payload")
             return UserProfile(id: "", email: nil, name: nil)
         }
         
@@ -142,7 +135,6 @@ public final class AuthServiceImpl: AuthService {
         let email = json["email"] as? String
         let name = json["name"] as? String
         
-        print("[AuthServiceImpl] parseUserProfile: id=\(id), email=\(email ?? "nil"), name=\(name ?? "nil")")
         return UserProfile(id: id, email: email, name: name)
     }
     
@@ -170,14 +162,14 @@ private extension AuthServiceImpl {
             withRootObject: authState,
             requiringSecureCoding: true
         ) {
-            await keychain.set(data, for: "authState")
+            await KeychainWrapper.shared.setData(data, forKey: "authState")
         }
     }
     
     @MainActor
     func restoreAuthState() {
         Task {
-            guard let data = await keychain.data(forKey: "authState") else { return }
+            guard let data = await KeychainWrapper.shared.data(forKey: "authState") else { return }
             
             do {
                 let state = try NSKeyedUnarchiver.unarchivedObject(
@@ -186,13 +178,12 @@ private extension AuthServiceImpl {
                 )
                 self.authState = state
             } catch {
-                await keychain.remove("authState")
+                await KeychainWrapper.shared.remove(key: "authState")
             }
         }
     }
     
     private func discoverConfiguration() async throws -> KeycloakConfigSnapshot {
-        print("[AuthServiceImpl] discoverConfiguration start for issuer: \(KeycloakConfig.issuer)")
         return try await withCheckedThrowingContinuation { continuation in
             OIDAuthorizationService.discoverConfiguration(forIssuer: KeycloakConfig.issuer) { configuration, error in
                 if let configuration {
@@ -200,10 +191,8 @@ private extension AuthServiceImpl {
                         authorizationEndpoint: configuration.authorizationEndpoint,
                         tokenEndpoint: configuration.tokenEndpoint
                     )
-                    print("[AuthServiceImpl] discoverConfiguration success")
                     continuation.resume(returning: snapshot)
                 } else {
-                    print("[AuthServiceImpl] discoverConfiguration failed: \(error?.localizedDescription ?? "unknown")")
                     continuation.resume(
                         throwing: error ?? AuthError.discoveryFailed
                     )
@@ -217,7 +206,6 @@ private extension AuthServiceImpl {
         loginHint: String?,
         presenter: UIViewController
     ) async throws -> (AuthTokens, UserProfile) {
-        print("[AuthServiceImpl] presentAuthorization start")
         let request = OIDAuthorizationRequest(
             configuration: OIDServiceConfiguration(
                 authorizationEndpoint: configSnapshot.authorizationEndpoint,
@@ -230,13 +218,10 @@ private extension AuthServiceImpl {
             responseType: OIDResponseTypeCode,
             additionalParameters: loginHint.map { ["login_hint": $0] }
         )
-        print("[AuthServiceImpl] OIDAuthorizationRequest created: redirectURL=\(request.redirectURL?.absoluteString ?? "nil"), clientId=\(request.clientID)")
-        
         return try await withCheckedThrowingContinuation { continuation in
             let flow = OIDAuthState.authState(byPresenting: request, presenting: presenter) { [weak self] authState, error in
                 Task { @MainActor [weak self] in
                     guard let self else {
-                        print("[AuthServiceImpl] AppAuth callback: self is nil")
                         continuation.resume(
                             throwing: AuthError.authorizationFailed
                         )
@@ -246,7 +231,6 @@ private extension AuthServiceImpl {
                     AppAuthFlowManager.setCurrentAuthorizationFlow(nil)
                     
                     if let authState {
-                        print("[AuthServiceImpl] AppAuth callback success")
                         self.authState = authState
                         
                         let tokens = AuthTokens(
@@ -256,17 +240,24 @@ private extension AuthServiceImpl {
                         )
                         
                         await Task.detached {
-                            await self.localStorage.set(tokens.accessToken, forKey: .accessToken)
+                            print("[AuthServiceImpl] Saving tokens to localStorage...")
+                            await KeychainStorage().set(tokens.accessToken, forKey: .accessToken)
+                            print("[AuthServiceImpl] Saved accessToken: \(tokens.accessToken.isEmpty ? "EMPTY" : "PRESENT")")
                             if let refreshToken = tokens.refreshToken {
-                                await self.localStorage.set(refreshToken, forKey: .refreshToken)
+                                await KeychainStorage().set(refreshToken, forKey: .refreshToken)
+                                print("[AuthServiceImpl] Saved refreshToken")
                             }
                             if let idToken = tokens.idToken {
-                                await self.localStorage.set(idToken, forKey: .authUserId)
+                                await KeychainStorage().set(idToken, forKey: .authUserId)
+                                print("[AuthServiceImpl] Saved idToken")
                             }
+                            print("[AuthServiceImpl] Tokens saved successfully")
                         }.value
                         
                         let profile = self.parseUserProfile(from: authState.lastTokenResponse?.idToken)
                         self._userProfile = profile
+                        
+                        print("Aboba \(await KeychainStorage().string(forKey: .accessToken))")
                         
                         continuation.resume(returning: (tokens, profile))
                     } else {

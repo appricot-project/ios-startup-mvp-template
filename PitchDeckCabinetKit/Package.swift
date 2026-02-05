@@ -19,12 +19,11 @@ let package = Package(
         .package(path: "../PitchDeckCabinetApiKit"),
         .package(path: "../PitchDeckCoreKit"),
         .package(path: "../PitchDeckUIKit"),
-        .package(url: "https://github.com/auth0/JWTDecode.swift", from: "2.6.0")
     ],
     targets: [
         .target(
             name: "PitchDeckCabinetKit",
-            dependencies: ["PitchDeckNavigationApiKit", "PitchDeckMainApiKit", "PitchDeckCabinetApiKit", "PitchDeckCoreKit", "PitchDeckUIKit", .product(name: "JWTDecode", package: "JWTDecode.swift")],
+            dependencies: ["PitchDeckNavigationApiKit", "PitchDeckMainApiKit", "PitchDeckCabinetApiKit", "PitchDeckCoreKit", "PitchDeckUIKit"],
             resources: [.process("Resources")]
         )
     ]

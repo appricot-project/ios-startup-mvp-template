@@ -20,4 +20,5 @@ public protocol AuthService: Sendable {
 
     func refreshTokenIfNeeded() async throws -> AuthTokens
     func logout() async
+    func isAuthorizedAsync() async -> Bool
 }

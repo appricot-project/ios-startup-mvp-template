@@ -10,5 +10,4 @@ import PitchDeckMainApiKit
 
 public protocol CabinetService: Sendable {
     func getUserProfile() async throws -> UserProfile
-    func getUserStartups(email: String) async throws -> [StartupItem]
 }

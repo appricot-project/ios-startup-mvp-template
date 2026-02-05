@@ -22,11 +22,13 @@ public final class CabinetViewModel: ObservableObject {
     // MARK: - Private properties
     
     private let cabinetService: CabinetService
+    private let startupService: StartupService
     
     // MARK: - Init
     
-    public init(cabinetService: CabinetService) {
+    public init(cabinetService: CabinetService, startupService: StartupService) {
         self.cabinetService = cabinetService
+        self.startupService = startupService
     }
     
     // MARK: - Public methods
@@ -53,9 +55,10 @@ public final class CabinetViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            userStartups = try await Task.detached {
-                try await self.cabinetService.getUserStartups(email: profile.email)
+            let result = try await Task.detached {
+                try await self.startupService.getStartups(title: nil, categoryId: nil, email: profile.email, page: 1, pageSize: 100)
             }.value
+            userStartups = result.items
         } catch {
             errorMessage = error.localizedDescription
         }

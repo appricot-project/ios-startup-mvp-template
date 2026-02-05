@@ -18,8 +18,6 @@ public enum LocalStorageKey {
     case apiUser
     case apiPassword
     case apiSecretKey
-    case isLoginPast
-    case isNotFirstEntry
     case custom(String)
     
     // MARK: - Public properties
@@ -35,8 +33,6 @@ public enum LocalStorageKey {
         case .apiUser: return addBundlePrefixForKey("apiUser")
         case .apiPassword: return addBundlePrefixForKey("apiPassword")
         case .apiSecretKey: return addBundlePrefixForKey("apiSecretKey")
-        case .isLoginPast: return addBundlePrefixForKey("isLoginPast")
-        case .isNotFirstEntry: return addBundlePrefixForKey("isFirstEntry")
         case .custom(let key): return addBundlePrefixForKey(key)
         }
     }

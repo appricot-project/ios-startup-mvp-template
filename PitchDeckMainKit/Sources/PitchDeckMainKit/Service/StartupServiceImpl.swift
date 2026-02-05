@@ -41,6 +41,7 @@ public final class StartupServiceImpl: StartupService {
     public func getStartups(
         title: String? = nil,
         categoryId: Int? = nil,
+        email: String? = nil,
         page: Int,
         pageSize: Int
     ) async throws -> StartupPageResult {
@@ -61,9 +62,20 @@ public final class StartupServiceImpl: StartupService {
             }
         }()
         
+//        let emailFilter: GraphQLNullable<UserFilterInput> = {
+//            if let email = email, !email.isEmpty {
+//                return .some(UserFilterInput(
+//                    email: .some(StringFilterInput(eq: .some(email)))
+//                ))
+//            } else {
+//                return .none
+//            }
+//        }()
+        
         let filters = StartupFiltersInput(
             title: titleFilter,
-            category: categoryFilter
+            category: categoryFilter,
+//            user: emailFilter
         )
         
         let query = StartupsQuery(
@@ -116,4 +128,10 @@ public final class StartupServiceImpl: StartupService {
             )
         } ?? []
     }
+    
+    public func createStartup(request: CreateStartupRequest) async throws -> StartupItem {
+        // TODO: Implement actual creation when GraphQL mutation is ready
+        throw NSError(domain: "NotImplemented", code: -1, userInfo: [NSLocalizedDescriptionKey: "Create startup functionality is not implemented yet"])
+    }
 }
+

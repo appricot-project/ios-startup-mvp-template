@@ -110,6 +110,7 @@ final class StartupListViewModel: ObservableObject {
             let result = try await service.getStartups(
                 title: searchText,
                 categoryId: selectedCategoryId,
+                email: nil,
                 page: nextPage,
                 pageSize: pageSize
             )
@@ -142,6 +143,7 @@ final class StartupListViewModel: ObservableObject {
                 async let startupsTask = service.getStartups(
                     title: title,
                     categoryId: categoryId,
+                    email: nil,
                     page: 1,
                     pageSize: pageSize
                 )
@@ -158,6 +160,7 @@ final class StartupListViewModel: ObservableObject {
                 startupsResult = try await service.getStartups(
                     title: title,
                     categoryId: categoryId,
+                    email: nil,
                     page: 1,
                     pageSize: pageSize
                 )

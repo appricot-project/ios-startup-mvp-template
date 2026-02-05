@@ -14,7 +14,7 @@ public final class CabinetViewModel: ObservableObject {
     
     // MARK: - Published properties
     
-    @Published public var userProfile: UserProfile?
+    @Published public var userProfile: UserProfileData?
     @Published public var userStartups: [StartupItem] = []
     @Published public var isLoading: Bool = false
     @Published public var errorMessage: String? = nil

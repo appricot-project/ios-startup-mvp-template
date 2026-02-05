@@ -19,12 +19,10 @@ public struct CabinetFlowView: View {
     
     public var body: some View {
         NavigationStack(path: $coordinator.path) {
-            CabinetScreen(onSettingsTap: {
-                coordinator.push(.accountSettings)
-            })
-            .navigationDestination(for: CabinetRoute.self) { route in
-                coordinator.build(route: route)
-            }
+            coordinator.build(route: .cabinet)
+                .navigationDestination(for: CabinetRoute.self) { route in
+                    coordinator.build(route: route)
+                }
         }
     }
 }

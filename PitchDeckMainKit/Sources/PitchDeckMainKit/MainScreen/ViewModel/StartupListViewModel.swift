@@ -175,7 +175,7 @@ final class StartupListViewModel: ObservableObject {
             self.startups = startupsResult.items
             
             if let pageInfo = startupsResult.pageInfo {
-                self.hasMore = 1 < pageInfo.pageCount
+                self.hasMore = currentPage < pageInfo.pageCount
             } else {
                 self.hasMore = startupsResult.items.count == pageSize
             }

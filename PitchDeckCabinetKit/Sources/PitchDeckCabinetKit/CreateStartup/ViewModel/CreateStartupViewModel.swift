@@ -136,7 +136,8 @@ public final class CreateStartupViewModel: ObservableObject {
                 description: description,
                 location: location,
                 categoryId: selectedCategoryId,
-                imageData: selectedImageData
+                imageData: selectedImageData,
+                imageUrl: nil 
             )
             
             _ = try await Task.detached {

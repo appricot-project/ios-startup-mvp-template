@@ -14,13 +14,15 @@ public struct CreateStartupRequest: Sendable {
     public let location: String
     public let categoryId: Int
     public let imageData: Data?
+    public let imageUrl: String?
     
-    public init(ownerEmail: String, title: String, description: String, location: String, categoryId: Int, imageData: Data?) {
+    public init(ownerEmail: String, title: String, description: String, location: String, categoryId: Int, imageData: Data?, imageUrl: String? = nil) {
         self.ownerEmail = ownerEmail
         self.title = title
         self.description = description
         self.location = location
         self.categoryId = categoryId
         self.imageData = imageData
+        self.imageUrl = imageUrl
     }
 }

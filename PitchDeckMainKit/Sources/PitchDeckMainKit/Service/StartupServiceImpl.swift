@@ -139,7 +139,8 @@ public final class StartupServiceImpl: StartupService {
             title: request.title,
             description: request.description,
             location: request.location,
-            categoryId: ID(String(request.categoryId))
+            categoryId: ID(String(request.categoryId)),
+//            url: request.imageUrl
         )
 
         let result = try await ApolloWebClient.shared.apollo.perform(mutation: mutation)

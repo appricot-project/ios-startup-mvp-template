@@ -50,6 +50,8 @@ final class StartupListViewModel: ObservableObject {
                 await handleCategoryChange(categoryId)
             case .onLoadMore:
                 await handleLoadMore()
+            case .onRefresh:
+                await handleRefresh()
             }
         }
     }
@@ -137,6 +139,9 @@ final class StartupListViewModel: ObservableObject {
             isInitialLoading = false
         }
         
+        currentPage = 1
+        startups = []
+        
         do {
             let startupsResult: StartupPageResult
             if loadCategories {
@@ -144,12 +149,11 @@ final class StartupListViewModel: ObservableObject {
                     title: title,
                     categoryId: categoryId,
                     email: nil,
-                    page: 1,
+                    page: currentPage,
                     pageSize: pageSize
                 )
                 
                 async let categoriesTask = service.getStartupsCategories()
-                
                 let (startupsPage, cats) = try await (startupsTask, categoriesTask)
                 
                 try Task.checkCancellation()
@@ -161,7 +165,7 @@ final class StartupListViewModel: ObservableObject {
                     title: title,
                     categoryId: categoryId,
                     email: nil,
-                    page: 1,
+                    page: currentPage,
                     pageSize: pageSize
                 )
                 
@@ -187,6 +191,16 @@ final class StartupListViewModel: ObservableObject {
             self.hasMore = false
         }
     }
+    
+    private func handleRefresh() async {
+        activeTask?.cancel()
+        isLoading = true
+        activeTask = Task {
+            await loadFreshData(title: searchText, categoryId: selectedCategoryId, loadCategories: false)
+        }
+        await activeTask?.value
+        isLoading = false
+    }
 }
 
 // MARK: - Event
@@ -197,5 +211,6 @@ extension StartupListViewModel {
         case onSearch(String)
         case onSelectedCategory(Int?)
         case onLoadMore
+        case onRefresh
     }
 }

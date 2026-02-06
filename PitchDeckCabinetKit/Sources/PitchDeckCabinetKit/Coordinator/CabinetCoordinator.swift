@@ -10,6 +10,7 @@ import SwiftUI
 import PitchDeckNavigationApiKit
 import PitchDeckCabinetApiKit
 import PitchDeckMainApiKit
+import PitchDeckAuthApiKit
 
 public enum CabinetRoute: Hashable {
     case cabinet
@@ -21,15 +22,23 @@ public final class CabinetCoordinator: BaseCoordinator<CabinetRoute> {
     
     public let cabinetService: CabinetService
     public let startupService: StartupService
+    public let authService: AuthService
     public var onStartupCreated: (() -> Void)?
-    public private(set) var cabinetViewModel: CabinetViewModel?
+    public var onLogout: (() -> Void)?
+    public weak var rootCoordinator: (any ObservableObject)?
+    
+    public private(set) lazy var cabinetViewModel: CabinetViewModel = {
+        CabinetViewModel(cabinetService: cabinetService, startupService: startupService, authService: authService)
+    }()
     
     public init(
         cabinetService: CabinetService,
-        startupService: StartupService
+        startupService: StartupService,
+        authService: AuthService
     ) {
         self.cabinetService = cabinetService
         self.startupService = startupService
+        self.authService = authService
         super.init()
     }
     
@@ -48,21 +57,19 @@ public final class CabinetCoordinator: BaseCoordinator<CabinetRoute> {
 
 private extension CabinetCoordinator {
     func buildCabinetView() -> some View {
-        let viewModel = CabinetViewModel(cabinetService: cabinetService, startupService: startupService)
-        self.cabinetViewModel = viewModel
         return CabinetScreen(
-            viewModel: viewModel,
+            viewModel: cabinetViewModel,
             coordinator: self
         )
     }
     
     func buildCreateStartupView() -> some View {
-        let viewModel = CreateStartupViewModel(startupService: startupService)
+        let viewModel = CreateStartupViewModel(startupService: startupService, cabinetService: cabinetService)
         return CreateStartupScreen(
             viewModel: viewModel,
             onStartupCreated: { [weak self] in
                 self?.onStartupCreated?()
-                self?.cabinetViewModel?.send(event: .refreshStartups)
+                self?.cabinetViewModel.send(event: .refreshAll)
                 self?.pop()
             }
         )

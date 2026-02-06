@@ -8,6 +8,7 @@
 import Foundation
 import PitchDeckCabinetApiKit
 import PitchDeckMainApiKit
+import PitchDeckAuthApiKit
 
 @MainActor
 public final class CabinetViewModel: ObservableObject {
@@ -18,17 +19,20 @@ public final class CabinetViewModel: ObservableObject {
     @Published public var userStartups: [StartupItem] = []
     @Published public var isLoading: Bool = false
     @Published public var errorMessage: String? = nil
+    @Published public var didLogout: Bool = false
     
     // MARK: - Private properties
     
     private let cabinetService: CabinetService
     private let startupService: StartupService
+    private let authService: AuthService
     
     // MARK: - Init
     
-    public init(cabinetService: CabinetService, startupService: StartupService) {
+    public init(cabinetService: CabinetService, startupService: StartupService, authService: AuthService) {
         self.cabinetService = cabinetService
         self.startupService = startupService
+        self.authService = authService
     }
     
     // MARK: - Event
@@ -39,6 +43,8 @@ public final class CabinetViewModel: ObservableObject {
         case loadUserStartups
         case loadAllData
         case refreshStartups
+        case refreshAll
+        case logout
     }
     
     // MARK: - Public methods
@@ -56,6 +62,10 @@ public final class CabinetViewModel: ObservableObject {
                 await loadAllData()
             case .refreshStartups:
                 await loadUserStartups()
+            case .refreshAll:
+                await loadAllData()
+            case .logout:
+                await performLogout()
             }
         }
     }
@@ -118,5 +128,21 @@ public final class CabinetViewModel: ObservableObject {
         if userProfile != nil {
             await loadUserStartups()
         }
+    }
+    
+    private func performLogout() async {
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            try await authService.logout()
+            userProfile = nil
+            userStartups = []
+            didLogout = true
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+        
+        isLoading = false
     }
 }

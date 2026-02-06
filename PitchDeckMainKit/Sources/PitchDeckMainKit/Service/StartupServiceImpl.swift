@@ -10,6 +10,7 @@ import Apollo
 import PitchDeckCoreKit
 import PitchDeckStartupApi
 import PitchDeckMainApiKit
+import ApolloAPI
 
 @MainActor
 public final class StartupServiceImpl: StartupService {
@@ -55,7 +56,7 @@ public final class StartupServiceImpl: StartupService {
         let categoryFilter: GraphQLNullable<StartupCategoryFiltersInput> = {
             if let categoryId = categoryId {
                 return .some(StartupCategoryFiltersInput(
-                    categoryId: .some(IntFilterInput(eq: .some(Int32(categoryId))))
+                    categoryId: .some(IntFilterInput(eq: .some(Int32(clamping: categoryId))))
                 ))
             } else {
                 return .none
@@ -78,8 +79,8 @@ public final class StartupServiceImpl: StartupService {
         
         let query = StartupsQuery(
             filters: .some(filters),
-            page: .some(Int32(page)),
-            pageSize: .some(Int32(pageSize))
+            page: .some(Int32(clamping: page)),
+            pageSize: .some(Int32(clamping: pageSize))
         )
         
         let result = try await ApolloWebClient.shared.apollo.fetch(query: query)
@@ -120,16 +121,41 @@ public final class StartupServiceImpl: StartupService {
         let result = try await ApolloWebClient.shared.apollo.fetch(query: query)
         
         return result.data?.startupCategories.compactMap { category in
-            PitchDeckMainApiKit.CategoryItem(
-                id: category?.categoryId ?? 0,
-                title: category?.title ?? "",
+            guard let category = category,
+                  let categoryId = category.categoryId,
+                  let title = category.title else {
+                return nil
+            }
+            return CategoryItem(
+                id: categoryId,
+                title: title
             )
         } ?? []
     }
     
     public func createStartup(request: CreateStartupRequest) async throws -> StartupItem {
-        // TODO: Implement actual creation when GraphQL mutation is ready
-        throw NSError(domain: "NotImplemented", code: -1, userInfo: [NSLocalizedDescriptionKey: "Create startup functionality is not implemented yet"])
+        let mutation = CreateStartupMutation(
+            ownerEmail: request.ownerEmail,
+            title: request.title,
+            description: request.description,
+            location: request.location,
+            categoryId: ID(String(request.categoryId))
+        )
+
+        let result = try await ApolloWebClient.shared.apollo.perform(mutation: mutation)
+
+        guard let createdStartup = result.data?.createStartup else {
+            throw NSError(domain: "No data", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create startup"])
+        }
+
+        return StartupItem(
+            id: Int(createdStartup.documentId.hashValue),
+            documentId: createdStartup.documentId,
+            title: createdStartup.title ?? "",
+            description: createdStartup.description ?? "",
+            image: (Config.strapiDataURL ?? "") + (createdStartup.imageURL?.url ?? ""),
+            category: createdStartup.category?.title ?? "",
+            location: createdStartup.location ?? ""
+        )
     }
 }
-

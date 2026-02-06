@@ -1,5 +1,6 @@
 query StartupCategories {
     startupCategories {
+        documentId
         title
         categoryId
     }

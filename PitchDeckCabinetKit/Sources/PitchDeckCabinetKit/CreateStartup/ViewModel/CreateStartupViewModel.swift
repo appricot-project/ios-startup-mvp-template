@@ -7,6 +7,7 @@
 
 import Foundation
 import PitchDeckMainApiKit
+import PitchDeckCabinetApiKit
 
 @MainActor
 public final class CreateStartupViewModel: ObservableObject {
@@ -38,11 +39,13 @@ public final class CreateStartupViewModel: ObservableObject {
     // MARK: - Private properties
     
     private let startupService: StartupService
+    private let cabinetService: CabinetService
     
     // MARK: - Init
     
-    public init(startupService: StartupService) {
+    public init(startupService: StartupService, cabinetService: CabinetService) {
         self.startupService = startupService
+        self.cabinetService = cabinetService
     }
     
     // MARK: - Event
@@ -89,7 +92,19 @@ public final class CreateStartupViewModel: ObservableObject {
     // MARK: - Private methods
     
     private func handleOnAppear() async {
+        await loadUserProfile()
         await loadCategories()
+    }
+    
+    private func loadUserProfile() async {
+        do {
+            let profile = try await cabinetService.getUserProfile()
+            if let email = profile.email, !email.isEmpty {
+                ownerEmail = email
+            }
+        } catch {
+            print("Failed to load user profile: \(error)")
+        }
     }
     
     private func loadCategories() async {
@@ -108,8 +123,9 @@ public final class CreateStartupViewModel: ObservableObject {
     }
     
     private func createStartup() async {
-        guard let selectedCategoryId = selectedCategoryId else { return }
-        
+        guard let selectedCategoryId = selectedCategoryId else { 
+            return
+        }
         isCreating = true
         errorMessage = nil
         

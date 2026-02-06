@@ -34,10 +34,37 @@ public struct CabinetScreen: View {
             .onAppear {
                 viewModel.send(event: .onAppear)
             }
+            .onChange(of: viewModel.didLogout) { didLogout in
+                if didLogout {
+                    NotificationCenter.default.post(name: NSNotification.Name("UserDidLogout"), object: nil)
+                    viewModel.didLogout = false
+                }
+            }
         }
     }
     
     // MARK: - Private views
+    
+    private var logoutButtonCompact: some View {
+        Button(action: {
+            viewModel.send(event: .logout)
+        }) {
+            HStack {
+                Image(systemName: "arrow.right.square")
+                    .font(.caption)
+                Text("cabinet.logout".localized)
+                    .font(.caption)
+                Spacer()
+                if viewModel.isLoading {
+                    ProgressView()
+                        .scaleEffect(0.8)
+                }
+            }
+            .foregroundColor(.red)
+            .padding(.vertical, 8)
+        }
+        .disabled(viewModel.isLoading)
+    }
     
     private var profileSection: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -49,6 +76,18 @@ public struct CabinetScreen: View {
                 profileField(title: "cabinet.profile.firstName".localized, value: viewModel.userProfile?.firstName ?? "")
                 profileField(title: "cabinet.profile.lastName".localized, value: viewModel.userProfile?.lastName ?? "")
                 profileField(title: "cabinet.profile.email".localized, value: viewModel.userProfile?.email ?? "")
+                
+                Divider()
+                
+                logoutButtonCompact
+                
+                if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .font(.caption)
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 4)
+                }
             }
         }
         .padding(16)

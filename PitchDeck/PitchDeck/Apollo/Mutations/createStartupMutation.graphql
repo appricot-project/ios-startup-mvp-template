@@ -1,0 +1,25 @@
+mutation CreateStartup($ownerEmail: String!, $title: String!, $description: String!, $location: String!, $categoryId: ID!) {
+  createStartup(data: {
+    ownerEmail: $ownerEmail
+    title: $title
+    description: $description
+    location: $location
+    category: $categoryId
+  }) {
+    documentId
+    ownerEmail
+    title
+    description
+    location
+    createdAt
+    updatedAt
+    publishedAt
+    category {
+      title
+      categoryId
+    }
+    ImageURL {
+      url
+    }
+  }
+}

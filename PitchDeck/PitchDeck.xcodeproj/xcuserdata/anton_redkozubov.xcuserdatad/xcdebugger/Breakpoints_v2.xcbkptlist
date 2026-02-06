@@ -244,5 +244,247 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ED83580A-D4CB-4CFB-BCBF-B75DB4ADFF1B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../PitchDeckCabinetKit/Sources/PitchDeckCabinetKit/CreateStartup/ViewModel/CreateStartupViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "createStartup()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0310742A-21A9-4762-ABA9-E38FD9427407"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../PitchDeckCabinetKit/Sources/PitchDeckCabinetKit/CreateStartup/ViewModel/CreateStartupViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "send(event:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "467FFEC7-A18E-42C5-87DC-F54DE473A5C1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/View/StartupsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "mainList"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8F168C1B-1336-4DEC-98EC-2333C261273C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../PitchDeckMainKit/Sources/PitchDeckMainKit/Service/StartupServiceImpl.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "getStartups(title:categoryId:email:page:pageSize:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "511ACDC6-F983-4560-9FC4-3333E4375291"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "loadFreshData(title:categoryId:loadCategories:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "511ACDC6-F983-4560-9FC4-3333E4375291 - d10c1c7de643d525"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for PitchDeckMainKit.StartupListViewModel.loadFreshData(title: Swift.Optional&lt;Swift.String&gt;, categoryId: Swift.Optional&lt;Swift.Int&gt;, loadCategories: Swift.Bool) async -&gt; ()"
+                  moduleName = "PitchDeck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/anton_redkozubov/ios-startup-mvp-template/PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166">
+               </Location>
+               <Location
+                  uuid = "511ACDC6-F983-4560-9FC4-3333E4375291 - 9d473e72c126e749"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) await resume partial function for PitchDeckMainKit.StartupListViewModel.loadFreshData(title: Swift.Optional&lt;Swift.String&gt;, categoryId: Swift.Optional&lt;Swift.Int&gt;, loadCategories: Swift.Bool) async -&gt; ()"
+                  moduleName = "PitchDeck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/anton_redkozubov/ios-startup-mvp-template/PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166">
+               </Location>
+               <Location
+                  uuid = "511ACDC6-F983-4560-9FC4-3333E4375291 - 88d631258eaaae66"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(10) suspend resume partial function for PitchDeckMainKit.StartupListViewModel.loadFreshData(title: Swift.Optional&lt;Swift.String&gt;, categoryId: Swift.Optional&lt;Swift.Int&gt;, loadCategories: Swift.Bool) async -&gt; ()"
+                  moduleName = "PitchDeck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/anton_redkozubov/ios-startup-mvp-template/PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166">
+               </Location>
+               <Location
+                  uuid = "511ACDC6-F983-4560-9FC4-3333E4375291 - e171afcf50a49863"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(24) suspend resume partial function for PitchDeckMainKit.StartupListViewModel.loadFreshData(title: Swift.Optional&lt;Swift.String&gt;, categoryId: Swift.Optional&lt;Swift.Int&gt;, loadCategories: Swift.Bool) async -&gt; ()"
+                  moduleName = "PitchDeck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/anton_redkozubov/ios-startup-mvp-template/PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166">
+               </Location>
+               <Location
+                  uuid = "511ACDC6-F983-4560-9FC4-3333E4375291 - d10c1c7de643d56b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for PitchDeckMainKit.StartupListViewModel.loadFreshData(title: Swift.Optional&lt;Swift.String&gt;, categoryId: Swift.Optional&lt;Swift.Int&gt;, loadCategories: Swift.Bool) async -&gt; ()"
+                  moduleName = "PitchDeck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/anton_redkozubov/ios-startup-mvp-template/PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "168"
+                  endingLineNumber = "168">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "392FF9BB-F6CC-45F0-BA3B-24E35E0CD856"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "loadFreshData(title:categoryId:loadCategories:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "392FF9BB-F6CC-45F0-BA3B-24E35E0CD856 - 58b5ded03a078800"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for implicit closure #1 () async throws -&gt; PitchDeckMainApiKit.StartupPageResult in PitchDeckMainKit.StartupListViewModel.loadFreshData(title: Swift.Optional&lt;Swift.String&gt;, categoryId: Swift.Optional&lt;Swift.Int&gt;, loadCategories: Swift.Bool) async -&gt; ()"
+                  moduleName = "PitchDeck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/anton_redkozubov/ios-startup-mvp-template/PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "153"
+                  endingLineNumber = "153">
+               </Location>
+               <Location
+                  uuid = "392FF9BB-F6CC-45F0-BA3B-24E35E0CD856 - 2fe7e3cde9f26a03"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) suspend resume partial function for implicit closure #1 () async throws -&gt; PitchDeckMainApiKit.StartupPageResult in PitchDeckMainKit.StartupListViewModel.loadFreshData(title: Swift.Optional&lt;Swift.String&gt;, categoryId: Swift.Optional&lt;Swift.Int&gt;, loadCategories: Swift.Bool) async -&gt; ()"
+                  moduleName = "PitchDeck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/anton_redkozubov/ios-startup-mvp-template/PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "153"
+                  endingLineNumber = "153">
+               </Location>
+               <Location
+                  uuid = "392FF9BB-F6CC-45F0-BA3B-24E35E0CD856 - 58b5ded03a078821"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for implicit closure #1 () async throws -&gt; PitchDeckMainApiKit.StartupPageResult in PitchDeckMainKit.StartupListViewModel.loadFreshData(title: Swift.Optional&lt;Swift.String&gt;, categoryId: Swift.Optional&lt;Swift.Int&gt;, loadCategories: Swift.Bool) async -&gt; ()"
+                  moduleName = "PitchDeck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/anton_redkozubov/ios-startup-mvp-template/PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152">
+               </Location>
+               <Location
+                  uuid = "392FF9BB-F6CC-45F0-BA3B-24E35E0CD856 - 2fe7e3cde9f26a22"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) suspend resume partial function for implicit closure #1 () async throws -&gt; PitchDeckMainApiKit.StartupPageResult in PitchDeckMainKit.StartupListViewModel.loadFreshData(title: Swift.Optional&lt;Swift.String&gt;, categoryId: Swift.Optional&lt;Swift.Int&gt;, loadCategories: Swift.Bool) async -&gt; ()"
+                  moduleName = "PitchDeck"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/anton_redkozubov/ios-startup-mvp-template/PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6393028C-AF2F-4A47-B281-9C1F89676830"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../PitchDeckMainKit/Sources/PitchDeckMainKit/MainScreen/ViewModel/StartupListViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "handleLoadMore()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

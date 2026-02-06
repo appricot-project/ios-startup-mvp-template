@@ -5,7 +5,8 @@
       "Schema/schema.graphql"
     ],
     "operationSearchPaths": [
-      "Queries/*.graphql"
+      "Queries/*.graphql",
+      "Mutations/*.graphql"
     ]
   },
   "output": {

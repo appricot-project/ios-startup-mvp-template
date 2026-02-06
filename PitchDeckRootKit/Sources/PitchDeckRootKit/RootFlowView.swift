@@ -54,6 +54,9 @@ public struct RootFlowView: View {
                 .tag(RootCoordinator.Tab.cabinet)
         }
         .id(refreshTrigger)
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("UserDidLogout"))) { _ in
+            coordinator.selectedTab = .main
+        }
         .fullScreenCover(isPresented: $isAuthPresented) {
             AuthFlowView(
                 coordinator: coordinator.auth,

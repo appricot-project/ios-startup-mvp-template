@@ -10,6 +10,7 @@
 "cabinet.startups.title" = "My Startups";
 "cabinet.startups.empty" = "You don't have any startups yet. Create your first startup!";
 "cabinet.startups.create" = "Create Startup";
+"cabinet.logout" = "Logout";
 
 /* Create Startup Screen */
 
@@ -20,7 +21,6 @@
 
 "create.startup.basic.title" = "Basic Information";
 "create.startup.ownerEmail" = "Owner Email";
-"create.startup.title" = "Title";
 "create.startup.description" = "Description";
 "create.startup.location" = "Location";
 

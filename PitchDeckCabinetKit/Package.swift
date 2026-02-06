@@ -19,11 +19,12 @@ let package = Package(
         .package(path: "../PitchDeckCabinetApiKit"),
         .package(path: "../PitchDeckCoreKit"),
         .package(path: "../PitchDeckUIKit"),
+        .package(path: "../PitchDeckAuthApiKit")
     ],
     targets: [
         .target(
             name: "PitchDeckCabinetKit",
-            dependencies: ["PitchDeckNavigationApiKit", "PitchDeckMainApiKit", "PitchDeckCabinetApiKit", "PitchDeckCoreKit", "PitchDeckUIKit"],
+            dependencies: ["PitchDeckNavigationApiKit", "PitchDeckMainApiKit", "PitchDeckCabinetApiKit", "PitchDeckCoreKit", "PitchDeckUIKit", "PitchDeckAuthApiKit"],
             resources: [.process("Resources")]
         )
     ]

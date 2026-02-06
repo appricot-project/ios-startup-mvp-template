@@ -14,6 +14,7 @@ public struct CreateStartupScreen: View {
     @ObservedObject private var viewModel: CreateStartupViewModel
     public let onStartupCreated: () -> Void
     
+    @State private var isImagePickerPresented: Bool = false
     @State private var selectedImage: PhotosPickerItem?
     
     public init(viewModel: CreateStartupViewModel, onStartupCreated: @escaping () -> Void) {
@@ -38,11 +39,11 @@ public struct CreateStartupScreen: View {
             .onAppear {
                 viewModel.send(event: .onAppear)
             }
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            }
             .photosPicker(
-                isPresented: Binding(
-                    get: { selectedImage != nil },
-                    set: { _ in selectedImage = nil }
-                ),
+                isPresented: $isImagePickerPresented,
                 selection: $selectedImage,
                 matching: .images,
                 photoLibrary: .shared()
@@ -71,7 +72,7 @@ public struct CreateStartupScreen: View {
                 .fontWeight(.semibold)
             
             Button(action: {
-                selectedImage = PhotosPickerItem(itemIdentifier: "image")
+                isImagePickerPresented = true
             }) {
                 ZStack {
                     if let imageData = viewModel.selectedImageData,
@@ -87,6 +88,7 @@ public struct CreateStartupScreen: View {
                                     Image(systemName: "camera")
                                         .font(.largeTitle)
                                         .foregroundColor(.gray)
+                                        .padding(.bottom, 16)
                                     Text("create.startup.image.placeholder".localized)
                                         .font(.caption)
                                         .foregroundColor(.gray)

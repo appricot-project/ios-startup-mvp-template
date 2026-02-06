@@ -12,7 +12,7 @@
 "auth.start.button.title.login" = "Login";
 "auth.start.button.title.sign" = "Sign Up";
 
-"auth.signIn.title" = "Auth screen";
+"auth.signIn.title" = "Sign In";
 "auth.signIn.email.textField" = "Email";
 "auth.signIn.button.title" = "Sign In";
 

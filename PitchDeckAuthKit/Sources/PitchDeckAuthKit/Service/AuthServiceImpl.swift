@@ -85,7 +85,6 @@ public final class AuthServiceImpl: AuthService {
     }
     
     public func logout() async {
-        print("[AuthServiceImpl] logout start")
         authState = nil
         _userProfile = nil
         
@@ -105,15 +104,12 @@ public final class AuthServiceImpl: AuthService {
     }
     
     public var isAuthorized: Bool {
-        // Check both authState and localStorage since authState restores asynchronously
         return authState?.lastTokenResponse?.accessToken != nil
     }
     
     public func isAuthorizedAsync() async -> Bool {
         let accessToken = await KeychainStorage().string(forKey: .accessToken)
-        print("[AuthServiceImpl] isAuthorizedAsync: accessToken = \(accessToken != nil ? "PRESENT" : "NIL")")
-        let isAuthorized = accessToken != nil && ((accessToken?.isEmpty) == nil)
-        print("[AuthServiceImpl] isAuthorizedAsync: result = \(isAuthorized)")
+        let isAuthorized = accessToken != nil && ((accessToken?.isEmpty) != true)
         return isAuthorized
     }
     
@@ -227,7 +223,6 @@ private extension AuthServiceImpl {
                         )
                         return
                     }
-
                     AppAuthFlowManager.setCurrentAuthorizationFlow(nil)
                     
                     if let authState {
@@ -240,28 +235,19 @@ private extension AuthServiceImpl {
                         )
                         
                         await Task.detached {
-                            print("[AuthServiceImpl] Saving tokens to localStorage...")
                             await KeychainStorage().set(tokens.accessToken, forKey: .accessToken)
-                            print("[AuthServiceImpl] Saved accessToken: \(tokens.accessToken.isEmpty ? "EMPTY" : "PRESENT")")
                             if let refreshToken = tokens.refreshToken {
                                 await KeychainStorage().set(refreshToken, forKey: .refreshToken)
-                                print("[AuthServiceImpl] Saved refreshToken")
                             }
                             if let idToken = tokens.idToken {
                                 await KeychainStorage().set(idToken, forKey: .authUserId)
-                                print("[AuthServiceImpl] Saved idToken")
                             }
-                            print("[AuthServiceImpl] Tokens saved successfully")
                         }.value
                         
                         let profile = self.parseUserProfile(from: authState.lastTokenResponse?.idToken)
                         self._userProfile = profile
-                        
-                        print("Aboba \(await KeychainStorage().string(forKey: .accessToken))")
-                        
                         continuation.resume(returning: (tokens, profile))
                     } else {
-                        print("[AuthServiceImpl] AppAuth callback error: \(error?.localizedDescription ?? "unknown")")
                         continuation.resume(
                             throwing: error ?? AuthError.authorizationFailed
                         )

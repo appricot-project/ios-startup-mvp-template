@@ -27,8 +27,11 @@ public final class CabinetServiceImpl: CabinetService, @unchecked Sendable {
             throw CabinetError.tokenDecodingFailed
         }
         
-        let firstName = json["first_name"] as? String ?? ""
-        let lastName = json["second_name"] as? String ?? ""
+        let fullName = (json["name"] as? String ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        let nameParts = fullName.components(separatedBy: " ")
+
+        let firstName = nameParts.first ?? (json["first_name"] as? String ?? "")
+        let lastName = nameParts.count > 1 ? nameParts.dropFirst().joined(separator: " ") : (json["last_name"] as? String ?? "")
         let email = json["email"] as? String ?? ""
         
         return UserProfileData(firstName: firstName, lastName: lastName, email: email)

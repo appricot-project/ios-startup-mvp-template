@@ -43,15 +43,81 @@ public final class AuthRegistrationViewModel: ObservableObject {
         self.profileService = profileService
     }
     
+    // MARK: - Event
+    
+    public enum Event {
+        case onAppear
+        case registerTapped
+        case emailChanged(String)
+        case firstNameChanged(String)
+        case lastNameChanged(String)
+    }
+    
     // MARK: - Public methods
     
-    public func register() {
+    public func send(event: Event) {
         Task { @MainActor in
-            await performRegistration()
+            switch event {
+            case .onAppear:
+                await handleOnAppear()
+            case .registerTapped:
+                await performRegistration()
+            case .emailChanged(let email):
+                self.email = email
+                validateEmail()
+            case .firstNameChanged(let firstName):
+                self.firstName = firstName
+                validateFirstName()
+            case .lastNameChanged(let lastName):
+                self.lastName = lastName
+                validateLastName()
+            }
         }
     }
     
     // MARK: - Private methods
+    
+    private func handleOnAppear() async {
+        // Reset state when view appears
+        email = ""
+        firstName = ""
+        lastName = ""
+        errorMessage = nil
+        clearValidationErrors()
+        isLoading = false
+    }
+    
+    private func validateEmail() {
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmedEmail.isEmpty {
+            emailError = nil
+        } else if !isValidEmail(trimmedEmail) {
+            emailError = "Wrong email format"
+        } else {
+            emailError = nil
+        }
+    }
+    
+    private func validateFirstName() {
+        let trimmedFirstName = firstName.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmedFirstName.isEmpty {
+            firstNameError = nil
+        } else {
+            firstNameError = nil
+        }
+    }
+    
+    private func validateLastName() {
+        let trimmedLastName = lastName.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmedLastName.isEmpty {
+            lastNameError = nil
+        } else {
+            lastNameError = nil
+        }
+    }
     
     private func performRegistration() async {
         errorMessage = nil

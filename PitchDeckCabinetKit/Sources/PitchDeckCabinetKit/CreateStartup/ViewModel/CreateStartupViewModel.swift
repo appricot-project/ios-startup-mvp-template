@@ -13,7 +13,7 @@ public final class CreateStartupViewModel: ObservableObject {
     
     // MARK: - Published properties
     
-    @Published public var startupId: String = ""
+    @Published public var ownerEmail: String = ""
     @Published public var title: String = ""
     @Published public var description: String = ""
     @Published public var location: String = ""
@@ -28,7 +28,7 @@ public final class CreateStartupViewModel: ObservableObject {
     // MARK: - Computed properties
     
     public var isCreateEnabled: Bool {
-        !startupId.isEmpty &&
+        !ownerEmail.isEmpty &&
         !title.isEmpty &&
         !description.isEmpty &&
         !location.isEmpty &&
@@ -45,9 +45,54 @@ public final class CreateStartupViewModel: ObservableObject {
         self.startupService = startupService
     }
     
+    // MARK: - Event
+    
+    public enum Event {
+        case onAppear
+        case loadCategories
+        case createStartup
+        case selectImage(Data)
+        case ownerEmailChanged(String)
+        case titleChanged(String)
+        case descriptionChanged(String)
+        case locationChanged(String)
+        case categoryChanged(Int?)
+    }
+    
     // MARK: - Public methods
     
-    public func loadCategories() async {
+    public func send(event: Event) {
+        Task { @MainActor in
+            switch event {
+            case .onAppear:
+                await handleOnAppear()
+            case .loadCategories:
+                await loadCategories()
+            case .createStartup:
+                await createStartup()
+            case .selectImage(let data):
+                selectImage(data: data)
+            case .ownerEmailChanged(let ownerEmail):
+                self.ownerEmail = ownerEmail
+            case .titleChanged(let title):
+                self.title = title
+            case .descriptionChanged(let description):
+                self.description = description
+            case .locationChanged(let location):
+                self.location = location
+            case .categoryChanged(let categoryId):
+                self.selectedCategoryId = categoryId
+            }
+        }
+    }
+    
+    // MARK: - Private methods
+    
+    private func handleOnAppear() async {
+        await loadCategories()
+    }
+    
+    private func loadCategories() async {
         isLoading = true
         errorMessage = nil
         
@@ -62,7 +107,7 @@ public final class CreateStartupViewModel: ObservableObject {
         isLoading = false
     }
     
-    public func createStartup() async {
+    private func createStartup() async {
         guard let selectedCategoryId = selectedCategoryId else { return }
         
         isCreating = true
@@ -70,7 +115,7 @@ public final class CreateStartupViewModel: ObservableObject {
         
         do {
             let request = CreateStartupRequest(
-                startupId: startupId,
+                ownerEmail: ownerEmail,
                 title: title,
                 description: description,
                 location: location,
@@ -89,7 +134,7 @@ public final class CreateStartupViewModel: ObservableObject {
         isCreating = false
     }
     
-    public func selectImage(data: Data) {
+    private func selectImage(data: Data) {
         selectedImageData = data
     }
 }

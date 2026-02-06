@@ -31,9 +31,42 @@ public final class CabinetViewModel: ObservableObject {
         self.startupService = startupService
     }
     
+    // MARK: - Event
+    
+    public enum Event {
+        case onAppear
+        case loadUserProfile
+        case loadUserStartups
+        case loadAllData
+        case refreshStartups
+    }
+    
     // MARK: - Public methods
     
-    public func loadUserProfile() async {
+    public func send(event: Event) {
+        Task { @MainActor in
+            switch event {
+            case .onAppear:
+                await handleOnAppear()
+            case .loadUserProfile:
+                await loadUserProfile()
+            case .loadUserStartups:
+                await loadUserStartups()
+            case .loadAllData:
+                await loadAllData()
+            case .refreshStartups:
+                await loadUserStartups()
+            }
+        }
+    }
+    
+    // MARK: - Private methods
+    
+    private func handleOnAppear() async {
+        await loadAllData()
+    }
+    
+    private func loadUserProfile() async {
         isLoading = true
         errorMessage = nil
         
@@ -48,15 +81,29 @@ public final class CabinetViewModel: ObservableObject {
         isLoading = false
     }
     
-    public func loadUserStartups() async {
-        guard let profile = userProfile else { return }
-        
+    private func loadUserStartups() async {
         isLoading = true
         errorMessage = nil
         
         do {
+            let email: String
+            if let profile = userProfile, let profileEmail = profile.email, !profileEmail.isEmpty {
+                email = profileEmail
+            } else {
+                let profile = try await cabinetService.getUserProfile()
+                email = profile.email ?? ""
+                if userProfile == nil {
+                    userProfile = profile
+                }
+            }
+            
+            guard !email.isEmpty else {
+                userStartups = []
+                return
+            }
+            
             let result = try await Task.detached {
-                try await self.startupService.getStartups(title: nil, categoryId: nil, email: profile.email, page: 1, pageSize: 100)
+                try await self.startupService.getStartups(title: nil, categoryId: nil, email: email, page: 1, pageSize: 100)
             }.value
             userStartups = result.items
         } catch {
@@ -66,8 +113,10 @@ public final class CabinetViewModel: ObservableObject {
         isLoading = false
     }
     
-    public func loadAllData() async {
+    private func loadAllData() async {
         await loadUserProfile()
-        await loadUserStartups()
+        if userProfile != nil {
+            await loadUserStartups()
+        }
     }
 }

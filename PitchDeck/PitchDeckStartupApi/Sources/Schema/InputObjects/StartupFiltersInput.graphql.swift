@@ -12,11 +12,11 @@ public struct StartupFiltersInput: InputObject {
 
   public init(
     documentId: GraphQLNullable<IDFilterInput> = nil,
-    startupId: GraphQLNullable<IntFilterInput> = nil,
     title: GraphQLNullable<StringFilterInput> = nil,
     description: GraphQLNullable<StringFilterInput> = nil,
     location: GraphQLNullable<StringFilterInput> = nil,
     category: GraphQLNullable<StartupCategoryFiltersInput> = nil,
+    ownerEmail: GraphQLNullable<StringFilterInput> = nil,
     createdAt: GraphQLNullable<DateTimeFilterInput> = nil,
     updatedAt: GraphQLNullable<DateTimeFilterInput> = nil,
     publishedAt: GraphQLNullable<DateTimeFilterInput> = nil,
@@ -26,11 +26,11 @@ public struct StartupFiltersInput: InputObject {
   ) {
     __data = InputDict([
       "documentId": documentId,
-      "startupId": startupId,
       "title": title,
       "description": description,
       "location": location,
       "category": category,
+      "ownerEmail": ownerEmail,
       "createdAt": createdAt,
       "updatedAt": updatedAt,
       "publishedAt": publishedAt,
@@ -43,11 +43,6 @@ public struct StartupFiltersInput: InputObject {
   public var documentId: GraphQLNullable<IDFilterInput> {
     get { __data["documentId"] }
     set { __data["documentId"] = newValue }
-  }
-
-  public var startupId: GraphQLNullable<IntFilterInput> {
-    get { __data["startupId"] }
-    set { __data["startupId"] = newValue }
   }
 
   public var title: GraphQLNullable<StringFilterInput> {
@@ -68,6 +63,11 @@ public struct StartupFiltersInput: InputObject {
   public var category: GraphQLNullable<StartupCategoryFiltersInput> {
     get { __data["category"] }
     set { __data["category"] = newValue }
+  }
+
+  public var ownerEmail: GraphQLNullable<StringFilterInput> {
+    get { __data["ownerEmail"] }
+    set { __data["ownerEmail"] = newValue }
   }
 
   public var createdAt: GraphQLNullable<DateTimeFilterInput> {

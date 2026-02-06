@@ -30,8 +30,10 @@ public final class AuthMainViewModel: ObservableObject {
     // MARK: - Event
 
     public enum Event {
+        case onAppear
         case loginTapped(presenter: UIViewController)
         case logoutTapped
+        case emailChanged(String)
     }
 
     // MARK: - Public methods
@@ -39,16 +41,39 @@ public final class AuthMainViewModel: ObservableObject {
     public func send(event: Event) {
         Task { @MainActor in
             switch event {
+            case .onAppear:
+                await handleOnAppear()
             case .loginTapped(let presenter):
                 await login(presenter: presenter)
             case .logoutTapped:
                 await authService.logout()
                 didAuthorize = false
+            case .emailChanged(let email):
+                self.email = email
+                validateEmail()
             }
         }
     }
 
     // MARK: - Private methods
+
+    private func handleOnAppear() async {
+        errorMessage = nil
+        emailError = nil
+        isLoading = false
+    }
+    
+    private func validateEmail() {
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmedEmail.isEmpty {
+            emailError = nil
+        } else if !isValidEmail(trimmedEmail) {
+            emailError = "Wrong email format"
+        } else {
+            emailError = nil
+        }
+    }
 
     private func login(presenter: UIViewController) async {
         errorMessage = nil

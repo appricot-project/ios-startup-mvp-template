@@ -45,8 +45,8 @@ public struct AuthMainScreen: View {
                     fieldValue: $viewModel.email,
                     isSecure: false
                 )
-                .onChange(of: viewModel.email) { _ in
-                    viewModel.emailError = nil
+                .onChange(of: viewModel.email) { newValue in
+                    viewModel.send(event: .emailChanged(newValue))
                 }
                 
                 if let emailError = viewModel.emailError {
@@ -89,6 +89,9 @@ public struct AuthMainScreen: View {
         )
         .onTapGesture {
             UIApplication.shared.endEditing()
+        }
+        .onAppear {
+            viewModel.send(event: .onAppear)
         }
         .onChange(of: viewModel.didAuthorize) { didAuthorize in
             guard didAuthorize else { return }

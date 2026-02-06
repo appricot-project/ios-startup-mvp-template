@@ -37,25 +37,59 @@ public final class AuthConfirmationViewModel: ObservableObject {
         self.email = email
     }
     
+    // MARK: - Event
+    
+    public enum Event {
+        case onAppear
+        case confirmCodeTapped
+        case digitAdded(String)
+        case digitRemoved
+        case setActiveIndex(Int)
+        case updateCode(String)
+    }
+    
     // MARK: - Public methods
     
-    public func confirmCode() {
+    public func send(event: Event) {
         Task { @MainActor in
-            await performConfirmation()
+            switch event {
+            case .onAppear:
+                await handleOnAppear()
+            case .confirmCodeTapped:
+                await performConfirmation()
+            case .digitAdded(let digit):
+                addDigit(digit)
+            case .digitRemoved:
+                removeDigit()
+            case .setActiveIndex(let index):
+                setActiveIndex(index)
+            case .updateCode(let code):
+                updateConfirmationCode(code)
+            }
         }
     }
     
-    public func digit(at index: Int) -> String {
+    // MARK: - Private methods
+    
+    private func handleOnAppear() async {
+        confirmationCode = ""
+        activeIndex = 0
+        codeError = nil
+        errorMessage = nil
+        isLoading = false
+    }
+    
+    private func digit(at index: Int) -> String {
         guard index < confirmationCode.count else { return "" }
         let stringIndex = confirmationCode.index(confirmationCode.startIndex, offsetBy: index)
         return String(confirmationCode[stringIndex])
     }
     
-    public func setActiveIndex(_ index: Int) {
+    private func setActiveIndex(_ index: Int) {
         activeIndex = index
     }
     
-    public func addDigit(_ digit: String) {
+    private func addDigit(_ digit: String) {
         guard digit.count == 1, confirmationCode.count < 6 else { return }
         
         let newCode = confirmationCode + digit
@@ -71,7 +105,7 @@ public final class AuthConfirmationViewModel: ObservableObject {
         errorMessage = nil
     }
     
-    public func removeDigit() {
+    private func removeDigit() {
         guard !confirmationCode.isEmpty else { return }
         
         confirmationCode.removeLast()
@@ -80,8 +114,6 @@ public final class AuthConfirmationViewModel: ObservableObject {
         codeError = nil
         errorMessage = nil
     }
-    
-    // MARK: - Private methods
     
     private func performConfirmation() async {
         isLoading = true
@@ -109,7 +141,7 @@ public final class AuthConfirmationViewModel: ObservableObject {
         isLoading = false
     }
     
-    public func updateConfirmationCode(_ code: String) {
+    private func updateConfirmationCode(_ code: String) {
         confirmationCode = String(code.prefix(6))
         activeIndex = min(confirmationCode.count, 5)
         codeError = nil

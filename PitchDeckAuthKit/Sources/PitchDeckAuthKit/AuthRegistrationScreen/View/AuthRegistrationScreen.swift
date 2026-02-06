@@ -47,8 +47,8 @@ public struct AuthRegistrationScreen: View {
                         fieldValue: $viewModel.email,
                         isSecure: false
                     )
-                    .onChange(of: viewModel.email) { _ in
-                        viewModel.emailError = nil
+                    .onChange(of: viewModel.email) { newValue in
+                        viewModel.send(event: .emailChanged(newValue))
                     }
                     
                     if let emailError = viewModel.emailError {
@@ -65,8 +65,8 @@ public struct AuthRegistrationScreen: View {
                         fieldValue: $viewModel.firstName,
                         isSecure: false
                     )
-                    .onChange(of: viewModel.firstName) { _ in
-                        viewModel.firstNameError = nil
+                    .onChange(of: viewModel.firstName) { newValue in
+                        viewModel.send(event: .firstNameChanged(newValue))
                     }
                     
                     if let firstNameError = viewModel.firstNameError {
@@ -83,8 +83,8 @@ public struct AuthRegistrationScreen: View {
                         fieldValue: $viewModel.lastName,
                         isSecure: false
                     )
-                    .onChange(of: viewModel.lastName) { _ in
-                        viewModel.lastNameError = nil
+                    .onChange(of: viewModel.lastName) { newValue in
+                        viewModel.send(event: .lastNameChanged(newValue))
                     }
                     
                     if let lastNameError = viewModel.lastNameError {
@@ -104,7 +104,7 @@ public struct AuthRegistrationScreen: View {
                     }
                     
                     PrimaryButton("auth.signUp.button.title".localized) {
-                        viewModel.register()
+                        viewModel.send(event: .registerTapped)
                     }
                     .disabled(!viewModel.isRegistrationEnabled)
                     .padding(.top, 20)
@@ -124,6 +124,9 @@ public struct AuthRegistrationScreen: View {
         }
         .onTapGesture {
             UIApplication.shared.endEditing()
+        }
+        .onAppear {
+            viewModel.send(event: .onAppear)
         }
         .onChange(of: viewModel.didRegister) { didRegister in
             guard didRegister else { return }

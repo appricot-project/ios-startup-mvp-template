@@ -36,9 +36,7 @@ public struct CreateStartupScreen: View {
             .navigationTitle("create.startup.title".localized)
             .navigationBarTitleDisplayMode(.large)
             .onAppear {
-                Task {
-                    await viewModel.loadCategories()
-                }
+                viewModel.send(event: .onAppear)
             }
             .photosPicker(
                 isPresented: Binding(
@@ -52,7 +50,7 @@ public struct CreateStartupScreen: View {
             .onChange(of: selectedImage) { newItem in
                 Task {
                     if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                        viewModel.selectImage(data: data)
+                        viewModel.send(event: .selectImage(data))
                     }
                 }
             }
@@ -111,28 +109,40 @@ public struct CreateStartupScreen: View {
             
             VStack(spacing: 16) {
                 BasicTextField(
-                    title: "create.startup.startupId".localized,
+                    title: "create.startup.ownerEmail".localized,
                     fieldName: "",
-                    fieldValue: $viewModel.startupId
+                    fieldValue: $viewModel.ownerEmail
                 )
+                .onChange(of: viewModel.ownerEmail) { newValue in
+                    viewModel.send(event: .ownerEmailChanged(newValue))
+                }
                 
                 BasicTextField(
                     title: "create.startup.title".localized,
                     fieldName: "",
                     fieldValue: $viewModel.title
                 )
+                .onChange(of: viewModel.title) { newValue in
+                    viewModel.send(event: .titleChanged(newValue))
+                }
                 
                 BasicTextField(
                     title: "create.startup.description".localized,
                     fieldName: "",
                     fieldValue: $viewModel.description
                 )
+                .onChange(of: viewModel.description) { newValue in
+                    viewModel.send(event: .descriptionChanged(newValue))
+                }
                 
                 BasicTextField(
                     title: "create.startup.location".localized,
                     fieldName: "",
                     fieldValue: $viewModel.location
                 )
+                .onChange(of: viewModel.location) { newValue in
+                    viewModel.send(event: .locationChanged(newValue))
+                }
             }
         }
         .padding()
@@ -159,7 +169,7 @@ public struct CreateStartupScreen: View {
                 Menu {
                     ForEach(viewModel.categories) { category in
                         Button(action: {
-                            viewModel.selectedCategoryId = category.id
+                            viewModel.send(event: .categoryChanged(category.id))
                         }) {
                             HStack {
                                 Text(category.title)
@@ -198,9 +208,7 @@ public struct CreateStartupScreen: View {
             }
             
             PrimaryButton("create.startup.button.title".localized) {
-                Task {
-                    await viewModel.createStartup()
-                }
+                viewModel.send(event: .createStartup)
             }
             .disabled(!viewModel.isCreateEnabled || viewModel.isCreating)
         }

@@ -32,9 +32,7 @@ public struct CabinetScreen: View {
             .navigationTitle("cabinet.title".localized)
             .navigationBarTitleDisplayMode(.large)
             .onAppear {
-                Task {
-                    await viewModel.loadAllData()
-                }
+                viewModel.send(event: .onAppear)
             }
         }
     }

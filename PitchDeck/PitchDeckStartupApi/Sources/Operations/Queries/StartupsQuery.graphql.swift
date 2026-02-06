@@ -8,7 +8,7 @@ public struct StartupsQuery: GraphQLQuery {
   public static let operationName: String = "Startups"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query Startups($filters: StartupFiltersInput, $page: Int, $pageSize: Int) { startups_connection( filters: $filters pagination: { page: $page, pageSize: $pageSize } ) { __typename nodes { __typename documentId startupId title description location createdAt updatedAt publishedAt category { __typename title categoryId } ImageURL { __typename url } } pageInfo { __typename page pageSize pageCount total } } }"#
+      #"query Startups($filters: StartupFiltersInput, $page: Int, $pageSize: Int) { startups_connection( filters: $filters pagination: { page: $page, pageSize: $pageSize } ) { __typename nodes { __typename documentId ownerEmail title description location createdAt updatedAt publishedAt category { __typename title categoryId } ImageURL { __typename url } } pageInfo { __typename page pageSize pageCount total } } }"#
     ))
 
   public var filters: GraphQLNullable<StartupFiltersInput>
@@ -82,7 +82,7 @@ public struct StartupsQuery: GraphQLQuery {
         @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("documentId", PitchDeckStartupApi.ID.self),
-          .field("startupId", Int?.self),
+          .field("ownerEmail", String?.self),
           .field("title", String?.self),
           .field("description", String?.self),
           .field("location", String?.self),
@@ -97,7 +97,7 @@ public struct StartupsQuery: GraphQLQuery {
         ] }
 
         public var documentId: PitchDeckStartupApi.ID { __data["documentId"] }
-        public var startupId: Int? { __data["startupId"] }
+        public var ownerEmail: String? { __data["ownerEmail"] }
         public var title: String? { __data["title"] }
         public var description: String? { __data["description"] }
         public var location: String? { __data["location"] }

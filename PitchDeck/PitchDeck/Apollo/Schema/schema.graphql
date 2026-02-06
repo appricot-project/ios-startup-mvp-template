@@ -204,6 +204,81 @@ input JSONFilterInput {
   between: [JSON]
 }
 
+input StartupFiltersInput {
+  documentId: IDFilterInput
+  title: StringFilterInput
+  description: StringFilterInput
+  location: StringFilterInput
+  category: StartupCategoryFiltersInput
+  ownerEmail: StringFilterInput
+  createdAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  publishedAt: DateTimeFilterInput
+  and: [StartupFiltersInput]
+  or: [StartupFiltersInput]
+  not: StartupFiltersInput
+}
+
+input StartupInput {
+  title: String
+  description: String
+  ImageURL: ID
+  location: String
+  category: ID
+  ownerEmail: String
+  publishedAt: DateTime
+}
+
+type Startup {
+  documentId: ID!
+  title: String
+  description: String
+  ImageURL: UploadFile
+  location: String
+  category: StartupCategory
+  ownerEmail: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime
+}
+
+type StartupEntityResponseCollection {
+  nodes: [Startup!]!
+  pageInfo: Pagination!
+}
+
+input StartupCategoryFiltersInput {
+  documentId: IDFilterInput
+  title: StringFilterInput
+  categoryId: IntFilterInput
+  createdAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  publishedAt: DateTimeFilterInput
+  and: [StartupCategoryFiltersInput]
+  or: [StartupCategoryFiltersInput]
+  not: StartupCategoryFiltersInput
+}
+
+input StartupCategoryInput {
+  title: String
+  categoryId: Int
+  publishedAt: DateTime
+}
+
+type StartupCategory {
+  documentId: ID!
+  title: String
+  categoryId: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime
+}
+
+type StartupCategoryEntityResponseCollection {
+  nodes: [StartupCategory!]!
+  pageInfo: Pagination!
+}
+
 input UploadFileFiltersInput {
   documentId: IDFilterInput
   name: StringFilterInput
@@ -480,82 +555,7 @@ type UsersPermissionsUserRelationResponseCollection {
   nodes: [UsersPermissionsUser!]!
 }
 
-input StartupFiltersInput {
-  documentId: IDFilterInput
-  startupId: IntFilterInput
-  title: StringFilterInput
-  description: StringFilterInput
-  location: StringFilterInput
-  category: StartupCategoryFiltersInput
-  createdAt: DateTimeFilterInput
-  updatedAt: DateTimeFilterInput
-  publishedAt: DateTimeFilterInput
-  and: [StartupFiltersInput]
-  or: [StartupFiltersInput]
-  not: StartupFiltersInput
-}
-
-input StartupInput {
-  startupId: Int
-  title: String
-  description: String
-  ImageURL: ID
-  location: String
-  category: ID
-  publishedAt: DateTime
-}
-
-type Startup {
-  documentId: ID!
-  startupId: Int
-  title: String
-  description: String
-  ImageURL: UploadFile
-  location: String
-  category: StartupCategory
-  createdAt: DateTime
-  updatedAt: DateTime
-  publishedAt: DateTime
-}
-
-type StartupEntityResponseCollection {
-  nodes: [Startup!]!
-  pageInfo: Pagination!
-}
-
-input StartupCategoryFiltersInput {
-  documentId: IDFilterInput
-  title: StringFilterInput
-  categoryId: IntFilterInput
-  createdAt: DateTimeFilterInput
-  updatedAt: DateTimeFilterInput
-  publishedAt: DateTimeFilterInput
-  and: [StartupCategoryFiltersInput]
-  or: [StartupCategoryFiltersInput]
-  not: StartupCategoryFiltersInput
-}
-
-input StartupCategoryInput {
-  title: String
-  categoryId: Int
-  publishedAt: DateTime
-}
-
-type StartupCategory {
-  documentId: ID!
-  title: String
-  categoryId: Int
-  createdAt: DateTime
-  updatedAt: DateTime
-  publishedAt: DateTime
-}
-
-type StartupCategoryEntityResponseCollection {
-  nodes: [StartupCategory!]!
-  pageInfo: Pagination!
-}
-
-union GenericMorph = UploadFile | I18NLocale | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser | Startup | StartupCategory
+union GenericMorph = Startup | StartupCategory | UploadFile | I18NLocale | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser
 
 input FileInfoInput {
   name: String
@@ -621,6 +621,12 @@ input PaginationArg {
 }
 
 type Query {
+  startup(documentId: ID!, status: PublicationStatus = PUBLISHED): Startup
+  startups_connection(filters: StartupFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): StartupEntityResponseCollection
+  startups(filters: StartupFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): [Startup]!
+  startupCategory(documentId: ID!, status: PublicationStatus = PUBLISHED): StartupCategory
+  startupCategories_connection(filters: StartupCategoryFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): StartupCategoryEntityResponseCollection
+  startupCategories(filters: StartupCategoryFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): [StartupCategory]!
   uploadFile(documentId: ID!, status: PublicationStatus = PUBLISHED): UploadFile
   uploadFiles_connection(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): UploadFileEntityResponseCollection
   uploadFiles(filters: UploadFileFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): [UploadFile]!
@@ -639,28 +645,22 @@ type Query {
   usersPermissionsUser(documentId: ID!, status: PublicationStatus = PUBLISHED): UsersPermissionsUser
   usersPermissionsUsers_connection(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): UsersPermissionsUserEntityResponseCollection
   usersPermissionsUsers(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): [UsersPermissionsUser]!
-  startup(documentId: ID!, status: PublicationStatus = PUBLISHED): Startup
-  startups_connection(filters: StartupFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): StartupEntityResponseCollection
-  startups(filters: StartupFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): [Startup]!
-  startupCategory(documentId: ID!, status: PublicationStatus = PUBLISHED): StartupCategory
-  startupCategories_connection(filters: StartupCategoryFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): StartupCategoryEntityResponseCollection
-  startupCategories(filters: StartupCategoryFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], status: PublicationStatus = PUBLISHED): [StartupCategory]!
   me: UsersPermissionsMe
 }
 
 type Mutation {
-  createReviewWorkflowsWorkflow(status: PublicationStatus = PUBLISHED, data: ReviewWorkflowsWorkflowInput!): ReviewWorkflowsWorkflow
-  updateReviewWorkflowsWorkflow(documentId: ID!, status: PublicationStatus = PUBLISHED, data: ReviewWorkflowsWorkflowInput!): ReviewWorkflowsWorkflow
-  deleteReviewWorkflowsWorkflow(documentId: ID!): DeleteMutationResponse
-  createReviewWorkflowsWorkflowStage(status: PublicationStatus = PUBLISHED, data: ReviewWorkflowsWorkflowStageInput!): ReviewWorkflowsWorkflowStage
-  updateReviewWorkflowsWorkflowStage(documentId: ID!, status: PublicationStatus = PUBLISHED, data: ReviewWorkflowsWorkflowStageInput!): ReviewWorkflowsWorkflowStage
-  deleteReviewWorkflowsWorkflowStage(documentId: ID!): DeleteMutationResponse
   createStartup(status: PublicationStatus = PUBLISHED, data: StartupInput!): Startup
   updateStartup(documentId: ID!, status: PublicationStatus = PUBLISHED, data: StartupInput!): Startup
   deleteStartup(documentId: ID!): DeleteMutationResponse
   createStartupCategory(status: PublicationStatus = PUBLISHED, data: StartupCategoryInput!): StartupCategory
   updateStartupCategory(documentId: ID!, status: PublicationStatus = PUBLISHED, data: StartupCategoryInput!): StartupCategory
   deleteStartupCategory(documentId: ID!): DeleteMutationResponse
+  createReviewWorkflowsWorkflow(status: PublicationStatus = PUBLISHED, data: ReviewWorkflowsWorkflowInput!): ReviewWorkflowsWorkflow
+  updateReviewWorkflowsWorkflow(documentId: ID!, status: PublicationStatus = PUBLISHED, data: ReviewWorkflowsWorkflowInput!): ReviewWorkflowsWorkflow
+  deleteReviewWorkflowsWorkflow(documentId: ID!): DeleteMutationResponse
+  createReviewWorkflowsWorkflowStage(status: PublicationStatus = PUBLISHED, data: ReviewWorkflowsWorkflowStageInput!): ReviewWorkflowsWorkflowStage
+  updateReviewWorkflowsWorkflowStage(documentId: ID!, status: PublicationStatus = PUBLISHED, data: ReviewWorkflowsWorkflowStageInput!): ReviewWorkflowsWorkflowStage
+  deleteReviewWorkflowsWorkflowStage(documentId: ID!): DeleteMutationResponse
   updateUploadFile(id: ID!, info: FileInfoInput): UploadFile!
   deleteUploadFile(id: ID!): UploadFile
 

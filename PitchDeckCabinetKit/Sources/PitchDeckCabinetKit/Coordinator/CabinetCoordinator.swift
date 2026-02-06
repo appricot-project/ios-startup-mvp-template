@@ -22,6 +22,7 @@ public final class CabinetCoordinator: BaseCoordinator<CabinetRoute> {
     public let cabinetService: CabinetService
     public let startupService: StartupService
     public var onStartupCreated: (() -> Void)?
+    public private(set) var cabinetViewModel: CabinetViewModel?
     
     public init(
         cabinetService: CabinetService,
@@ -48,6 +49,7 @@ public final class CabinetCoordinator: BaseCoordinator<CabinetRoute> {
 private extension CabinetCoordinator {
     func buildCabinetView() -> some View {
         let viewModel = CabinetViewModel(cabinetService: cabinetService, startupService: startupService)
+        self.cabinetViewModel = viewModel
         return CabinetScreen(
             viewModel: viewModel,
             coordinator: self
@@ -60,6 +62,7 @@ private extension CabinetCoordinator {
             viewModel: viewModel,
             onStartupCreated: { [weak self] in
                 self?.onStartupCreated?()
+                self?.cabinetViewModel?.send(event: .refreshStartups)
                 self?.pop()
             }
         )

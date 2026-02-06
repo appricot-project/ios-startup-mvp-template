@@ -19,7 +19,7 @@
 "create.startup.image.placeholder" = "Tap to add image";
 
 "create.startup.basic.title" = "Basic Information";
-"create.startup.startupId" = "Startup ID";
+"create.startup.ownerEmail" = "Owner Email";
 "create.startup.title" = "Title";
 "create.startup.description" = "Description";
 "create.startup.location" = "Location";

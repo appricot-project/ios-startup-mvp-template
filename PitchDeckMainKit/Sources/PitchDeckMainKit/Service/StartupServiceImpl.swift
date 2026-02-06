@@ -28,7 +28,7 @@ public final class StartupServiceImpl: StartupService {
         }
         
         return StartupItem(
-            id: startup.startupId ?? 0,
+            id: Int(startup.documentId.hashValue),
             documentId: startup.documentId,
             title: startup.title ?? "",
             description: startup.description ?? "",
@@ -62,20 +62,18 @@ public final class StartupServiceImpl: StartupService {
             }
         }()
         
-//        let emailFilter: GraphQLNullable<UserFilterInput> = {
-//            if let email = email, !email.isEmpty {
-//                return .some(UserFilterInput(
-//                    email: .some(StringFilterInput(eq: .some(email)))
-//                ))
-//            } else {
-//                return .none
-//            }
-//        }()
+        let emailFilter: GraphQLNullable<StringFilterInput> = {
+            if let email = email, !email.isEmpty {
+                return .some(StringFilterInput(eq: .some(email)))
+            } else {
+                return .none
+            }
+        }()
         
         let filters = StartupFiltersInput(
             title: titleFilter,
             category: categoryFilter,
-//            user: emailFilter
+            ownerEmail: emailFilter
         )
         
         let query = StartupsQuery(
@@ -90,7 +88,7 @@ public final class StartupServiceImpl: StartupService {
         
         let items = connection?.nodes.compactMap { startup -> StartupItem? in
             return StartupItem(
-                id: Int(startup.startupId ?? 0),
+                id: Int(startup.documentId.hashValue),
                 documentId: startup.documentId,
                 title: startup.title ?? "",
                 description: startup.description,
@@ -101,7 +99,7 @@ public final class StartupServiceImpl: StartupService {
         } ?? []
         
         let graphQLPageInfo = connection?.pageInfo
-
+        
         let appPageInfo: PageInfo? = graphQLPageInfo.map { item in
             PageInfo(
                 page: Int(item.page),
@@ -110,7 +108,7 @@ public final class StartupServiceImpl: StartupService {
                 total: Int(item.total)
             )
         }
-
+        
         return StartupPageResult(
             items: items,
             pageInfo: appPageInfo

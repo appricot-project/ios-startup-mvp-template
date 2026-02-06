@@ -61,7 +61,7 @@ public struct AuthConfirmationScreen: View {
                                 handleDigitChange(at: index, value: newValue)
                             }
                             .onTapGesture {
-                                viewModel.setActiveIndex(index)
+                                viewModel.send(event: .setActiveIndex(index))
                                 focusedField = index
                             }
                         }
@@ -90,7 +90,7 @@ public struct AuthConfirmationScreen: View {
                     Spacer()
                     
                     PrimaryButton("auth.confirm.button.title".localized) {
-                        viewModel.confirmCode()
+                        viewModel.send(event: .confirmCodeTapped)
                     }
                     .disabled(!viewModel.isConfirmationEnabled)
                     .padding(.horizontal, 16)
@@ -110,6 +110,9 @@ public struct AuthConfirmationScreen: View {
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
+        .onAppear {
+            viewModel.send(event: .onAppear)
+        }
         .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
         }
         .onChange(of: viewModel.didConfirm) { didConfirm in
@@ -119,17 +122,14 @@ public struct AuthConfirmationScreen: View {
     }
     
     private func handleDigitChange(at index: Int, value: String) {
-        guard !value.isEmpty else { return }
-        
-        var newCode = viewModel.confirmationCode
-        if newCode.count > index {
-            newCode = String(newCode.prefix(index)) + value + String(newCode.suffix(newCode.count - index - 1))
-        } else {
-            newCode += value
+        guard !value.isEmpty else {
+            viewModel.send(event: .digitRemoved)
+            return
         }
-        viewModel.confirmationCode = String(newCode.prefix(6))
+        
+        viewModel.send(event: .digitAdded(value))
         if index < 5 && !value.isEmpty {
-            viewModel.setActiveIndex(index + 1)
+            viewModel.send(event: .setActiveIndex(index + 1))
             focusedField = index + 1
         }
     }

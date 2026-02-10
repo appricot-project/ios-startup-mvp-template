@@ -133,7 +133,7 @@ struct StartupDetailView: View {
     
     var placeholderImage: some View {
         Rectangle()
-            .fill(Color(uiColor: .grayD7))
+            .fill(Color(uiColor: .globalCellSeparatorColor))
             .overlay(
                 Image(systemName: "photo")
                     .font(.largeTitle)

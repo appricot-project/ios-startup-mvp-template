@@ -29,6 +29,11 @@ final class EditStartupViewModel: ObservableObject {
     
     private let startupService: StartupService
     private let documentId: String
+    private var originalTitle: String = ""
+    private var originalDescription: String = ""
+    private var originalLocation: String = ""
+    private var originalCategoryId: String = ""
+    private var originalImageData: Data?
     private var updateTask: Task<Void, Never>? = nil
     
     // MARK: - Computed properties
@@ -37,7 +42,12 @@ final class EditStartupViewModel: ObservableObject {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         !description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        !selectedCategoryId.isEmpty
+        !selectedCategoryId.isEmpty &&
+        (title != originalTitle ||
+         description != originalDescription ||
+         location != originalLocation ||
+         selectedCategoryId != originalCategoryId ||
+         selectedImageData != originalImageData)
     }
     
     // MARK: - Init
@@ -66,7 +76,23 @@ final class EditStartupViewModel: ObservableObject {
         title = startup.title
         description = startup.description ?? ""
         location = startup.location
-        // selectedCategoryId будет установлен после загрузки категорий
+        originalTitle = startup.title
+        originalDescription = startup.description ?? ""
+        originalLocation = startup.location
+        originalCategoryId = selectedCategoryId
+        
+        if let imageURL = startup.image, !imageURL.isEmpty,
+           let url = URL(string: imageURL) {
+            Task { @MainActor in
+                do {
+                    let (data, _) = try await URLSession.shared.data(from: url)
+                    selectedImageData = data
+                    originalImageData = data
+                } catch {
+                    print("Failed to load image: \(error)")
+                }
+            }
+        }
     }
     
     // MARK: - Private methods

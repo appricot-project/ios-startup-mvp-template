@@ -52,7 +52,7 @@ struct SearchBar: View {
             }
         }
         .padding(12)
-        .background(Color(uiColor: .grayD7))
+        .background(Color(uiColor: .globalCellSeparatorColor))
         .cornerRadius(16)
         .padding(8)
     }

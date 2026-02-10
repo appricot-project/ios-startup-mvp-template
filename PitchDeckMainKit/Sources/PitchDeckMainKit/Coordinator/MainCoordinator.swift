@@ -51,6 +51,10 @@ public final class MainCoordinator: BaseCoordinator<MainRoute> {
                 viewModel: StartupDetailViewModel(documentId: documentId, service: service, currentUserEmail: currentUserEmail),
                 onEditTapped: { [weak self] documentId in
                     self?.showEditScreen(documentId: documentId)
+                },
+                onDeleteSuccess: { [weak self] in
+                    self?.viewModel.send(event: .onRefresh)
+                    self?.pop()
                 }
             )
         case .edit(let documentId):

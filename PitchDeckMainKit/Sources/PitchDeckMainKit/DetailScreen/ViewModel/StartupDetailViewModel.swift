@@ -15,9 +15,10 @@ final class StartupDetailViewModel: ObservableObject {
     // MARK: - Published properties
     
     @Published var startupItem: StartupItem?
-    @Published var isLoading = false
-    @Published var errorMessage: String?
-    @Published var showShareSheet = false
+    @Published public var isLoading: Bool = false
+    @Published public var errorMessage: String? = nil
+    @Published public var showShareSheet: Bool = false
+    @Published public var didDeleteStartup: Bool = false
     
     // MARK: - Private properties
     
@@ -47,6 +48,8 @@ final class StartupDetailViewModel: ObservableObject {
                 await handleOnAppear()
             case .onShareTapped:
                 didTapShare()
+            case .onDeleteTapped:
+                await handleDelete()
             case .onEditTapped:
                 break
             }
@@ -81,16 +84,15 @@ final class StartupDetailViewModel: ObservableObject {
         
         loadTask = Task { @MainActor in
             do {
+                try await ApolloWebClient.shared.apollo.clearCache()
                 let item = try await service.getStartup(documentId: documentId)
                 try Task.checkCancellation()
                 
                 self.startupItem = item
                 self.errorMessage = nil
             } catch is CancellationError {
-                print("qqqq \(self.startupItem)")
                 return
             } catch {
-                print("qqqq \(self.startupItem)")
                 self.errorMessage = error.localizedDescription
                 self.startupItem = nil
             }
@@ -104,11 +106,28 @@ final class StartupDetailViewModel: ObservableObject {
         showShareSheet = true
     }
     
+    private func handleDelete() async {
+        guard let documentId = startupItem?.documentId else { return }
+        
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            _ = try await service.deleteStartup(documentId: documentId)
+            didDeleteStartup = true
+            isLoading = false
+        } catch {
+            errorMessage = error.localizedDescription
+            isLoading = false
+        }
+    }
+    
     // MARK: - Event
     
     enum Event {
         case onAppear
         case onShareTapped
+        case onDeleteTapped
         case onEditTapped
     }
 }

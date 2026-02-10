@@ -9,5 +9,5 @@ import Foundation
 import SwiftUI
 
 public protocol StartupDetailNavigationService {
-    func buildStartupDetailView(documentId: String, currentUserEmail: String, onEditTapped: ((String) -> Void)?) -> AnyView
+    func buildStartupDetailView(documentId: String, currentUserEmail: String, onEditTapped: ((String) -> Void)?, onDeleteSuccess: (() -> Void)?) -> AnyView
 }

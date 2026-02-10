@@ -11,6 +11,7 @@ import PitchDeckNavigationApiKit
 import PitchDeckCabinetApiKit
 import PitchDeckMainApiKit
 import PitchDeckAuthApiKit
+import PitchDeckCoreKit
 
 public enum CabinetRoute: Hashable {
     case cabinet
@@ -119,6 +120,17 @@ private extension CabinetCoordinator {
             currentUserEmail: currentUserEmail,
             onEditTapped: { [weak self] documentId in
                 self?.push(.edit(documentId: documentId))
+            },
+            onDeleteSuccess: { [weak self] in
+                Task { @MainActor in
+                    do {
+                        try await ApolloWebClient.shared.apollo.clearCache()
+                    } catch {
+                        print("Failed to clear Apollo cache: \(error)")
+                    }
+                    self?.cabinetViewModel.send(event: .refreshAll)
+                    self?.popToRoot()
+                }
             }
         )
     }

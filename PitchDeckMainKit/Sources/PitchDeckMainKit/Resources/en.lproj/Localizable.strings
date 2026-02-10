@@ -16,6 +16,12 @@
 "startups.details.error.title" = "Error loading details: %@";
 "startups.details.button.title" = "Share";
 
+"startups.details.delete.button.title" = "Delete startup";
+"startups.details.delete.alert.title" = "Delete startup?";
+"startups.details.delete.alert.message" = "Are you sure you want to delete this startup? This action cannot be undone.";
+"startups.details.delete.alert.confirm" = "Delete";
+"common.cancel" = "Cancel";
+
 "edit.startup.title" = "Edit Startup";
 "edit.startup.image.title" = "Startup Image";
 "edit.startup.image.placeholder" = "Tap to select image";

@@ -249,4 +249,15 @@ public final class StartupServiceImpl: StartupService {
             ownerEmail: updatedStartup.ownerEmail ?? ""
         )
     }
+    
+    public func deleteStartup(documentId: String) async throws -> Bool {
+        let mutation = DeleteStartupMutation(documentId: ID(documentId))
+        let result = try await ApolloWebClient.shared.apollo.perform(mutation: mutation)
+        
+        guard let _ = result.data?.deleteStartup else {
+            throw NSError(domain: "No data", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to delete startup"])
+        }
+        
+        return true
+    }
 }

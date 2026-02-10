@@ -15,12 +15,20 @@ struct StartupDetailView: View {
     
     @ObservedObject private var viewModel: StartupDetailViewModel
     let onEditTapped: ((String) -> Void)?
+    let onDeleteSuccess: (() -> Void)?
+    
+    @State private var showDeleteAlert: Bool = false
     
     // MARK: - Init
     
-    public init(viewModel: StartupDetailViewModel, onEditTapped: ((String) -> Void)? = nil) {
+    public init(
+        viewModel: StartupDetailViewModel,
+        onEditTapped: ((String) -> Void)? = nil,
+        onDeleteSuccess: (() -> Void)? = nil
+    ) {
         self.viewModel = viewModel
         self.onEditTapped = onEditTapped
+        self.onDeleteSuccess = onDeleteSuccess
     }
     
     var body: some View {
@@ -31,6 +39,25 @@ struct StartupDetailView: View {
             }
             .sheet(isPresented: $viewModel.showShareSheet) {
                 ShareSheet(activityItems: viewModel.shareStartup())
+            }
+            .alert(
+                "startups.details.delete.alert.title".localized,
+                isPresented: $showDeleteAlert
+            ) {
+                Button("common.cancel".localized, role: .cancel) {
+                    showDeleteAlert = false
+                }
+                Button("startups.details.delete.alert.confirm".localized, role: .destructive) {
+                    showDeleteAlert = false
+                    viewModel.send(event: .onDeleteTapped)
+                }
+            } message: {
+                Text("startups.details.delete.alert.message".localized)
+            }
+            .onChange(of: viewModel.didDeleteStartup) { didDelete in
+                if didDelete {
+                    onDeleteSuccess?()
+                }
             }
     }
     
@@ -122,8 +149,27 @@ struct StartupDetailView: View {
                     }
                 }
             }
-            PrimaryButton("startups.details.button.title".localized) {
-                viewModel.send(event: .onShareTapped)
+            VStack(spacing: 16) {
+                PrimaryButton("startups.details.button.title".localized) {
+                    viewModel.send(event: .onShareTapped)
+                }
+                
+                if viewModel.isOwner() {
+                    Button(role: .destructive) {
+                        showDeleteAlert = true
+                    } label: {
+                        Text("startups.details.delete.button.title".localized)
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(.red)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.red, lineWidth: 1)
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 16)

@@ -18,8 +18,8 @@ public final class StartupDetailNavigationServiceImpl: @MainActor StartupDetailN
     }
     
     @MainActor
-    public func buildStartupDetailView(documentId: String, currentUserEmail: String, onEditTapped: ((String) -> Void)? = nil) -> AnyView {
+    public func buildStartupDetailView(documentId: String, currentUserEmail: String, onEditTapped: ((String) -> Void)? = nil, onDeleteSuccess: (() -> Void)? = nil) -> AnyView {
         let viewModel = StartupDetailViewModel(documentId: documentId, service: startupService, currentUserEmail: currentUserEmail)
-        return AnyView(StartupDetailView(viewModel: viewModel, onEditTapped: onEditTapped))
+        return AnyView(StartupDetailView(viewModel: viewModel, onEditTapped: onEditTapped, onDeleteSuccess: onDeleteSuccess))
     }
 }

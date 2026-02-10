@@ -37,7 +37,7 @@ struct SearchBar: View {
                     }
                     
                     debouncedTask = task
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: task)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: task)
                 }
             
             if !text.isEmpty {

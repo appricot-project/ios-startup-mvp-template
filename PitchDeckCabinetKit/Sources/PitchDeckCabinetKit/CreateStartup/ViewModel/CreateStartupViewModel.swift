@@ -18,7 +18,7 @@ public final class CreateStartupViewModel: ObservableObject {
     @Published public var title: String = ""
     @Published public var description: String = ""
     @Published public var location: String = ""
-    @Published public var selectedCategoryId: Int?
+    @Published public var selectedCategoryId: String?
     @Published public var categories: [CategoryItem] = []
     @Published public var selectedImageData: Data?
     @Published public var isLoading: Bool = false
@@ -59,7 +59,7 @@ public final class CreateStartupViewModel: ObservableObject {
         case titleChanged(String)
         case descriptionChanged(String)
         case locationChanged(String)
-        case categoryChanged(Int?)
+        case categoryChanged(String?)
     }
     
     // MARK: - Public methods
@@ -126,6 +126,7 @@ public final class CreateStartupViewModel: ObservableObject {
         guard let selectedCategoryId = selectedCategoryId else { 
             return
         }
+        
         isCreating = true
         errorMessage = nil
         
@@ -136,13 +137,10 @@ public final class CreateStartupViewModel: ObservableObject {
                 description: description,
                 location: location,
                 categoryId: selectedCategoryId,
-                imageData: selectedImageData,
-                imageUrl: nil 
+                imageData: selectedImageData
             )
             
-            _ = try await Task.detached {
-                try await self.startupService.createStartup(request: request)
-            }.value
+            _ = try await startupService.createStartup(request: request)
             didCreateStartup = true
         } catch {
             errorMessage = error.localizedDescription

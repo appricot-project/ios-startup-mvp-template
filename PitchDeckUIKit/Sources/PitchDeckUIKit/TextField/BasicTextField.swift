@@ -24,7 +24,6 @@ public struct BasicTextField: View {
         VStack {
             Text(title)
                 .frame(maxWidth: .infinity, alignment: .leading)
-//                .multilineTextAlignment(.leading)
             if isSecure {
                 SecureField(fieldName, text: $fieldValue)
                     .font(.system(size: 14, weight: .medium, design: .rounded))

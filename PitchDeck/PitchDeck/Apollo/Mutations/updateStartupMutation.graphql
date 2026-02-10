@@ -1,6 +1,5 @@
-mutation CreateStartup($ownerEmail: String!, $title: String!, $description: String!, $location: String!, $categoryId: ID!, $ImageURL: ID) {
-  createStartup(data: {
-    ownerEmail: $ownerEmail
+mutation UpdateStartup($documentId: ID!, $title: String!, $description: String!, $location: String!, $categoryId: ID!, $ImageURL: ID) {
+  updateStartup(documentId: $documentId, data: {
     title: $title
     description: $description
     location: $location
@@ -8,7 +7,6 @@ mutation CreateStartup($ownerEmail: String!, $title: String!, $description: Stri
     ImageURL: $ImageURL
   }) {
     documentId
-    ownerEmail
     title
     description
     location
@@ -22,5 +20,6 @@ mutation CreateStartup($ownerEmail: String!, $title: String!, $description: Stri
     ImageURL {
       url
     }
+    ownerEmail
   }
 }

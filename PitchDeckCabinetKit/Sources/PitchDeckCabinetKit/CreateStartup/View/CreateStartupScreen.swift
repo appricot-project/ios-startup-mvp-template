@@ -60,6 +60,11 @@ public struct CreateStartupScreen: View {
                     onStartupCreated()
                 }
             }
+            .overlay {
+                if viewModel.isCreating {
+                    LoadingView()
+                }
+            }
         }
     }
     
@@ -171,11 +176,11 @@ public struct CreateStartupScreen: View {
                 Menu {
                     ForEach(viewModel.categories) { category in
                         Button(action: {
-                            viewModel.send(event: .categoryChanged(category.id))
+                            viewModel.send(event: .categoryChanged(category.documentId))
                         }) {
                             HStack {
                                 Text(category.title)
-                                if viewModel.selectedCategoryId == category.id {
+                                if viewModel.selectedCategoryId == category.documentId {
                                     Spacer()
                                     Image(systemName: "checkmark")
                                 }
@@ -185,7 +190,7 @@ public struct CreateStartupScreen: View {
                 } label: {
                     HStack {
                         Text(viewModel.selectedCategoryId.flatMap { id in
-                            viewModel.categories.first { $0.id == id }?.title
+                            viewModel.categories.first { $0.documentId == id }?.title
                         } ?? "create.startup.category.placeholder".localized)
                         Spacer()
                         Image(systemName: "chevron.down")

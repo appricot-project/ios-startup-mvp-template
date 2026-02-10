@@ -35,7 +35,8 @@ public final class StartupServiceImpl: StartupService {
             description: startup.description ?? "",
             image: (Config.strapiDataURL ?? "") + (startup.imageURL?.url ?? ""),
             category: startup.category?.title ?? "",
-            location: startup.location ?? ""
+            location: startup.location ?? "",
+            ownerEmail: startup.ownerEmail ?? ""
         )
     }
     
@@ -95,7 +96,8 @@ public final class StartupServiceImpl: StartupService {
                 description: startup.description,
                 image: (Config.strapiDataURL ?? "") + (startup.imageURL?.url ?? ""),
                 category: startup.category?.title ?? "",
-                location: startup.location ?? ""
+                location: startup.location ?? "",
+                ownerEmail: startup.ownerEmail ?? ""
             )
         } ?? []
         
@@ -109,7 +111,6 @@ public final class StartupServiceImpl: StartupService {
                 total: Int(item.total)
             )
         }
-        
         return StartupPageResult(
             items: items,
             pageInfo: appPageInfo
@@ -120,27 +121,81 @@ public final class StartupServiceImpl: StartupService {
         let query = StartupCategoriesQuery()
         let result = try await ApolloWebClient.shared.apollo.fetch(query: query)
         
-        return result.data?.startupCategories.compactMap { category in
-            guard let category = category,
+        return result.data?.startupCategories.compactMap { (categoryOptional) -> CategoryItem? in
+            guard let category = categoryOptional,
                   let categoryId = category.categoryId,
                   let title = category.title else {
                 return nil
             }
+            let documentId = category.documentId
             return CategoryItem(
                 id: categoryId,
+                documentId: documentId,
                 title: title
             )
         } ?? []
     }
     
+    private func uploadImageToMedia(imageData: Data) async throws -> String {
+        let urlString = "\(Config.strapiDataURL ?? "")/api/upload"
+        guard let url = URL(string: urlString) else {
+            throw NSError(domain: "Invalid URL", code: -1)
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+
+        let boundary = UUID().uuidString
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        var body = Data()
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"files\"; filename=\"image.jpg\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+        body.append(imageData)
+        body.append("\r\n".data(using: .utf8)!)
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.httpBody = body
+        
+        do {
+            let accessToken = Config.strapiAuthToken
+            if let token = accessToken, !token.isEmpty {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            } else {
+                throw NSError(domain: "No auth token", code: -1)
+            }
+        } catch {
+            throw NSError(domain: "Keychain error", code: -1)
+        }
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        if let jsonArray = try JSONSerialization.jsonObject(with: data) as? [[String: Any]],
+           let firstItem = jsonArray.first,
+           let id = firstItem["id"] as? Int {
+            return String(id)
+        }
+        
+        throw NSError(domain: "Upload failed", code: -1, userInfo: [
+            "response": String(data: data, encoding: .utf8) ?? "non-utf8",
+            "status": String((response as? HTTPURLResponse)?.statusCode ?? 0)
+        ])
+    }
+    
     public func createStartup(request: CreateStartupRequest) async throws -> StartupItem {
+        var imageUrlId: String = ""
+        
+        if let imageData = request.imageData {
+            imageUrlId = try await uploadImageToMedia(imageData: imageData)
+        }
+        
         let mutation = CreateStartupMutation(
             ownerEmail: request.ownerEmail,
             title: request.title,
             description: request.description,
             location: request.location,
             categoryId: ID(String(request.categoryId)),
-//            url: request.imageUrl
+            imageURL: imageUrlId.isEmpty ? .none : .some(ID(imageUrlId))
         )
 
         let result = try await ApolloWebClient.shared.apollo.perform(mutation: mutation)
@@ -156,7 +211,42 @@ public final class StartupServiceImpl: StartupService {
             description: createdStartup.description ?? "",
             image: (Config.strapiDataURL ?? "") + (createdStartup.imageURL?.url ?? ""),
             category: createdStartup.category?.title ?? "",
-            location: createdStartup.location ?? ""
+            location: createdStartup.location ?? "",
+            ownerEmail: createdStartup.ownerEmail ?? ""
+        )
+    }
+    
+    public func updateStartup(request: UpdateStartupRequest) async throws -> StartupItem {
+        var imageUrlId: String = ""
+        
+        if let imageData = request.imageData {
+            imageUrlId = try await uploadImageToMedia(imageData: imageData)
+        }
+        
+        let mutation = UpdateStartupMutation(
+            documentId: ID(request.documentId),
+            title: request.title,
+            description: request.description,
+            location: request.location,
+            categoryId: ID(request.categoryId),
+            imageURL: imageUrlId.isEmpty ? GraphQLNullable<ID>.none : GraphQLNullable<ID>.some(ID(imageUrlId))
+        )
+
+        let result = try await ApolloWebClient.shared.apollo.perform(mutation: mutation)
+
+        guard let updatedStartup = result.data?.updateStartup else {
+            throw NSError(domain: "No data", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to update startup"])
+        }
+
+        return StartupItem(
+            id: Int(updatedStartup.documentId.hashValue),
+            documentId: updatedStartup.documentId,
+            title: updatedStartup.title ?? "",
+            description: updatedStartup.description ?? "",
+            image: (Config.strapiDataURL ?? "") + (updatedStartup.imageURL?.url ?? ""),
+            category: updatedStartup.category?.title ?? "",
+            location: updatedStartup.location ?? "",
+            ownerEmail: updatedStartup.ownerEmail ?? ""
         )
     }
 }

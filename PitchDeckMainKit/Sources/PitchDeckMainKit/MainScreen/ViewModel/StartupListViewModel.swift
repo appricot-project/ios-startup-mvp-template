@@ -10,7 +10,7 @@ import PitchDeckCoreKit
 import PitchDeckMainApiKit
 
 @MainActor
-final class StartupListViewModel: ObservableObject {
+public final class StartupListViewModel: ObservableObject {
     
     // MARK: - Published properties
     
@@ -39,7 +39,7 @@ final class StartupListViewModel: ObservableObject {
     
     // MARK: - Public methods
     
-    func send(event: Event) {
+    public func send(event: Event) {
         Task { @MainActor in
             switch event {
             case .onAppear:
@@ -195,6 +195,13 @@ final class StartupListViewModel: ObservableObject {
     private func handleRefresh() async {
         activeTask?.cancel()
         isLoading = true
+        
+        do {
+            try await ApolloWebClient.shared.apollo.clearCache()
+        } catch {
+            print("Failed to clear Apollo cache: \(error)")
+        }
+        
         activeTask = Task {
             await loadFreshData(title: searchText, categoryId: selectedCategoryId, loadCategories: false)
         }
@@ -206,7 +213,7 @@ final class StartupListViewModel: ObservableObject {
 // MARK: - Event
 
 extension StartupListViewModel {
-    enum Event {
+    public enum Event {
         case onAppear
         case onSearch(String)
         case onSelectedCategory(Int?)

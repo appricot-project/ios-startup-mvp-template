@@ -92,6 +92,7 @@ public final class AuthServiceImpl: AuthService {
             await KeychainStorage().remove(forKey: .accessToken)
             await KeychainStorage().remove(forKey: .refreshToken)
             await KeychainStorage().remove(forKey: .authUserId)
+            await KeychainStorage().remove(forKey: .userEmail)
         }.value
         
         do {
@@ -246,6 +247,13 @@ private extension AuthServiceImpl {
                         
                         let profile = self.parseUserProfile(from: authState.lastTokenResponse?.idToken)
                         self._userProfile = profile
+                        
+                        if let email = profile.email {
+                            do {
+                                await KeychainStorage().set(email, forKey: .userEmail)
+                            }
+                        }
+                        
                         continuation.resume(returning: (tokens, profile))
                     } else {
                         continuation.resume(
@@ -254,7 +262,7 @@ private extension AuthServiceImpl {
                     }
                 }
             }
-
+            
             AppAuthFlowManager.setCurrentAuthorizationFlow(flow)
         }
     }

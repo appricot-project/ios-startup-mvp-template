@@ -14,17 +14,21 @@ struct StartupDetailView: View {
     // MARK: - Private properties
     
     @ObservedObject private var viewModel: StartupDetailViewModel
+    let onEditTapped: ((String) -> Void)?
     
     // MARK: - Init
     
-    public init(viewModel: StartupDetailViewModel) {
+    public init(viewModel: StartupDetailViewModel, onEditTapped: ((String) -> Void)? = nil) {
         self.viewModel = viewModel
+        self.onEditTapped = onEditTapped
     }
     
     var body: some View {
         content
             .background(Color(UIColor.globalBackgroundColor))
-            .onAppear { self.viewModel.send(event: .onAppear) }
+            .onAppear { 
+                self.viewModel.send(event: .onAppear)
+            }
             .sheet(isPresented: $viewModel.showShareSheet) {
                 ShareSheet(activityItems: viewModel.shareStartup())
             }
@@ -80,12 +84,12 @@ struct StartupDetailView: View {
                         HStack(spacing: 8) {
                             Text(item.category)
                                 .font(.subheadline)
-                                .foregroundStyle(.secondary)
+                                .foregroundColor(.secondary)
                             Text("•")
-                                .foregroundStyle(.secondary)
+                                .foregroundColor(.secondary)
                             Text(item.location)
                                 .font(.subheadline)
-                                .foregroundStyle(.secondary)
+                                .foregroundColor(.secondary)
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -104,7 +108,20 @@ struct StartupDetailView: View {
             }
             .navigationTitle(item.title)
             .toolbarTitleDisplayMode(.inline)
-            
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if viewModel.isOwner() {
+                        Button(action: {
+                            if let documentId = viewModel.startupItem?.documentId {
+                                onEditTapped?(documentId)
+                            }
+                        }) {
+                            Image(systemName: "gearshape")
+                                .foregroundColor(.primary)
+                        }
+                    }
+                }
+            }
             PrimaryButton("startups.details.button.title".localized) {
                 viewModel.send(event: .onShareTapped)
             }
@@ -114,7 +131,7 @@ struct StartupDetailView: View {
         }
     }
     
-    private var placeholderImage: some View {
+    var placeholderImage: some View {
         Rectangle()
             .fill(Color(uiColor: .grayD7))
             .overlay(

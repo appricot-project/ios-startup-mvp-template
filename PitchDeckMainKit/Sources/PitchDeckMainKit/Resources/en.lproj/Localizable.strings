@@ -15,3 +15,14 @@
 "startups.details.empty.description" = "No description available";
 "startups.details.error.title" = "Error loading details: %@";
 "startups.details.button.title" = "Share";
+
+"edit.startup.title" = "Edit Startup";
+"edit.startup.image.title" = "Startup Image";
+"edit.startup.image.placeholder" = "Tap to select image";
+"edit.startup.basic.title" = "Basic Information";
+"edit.startup.title.placeholder" = "Startup Title";
+"edit.startup.description.placeholder" = "Describe your startup...";
+"edit.startup.location.placeholder" = "Location";
+"edit.startup.category.title" = "Category";
+"edit.startup.category.placeholder" = "Select Category";
+"edit.startup.button.title" = "Update Startup";

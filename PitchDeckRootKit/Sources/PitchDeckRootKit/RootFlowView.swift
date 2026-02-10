@@ -57,6 +57,9 @@ public struct RootFlowView: View {
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("UserDidLogout"))) { _ in
             coordinator.selectedTab = .main
         }
+        .onReceive(coordinator.$currentUserEmail) { email in
+            coordinator.main.currentUserEmail = email
+        }
         .fullScreenCover(isPresented: $isAuthPresented) {
             AuthFlowView(
                 coordinator: coordinator.auth,

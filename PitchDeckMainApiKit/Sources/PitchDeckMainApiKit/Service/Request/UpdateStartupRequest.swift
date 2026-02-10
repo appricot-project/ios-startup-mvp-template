@@ -1,22 +1,29 @@
 //
-//  CreateStartupRequest.swift
+//  UpdateStartupRequest.swift
 //  PitchDeckMainApiKit
 //
-//  Created by Anton Redkozubov on 03.02.2026.
+//  Created by Cascade on 10.02.2026.
 //
 
 import Foundation
 
-public struct CreateStartupRequest: Sendable {
-    public let ownerEmail: String
+public struct UpdateStartupRequest: Sendable {
+    public let documentId: String
     public let title: String
     public let description: String
     public let location: String
     public let categoryId: String
     public let imageData: Data?
     
-    public init(ownerEmail: String, title: String, description: String, location: String, categoryId: String, imageData: Data? = nil) {
-        self.ownerEmail = ownerEmail
+    public init(
+        documentId: String,
+        title: String,
+        description: String,
+        location: String,
+        categoryId: String,
+        imageData: Data? = nil
+    ) {
+        self.documentId = documentId
         self.title = title
         self.description = description
         self.location = location

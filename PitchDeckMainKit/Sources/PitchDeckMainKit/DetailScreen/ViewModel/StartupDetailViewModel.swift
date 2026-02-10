@@ -24,12 +24,18 @@ final class StartupDetailViewModel: ObservableObject {
     private let documentId: String
     private let service: StartupService
     private var loadTask: Task<Void, Never>? = nil
+    private var currentUserEmail: String
     
     // MARK: - Init
     
-    init(documentId: String, service: StartupService) {
+    init(documentId: String, service: StartupService, currentUserEmail: String = "") {
         self.documentId = documentId
         self.service = service
+        if !currentUserEmail.isEmpty {
+            self.currentUserEmail = currentUserEmail
+        } else {
+            self.currentUserEmail = ""
+        }
     }
     
     // MARK: - Public methods
@@ -40,9 +46,15 @@ final class StartupDetailViewModel: ObservableObject {
             case .onAppear:
                 await handleOnAppear()
             case .onShareTapped:
-                showShareSheet = true
+                didTapShare()
+            case .onEditTapped:
+                break
             }
         }
+    }
+    
+    func isOwner() -> Bool {
+        return startupItem?.ownerEmail == currentUserEmail
     }
     
     func shareStartup() -> [Any] {
@@ -57,10 +69,17 @@ final class StartupDetailViewModel: ObservableObject {
     private func handleOnAppear() async {
         loadTask?.cancel()
         
+        if currentUserEmail.isEmpty {
+            do {
+                let loadedEmail = await KeychainStorage().string(forKey: .userEmail) ?? ""
+                self.currentUserEmail = loadedEmail
+            }
+        }
+        
         isLoading = true
         errorMessage = nil
         
-        loadTask = Task {
+        loadTask = Task { @MainActor in
             do {
                 let item = try await service.getStartup(documentId: documentId)
                 try Task.checkCancellation()
@@ -68,8 +87,10 @@ final class StartupDetailViewModel: ObservableObject {
                 self.startupItem = item
                 self.errorMessage = nil
             } catch is CancellationError {
+                print("qqqq \(self.startupItem)")
                 return
             } catch {
+                print("qqqq \(self.startupItem)")
                 self.errorMessage = error.localizedDescription
                 self.startupItem = nil
             }
@@ -88,5 +109,6 @@ final class StartupDetailViewModel: ObservableObject {
     enum Event {
         case onAppear
         case onShareTapped
+        case onEditTapped
     }
 }

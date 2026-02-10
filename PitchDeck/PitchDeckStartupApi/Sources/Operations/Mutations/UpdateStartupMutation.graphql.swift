@@ -4,14 +4,14 @@
 @_exported import ApolloAPI
 @_spi(Execution) @_spi(Unsafe) import ApolloAPI
 
-public struct CreateStartupMutation: GraphQLMutation {
-  public static let operationName: String = "CreateStartup"
+public struct UpdateStartupMutation: GraphQLMutation {
+  public static let operationName: String = "UpdateStartup"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"mutation CreateStartup($ownerEmail: String!, $title: String!, $description: String!, $location: String!, $categoryId: ID!, $ImageURL: ID) { createStartup( data: { ownerEmail: $ownerEmail title: $title description: $description location: $location category: $categoryId ImageURL: $ImageURL } ) { __typename documentId ownerEmail title description location createdAt updatedAt publishedAt category { __typename title categoryId } ImageURL { __typename url } } }"#
+      #"mutation UpdateStartup($documentId: ID!, $title: String!, $description: String!, $location: String!, $categoryId: ID!, $ImageURL: ID) { updateStartup( documentId: $documentId data: { title: $title description: $description location: $location category: $categoryId ImageURL: $ImageURL } ) { __typename documentId title description location createdAt updatedAt publishedAt category { __typename title categoryId } ImageURL { __typename url } ownerEmail } }"#
     ))
 
-  public var ownerEmail: String
+  public var documentId: ID
   public var title: String
   public var description: String
   public var location: String
@@ -19,14 +19,14 @@ public struct CreateStartupMutation: GraphQLMutation {
   public var imageURL: GraphQLNullable<ID>
 
   public init(
-    ownerEmail: String,
+    documentId: ID,
     title: String,
     description: String,
     location: String,
     categoryId: ID,
     imageURL: GraphQLNullable<ID>
   ) {
-    self.ownerEmail = ownerEmail
+    self.documentId = documentId
     self.title = title
     self.description = description
     self.location = location
@@ -35,7 +35,7 @@ public struct CreateStartupMutation: GraphQLMutation {
   }
 
   @_spi(Unsafe) public var __variables: Variables? { [
-    "ownerEmail": ownerEmail,
+    "documentId": documentId,
     "title": title,
     "description": description,
     "location": location,
@@ -49,25 +49,27 @@ public struct CreateStartupMutation: GraphQLMutation {
 
     @_spi(Execution) public static var __parentType: any ApolloAPI.ParentType { PitchDeckStartupApi.Objects.Mutation }
     @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
-      .field("createStartup", CreateStartup?.self, arguments: ["data": [
-        "ownerEmail": .variable("ownerEmail"),
-        "title": .variable("title"),
-        "description": .variable("description"),
-        "location": .variable("location"),
-        "category": .variable("categoryId"),
-        "ImageURL": .variable("ImageURL")
-      ]]),
+      .field("updateStartup", UpdateStartup?.self, arguments: [
+        "documentId": .variable("documentId"),
+        "data": [
+          "title": .variable("title"),
+          "description": .variable("description"),
+          "location": .variable("location"),
+          "category": .variable("categoryId"),
+          "ImageURL": .variable("ImageURL")
+        ]
+      ]),
     ] }
     @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-      CreateStartupMutation.Data.self
+      UpdateStartupMutation.Data.self
     ] }
 
-    public var createStartup: CreateStartup? { __data["createStartup"] }
+    public var updateStartup: UpdateStartup? { __data["updateStartup"] }
 
-    /// CreateStartup
+    /// UpdateStartup
     ///
     /// Parent Type: `Startup`
-    public struct CreateStartup: PitchDeckStartupApi.SelectionSet {
+    public struct UpdateStartup: PitchDeckStartupApi.SelectionSet {
       @_spi(Unsafe) public let __data: DataDict
       @_spi(Unsafe) public init(_dataDict: DataDict) { __data = _dataDict }
 
@@ -75,7 +77,6 @@ public struct CreateStartupMutation: GraphQLMutation {
       @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
         .field("__typename", String.self),
         .field("documentId", PitchDeckStartupApi.ID.self),
-        .field("ownerEmail", String?.self),
         .field("title", String?.self),
         .field("description", String?.self),
         .field("location", String?.self),
@@ -84,13 +85,13 @@ public struct CreateStartupMutation: GraphQLMutation {
         .field("publishedAt", PitchDeckStartupApi.DateTime?.self),
         .field("category", Category?.self),
         .field("ImageURL", ImageURL?.self),
+        .field("ownerEmail", String?.self),
       ] }
       @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-        CreateStartupMutation.Data.CreateStartup.self
+        UpdateStartupMutation.Data.UpdateStartup.self
       ] }
 
       public var documentId: PitchDeckStartupApi.ID { __data["documentId"] }
-      public var ownerEmail: String? { __data["ownerEmail"] }
       public var title: String? { __data["title"] }
       public var description: String? { __data["description"] }
       public var location: String? { __data["location"] }
@@ -99,8 +100,9 @@ public struct CreateStartupMutation: GraphQLMutation {
       public var publishedAt: PitchDeckStartupApi.DateTime? { __data["publishedAt"] }
       public var category: Category? { __data["category"] }
       public var imageURL: ImageURL? { __data["ImageURL"] }
+      public var ownerEmail: String? { __data["ownerEmail"] }
 
-      /// CreateStartup.Category
+      /// UpdateStartup.Category
       ///
       /// Parent Type: `StartupCategory`
       public struct Category: PitchDeckStartupApi.SelectionSet {
@@ -114,14 +116,14 @@ public struct CreateStartupMutation: GraphQLMutation {
           .field("categoryId", Int?.self),
         ] }
         @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-          CreateStartupMutation.Data.CreateStartup.Category.self
+          UpdateStartupMutation.Data.UpdateStartup.Category.self
         ] }
 
         public var title: String? { __data["title"] }
         public var categoryId: Int? { __data["categoryId"] }
       }
 
-      /// CreateStartup.ImageURL
+      /// UpdateStartup.ImageURL
       ///
       /// Parent Type: `UploadFile`
       public struct ImageURL: PitchDeckStartupApi.SelectionSet {
@@ -134,7 +136,7 @@ public struct CreateStartupMutation: GraphQLMutation {
           .field("url", String.self),
         ] }
         @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-          CreateStartupMutation.Data.CreateStartup.ImageURL.self
+          UpdateStartupMutation.Data.UpdateStartup.ImageURL.self
         ] }
 
         public var url: String { __data["url"] }

@@ -126,6 +126,9 @@ public struct CabinetScreen: View {
                 VStack(spacing: 12) {
                     ForEach(viewModel.userStartups) { startup in
                         StartupRow(startup: startup)
+                            .onTapGesture {
+                                coordinator.push(.details(documentId: startup.documentId))
+                            }
                     }
                     
                     PrimaryButton("cabinet.startups.create".localized) {

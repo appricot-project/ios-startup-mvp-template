@@ -241,7 +241,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\nset -euo pipefail\n\n# Folder containing CLI and config — everything is now in one place\nAPOLLO_DIR=\"${SRCROOT}/PitchDeck/Apollo\"\n\nCLI_PATH=\"${APOLLO_DIR}/apollo-ios-cli\"\nCONFIG_PATH=\"${APOLLO_DIR}/apollo-codegen-config.json\"\n\n# Check CLI existence\nif [ ! -f \"$CLI_PATH\" ]; then\n    echo \"error: apollo-ios-cli not found at path: $CLI_PATH\"\n    exit 1\nfi\n\n# Check config existence\nif [ ! -f \"$CONFIG_PATH\" ]; then\n    echo \"error: apollo-codegen-config.json not found at path: $CONFIG_PATH\"\n    exit 1\nfi\n\nchmod +x \"$CLI_PATH\"\n\necho \"Launching Apollo code generation...\"\n\n# Run generation with explicit config path (to avoid dependency on file name)\n\"$CLI_PATH\" generate --path \"$CONFIG_PATH\"\n\necho \"Apollo code generation completed successfully!\"\n";
+			shellScript = "#!/bin/bash\n\nset -euo pipefail\n\n# Folder containing CLI and config — everything is now in one place\nAPOLLO_DIR=\"${SRCROOT}/PitchDeck/Apollo\"\n\nCLI_PATH=\"${APOLLO_DIR}/apollo-ios-cli\"\nCONFIG_PATH=\"${APOLLO_DIR}/apollo-codegen-config.json\"\n\n# Check CLI existence\nif [ ! -f \"$CLI_PATH\" ]; then\n    echo \"error: apollo-ios-cli not found at path: $CLI_PATH\"\n    exit 1\nfi\n\n# Check config existence\nif [ ! -f \"$CONFIG_PATH\" ]; then\n    echo \"error: apollo-codegen-config.json not found at path: $CONFIG_PATH\"\n    exit 1\nfi\n\nchmod +x \"$CLI_PATH\"\n\necho \"Launching Apollo code generation...\"\n\n# Run generation with explicit config path (to avoid dependency on file name)\n#\"$CLI_PATH\" generate --path \"$CONFIG_PATH\"\n\n#echo \"Apollo code generation completed successfully!\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -393,6 +393,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PitchDeck/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PitchDeck;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -443,6 +444,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PitchDeck/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PitchDeck;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

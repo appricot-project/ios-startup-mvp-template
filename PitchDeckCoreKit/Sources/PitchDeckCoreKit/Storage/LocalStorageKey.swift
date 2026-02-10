@@ -18,6 +18,8 @@ public enum LocalStorageKey {
     case apiUser
     case apiPassword
     case apiSecretKey
+    case strapiAuthToken
+    case userEmail
     case custom(String)
     
     // MARK: - Public properties
@@ -33,6 +35,8 @@ public enum LocalStorageKey {
         case .apiUser: return addBundlePrefixForKey("apiUser")
         case .apiPassword: return addBundlePrefixForKey("apiPassword")
         case .apiSecretKey: return addBundlePrefixForKey("apiSecretKey")
+        case .strapiAuthToken: return addBundlePrefixForKey("strapiAuthToken")
+        case .userEmail: return addBundlePrefixForKey("userEmail")
         case .custom(let key): return addBundlePrefixForKey(key)
         }
     }

@@ -36,7 +36,8 @@ final class StartupDetailViewModelTests: XCTestCase {
             description: "Test Description",
             image: "test.jpg",
             category: "Tech",
-            location: "San Francisco"
+            location: "San Francisco",
+            ownerEmail: "test@test.com"
         )
         mockService.mockStartupDetail = mockStartup
         
@@ -77,7 +78,8 @@ final class StartupDetailViewModelTests: XCTestCase {
             description: "Test Description",
             image: "test.jpg",
             category: "Tech",
-            location: "San Francisco"
+            location: "San Francisco",
+            ownerEmail: "test@test.com"
         )
         mockService.mockStartupDetail = mockStartup
         
@@ -98,7 +100,8 @@ final class StartupDetailViewModelTests: XCTestCase {
             description: "Test Description",
             image: "test.jpg",
             category: "Tech",
-            location: "San Francisco"
+            location: "San Francisco",
+            ownerEmail: "test@test.com"
         )
         mockService.mockStartupDetail = mockStartup
         
@@ -132,7 +135,8 @@ final class StartupDetailViewModelTests: XCTestCase {
             description: "Test Description",
             image: "test.jpg",
             category: "Tech",
-            location: "San Francisco"
+            location: "San Francisco",
+            ownerEmail: "test@test.com"
         )
         sut.startupItem = mockStartup
         
@@ -213,7 +217,8 @@ final class StartupDetailViewModelTests: XCTestCase {
             description: "Test Description 1",
             image: "test1.jpg",
             category: "Tech",
-            location: "San Francisco"
+            location: "San Francisco",
+            ownerEmail: "test@test.com"
         )
         let mockStartup2 = StartupItem(
             id: 2,
@@ -222,7 +227,8 @@ final class StartupDetailViewModelTests: XCTestCase {
             description: "Test Description 2",
             image: "test2.jpg",
             category: "Finance",
-            location: "New York"
+            location: "New York",
+            ownerEmail: "test@test.com"
         )
         
         // First load

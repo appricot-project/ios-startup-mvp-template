@@ -143,7 +143,9 @@ public final class CreateStartupViewModel: ObservableObject {
             _ = try await startupService.createStartup(request: request)
             didCreateStartup = true
         } catch {
-            errorMessage = error.localizedDescription
+            if !(error is CancellationError) {
+                errorMessage = error.localizedDescription
+            }
         }
         
         isCreating = false

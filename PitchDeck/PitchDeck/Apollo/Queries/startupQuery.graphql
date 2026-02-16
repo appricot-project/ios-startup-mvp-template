@@ -1,7 +1,7 @@
 query Startup($documentId: ID!) {
     startup(documentId: $documentId) {
         documentId
-        startupId
+        ownerEmail
         title
         description
         location

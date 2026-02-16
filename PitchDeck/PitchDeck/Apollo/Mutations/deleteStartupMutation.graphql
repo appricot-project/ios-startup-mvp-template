@@ -1,0 +1,6 @@
+mutation DeleteStartup($documentId: ID!) {
+  deleteStartup(documentId: $documentId) {
+    documentId
+  }
+}
+

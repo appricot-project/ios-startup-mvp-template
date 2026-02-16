@@ -10,7 +10,7 @@ import PitchDeckCoreKit
 import PitchDeckMainApiKit
 
 @MainActor
-final class StartupListViewModel: ObservableObject {
+public final class StartupListViewModel: ObservableObject {
     
     // MARK: - Published properties
     
@@ -39,7 +39,7 @@ final class StartupListViewModel: ObservableObject {
     
     // MARK: - Public methods
     
-    func send(event: Event) {
+    public func send(event: Event) {
         Task { @MainActor in
             switch event {
             case .onAppear:
@@ -50,6 +50,8 @@ final class StartupListViewModel: ObservableObject {
                 await handleCategoryChange(categoryId)
             case .onLoadMore:
                 await handleLoadMore()
+            case .onRefresh:
+                await handleRefresh()
             }
         }
     }
@@ -110,6 +112,7 @@ final class StartupListViewModel: ObservableObject {
             let result = try await service.getStartups(
                 title: searchText,
                 categoryId: selectedCategoryId,
+                email: nil,
                 page: nextPage,
                 pageSize: pageSize
             )
@@ -136,18 +139,21 @@ final class StartupListViewModel: ObservableObject {
             isInitialLoading = false
         }
         
+        currentPage = 1
+        startups = []
+        
         do {
             let startupsResult: StartupPageResult
             if loadCategories {
                 async let startupsTask = service.getStartups(
                     title: title,
                     categoryId: categoryId,
-                    page: 1,
+                    email: nil,
+                    page: currentPage,
                     pageSize: pageSize
                 )
                 
                 async let categoriesTask = service.getStartupsCategories()
-                
                 let (startupsPage, cats) = try await (startupsTask, categoriesTask)
                 
                 try Task.checkCancellation()
@@ -158,7 +164,8 @@ final class StartupListViewModel: ObservableObject {
                 startupsResult = try await service.getStartups(
                     title: title,
                     categoryId: categoryId,
-                    page: 1,
+                    email: nil,
+                    page: currentPage,
                     pageSize: pageSize
                 )
                 
@@ -168,7 +175,7 @@ final class StartupListViewModel: ObservableObject {
             self.startups = startupsResult.items
             
             if let pageInfo = startupsResult.pageInfo {
-                self.hasMore = 1 < pageInfo.pageCount
+                self.hasMore = currentPage < pageInfo.pageCount
             } else {
                 self.hasMore = startupsResult.items.count == pageSize
             }
@@ -184,15 +191,33 @@ final class StartupListViewModel: ObservableObject {
             self.hasMore = false
         }
     }
+    
+    private func handleRefresh() async {
+        activeTask?.cancel()
+        isLoading = true
+        
+        do {
+            try await ApolloWebClient.shared.apollo.clearCache()
+        } catch {
+            print("Failed to clear Apollo cache: \(error)")
+        }
+        
+        activeTask = Task {
+            await loadFreshData(title: searchText, categoryId: selectedCategoryId, loadCategories: false)
+        }
+        await activeTask?.value
+        isLoading = false
+    }
 }
 
 // MARK: - Event
 
 extension StartupListViewModel {
-    enum Event {
+    public enum Event {
         case onAppear
         case onSearch(String)
         case onSelectedCategory(Int?)
         case onLoadMore
+        case onRefresh
     }
 }

@@ -96,5 +96,8 @@ struct StartupsView: View {
         }
         .navigationTitle("startups.title".localized)
         .toolbarTitleDisplayMode(.inline)
+        .refreshable {
+            viewModel.send(event: .onRefresh)
+        }
     }
 }

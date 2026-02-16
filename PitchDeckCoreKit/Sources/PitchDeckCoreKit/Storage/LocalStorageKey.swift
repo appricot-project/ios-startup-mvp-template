@@ -11,13 +11,15 @@ public enum LocalStorageKey {
     public typealias RawValue = String
     case accessToken
     case refreshToken
+    case authUserId
+    case authExpiresAt
     case login
     case password
     case apiUser
     case apiPassword
     case apiSecretKey
-    case isLoginPast
-    case isNotFirstEntry
+    case strapiAuthToken
+    case userEmail
     case custom(String)
     
     // MARK: - Public properties
@@ -28,11 +30,13 @@ public enum LocalStorageKey {
         case .password: return addBundlePrefixForKey("password")
         case .accessToken: return addBundlePrefixForKey("accessToken")
         case .refreshToken: return addBundlePrefixForKey("refreshToken")
+        case .authUserId: return addBundlePrefixForKey("authUserId")
+        case .authExpiresAt:   return addBundlePrefixForKey("authExpiresAt")
         case .apiUser: return addBundlePrefixForKey("apiUser")
         case .apiPassword: return addBundlePrefixForKey("apiPassword")
         case .apiSecretKey: return addBundlePrefixForKey("apiSecretKey")
-        case .isLoginPast: return addBundlePrefixForKey("isLoginPast")
-        case .isNotFirstEntry: return addBundlePrefixForKey("isFirstEntry")
+        case .strapiAuthToken: return addBundlePrefixForKey("strapiAuthToken")
+        case .userEmail: return addBundlePrefixForKey("userEmail")
         case .custom(let key): return addBundlePrefixForKey(key)
         }
     }

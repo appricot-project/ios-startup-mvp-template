@@ -15,8 +15,9 @@ public struct StartupItem: Equatable, Sendable, Identifiable {
     public let image: String?
     public let category: String
     public let location: String
+    public let ownerEmail: String
     
-    public init(id: Int, documentId: String, title: String, description: String?, image: String?, category: String, location: String) {
+    public init(id: Int, documentId: String, title: String, description: String?, image: String?, category: String, location: String, ownerEmail: String) {
         self.id = id
         self.documentId = documentId
         self.title = title
@@ -24,5 +25,6 @@ public struct StartupItem: Equatable, Sendable, Identifiable {
         self.image = image
         self.category = category
         self.location = location
+        self.ownerEmail = ownerEmail
     }
 }

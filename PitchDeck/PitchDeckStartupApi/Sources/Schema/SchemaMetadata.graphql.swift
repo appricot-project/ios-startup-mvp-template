@@ -20,6 +20,8 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
 
   @_spi(Execution) public static func objectType(forTypename typename: String) -> ApolloAPI.Object? {
     switch typename {
+    case "DeleteMutationResponse": return PitchDeckStartupApi.Objects.DeleteMutationResponse
+    case "Mutation": return PitchDeckStartupApi.Objects.Mutation
     case "Pagination": return PitchDeckStartupApi.Objects.Pagination
     case "Query": return PitchDeckStartupApi.Objects.Query
     case "Startup": return PitchDeckStartupApi.Objects.Startup

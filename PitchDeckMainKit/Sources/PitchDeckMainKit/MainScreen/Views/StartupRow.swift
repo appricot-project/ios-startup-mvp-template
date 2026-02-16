@@ -46,7 +46,7 @@ struct StartupRow: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
-        .background(Color(uiColor: .grayD7))
+        .background(Color(uiColor: .globalCellSeparatorColor))
         .cornerRadius(16)
         .padding(.horizontal, 8)
         .contentShape(Rectangle())

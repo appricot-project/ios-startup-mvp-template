@@ -36,7 +36,7 @@ struct CategoryRow: View {
             .padding(.vertical, 10)
             .background(
                 Capsule()
-                    .fill(isSelected ? Color(uiColor: .blueD1) : Color(uiColor: .grayD7))
+                    .fill(isSelected ? Color(uiColor: .blueD1) : Color(uiColor: .globalCellSeparatorColor))
             )
             .onTapGesture {
                 withAnimation(.easeInOut(duration: 0.2)) {

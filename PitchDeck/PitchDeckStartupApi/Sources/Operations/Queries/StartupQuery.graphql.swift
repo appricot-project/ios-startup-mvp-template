@@ -8,7 +8,7 @@ public struct StartupQuery: GraphQLQuery {
   public static let operationName: String = "Startup"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query Startup($documentId: ID!) { startup(documentId: $documentId) { __typename documentId startupId title description location createdAt updatedAt publishedAt ImageURL { __typename url } category { __typename title } } }"#
+      #"query Startup($documentId: ID!) { startup(documentId: $documentId) { __typename documentId ownerEmail title description location createdAt updatedAt publishedAt ImageURL { __typename url } category { __typename title } } }"#
     ))
 
   public var documentId: ID
@@ -44,7 +44,7 @@ public struct StartupQuery: GraphQLQuery {
       @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
         .field("__typename", String.self),
         .field("documentId", PitchDeckStartupApi.ID.self),
-        .field("startupId", Int?.self),
+        .field("ownerEmail", String?.self),
         .field("title", String?.self),
         .field("description", String?.self),
         .field("location", String?.self),
@@ -59,7 +59,7 @@ public struct StartupQuery: GraphQLQuery {
       ] }
 
       public var documentId: PitchDeckStartupApi.ID { __data["documentId"] }
-      public var startupId: Int? { __data["startupId"] }
+      public var ownerEmail: String? { __data["ownerEmail"] }
       public var title: String? { __data["title"] }
       public var description: String? { __data["description"] }
       public var location: String? { __data["location"] }

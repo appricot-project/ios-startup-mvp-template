@@ -10,6 +10,7 @@ import Alamofire
 
 public enum BaseServiceError: Error, Equatable {
     case unauthorized
+    case registrationFailed(String)
     case custom(String)
 }
 
@@ -18,6 +19,8 @@ extension BaseServiceError: LocalizedError {
         switch self {
         case .unauthorized:
             return "Auth error"
+        case .registrationFailed(let error):
+            return "Registration failed: \(error)"
         case .custom(let message):
             return message
         }

@@ -19,6 +19,9 @@ public struct BuildConfiguration {
         case strapiURL = "STRAPI_URL"
         case strapiDataURL = "STRAPI_DATA_URL"
         case strapiAuthToken = "STRAPI_AUTH_TOKEN"
+        case keycloakIssuerURL = "KEYCLOAK_ISSUER_URL"
+        case keycloakClientId = "KEYCLOAK_CLIENT_ID"
+        case keycloakClientSecret = "KEYCLOAK_CLIENT_SECRET"
     }
 
     static let apiURL: String = {

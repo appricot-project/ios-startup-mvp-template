@@ -13,18 +13,15 @@ import PitchDeckNavigationApiKit
 public struct MainFlowView: View {
     
     @ObservedObject var coordinator: MainCoordinator
-    @StateObject private var viewModel: StartupListViewModel
     
     public init(coordinator: MainCoordinator) {
         self.coordinator = coordinator
-        _viewModel = StateObject(wrappedValue: StartupListViewModel(service: coordinator.service))
-
     }
     
     public var body: some View {
         NavigationStack(path: $coordinator.path) {
             StartupsView(
-                viewModel: viewModel,
+                viewModel: coordinator.viewModel,
                 onStartupSelected: { documentId in
                     coordinator.push(.details(documentId: documentId))
                 }

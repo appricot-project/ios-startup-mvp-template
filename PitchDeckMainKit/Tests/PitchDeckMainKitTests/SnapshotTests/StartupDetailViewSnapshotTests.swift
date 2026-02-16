@@ -38,7 +38,8 @@ final class StartupDetailViewSnapshotTests: XCTestCase {
             description: "Test Description",
             image: "test.jpg",
             category: "Tech",
-            location: "San Francisco"
+            location: "San Francisco",
+            ownerEmail: "test@test.com"
         )
         
         let viewModel = StartupDetailViewModel(

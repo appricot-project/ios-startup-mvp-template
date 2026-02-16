@@ -134,14 +134,11 @@ public final class CabinetViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         
-        do {
-            try await authService.logout()
-            userProfile = nil
-            userStartups = []
-            didLogout = true
-        } catch {
-            errorMessage = error.localizedDescription
-        }
+        // AuthService.logout() doesn't throw errors according to protocol
+        await authService.logout()
+        userProfile = nil
+        userStartups = []
+        didLogout = true
         
         isLoading = false
     }

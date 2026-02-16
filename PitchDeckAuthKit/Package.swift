@@ -19,11 +19,24 @@ let package = Package(
         .package(path: "../PitchDeckAuthApiKit"),
         .package(path: "../PitchDeckCoreKit"),
         .package(url: "https://github.com/openid/AppAuth-iOS.git", .upToNextMajor(from: "2.0.0")),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.15.0")
     ],
     targets: [
         .target(
             name: "PitchDeckAuthKit",
             dependencies: ["PitchDeckNavigationApiKit", "PitchDeckUIKit", "PitchDeckAuthApiKit", "PitchDeckCoreKit", .product(name: "AppAuth", package: "AppAuth-iOS")]
+        ),
+        .testTarget(
+            name: "PitchDeckAuthKitTests",
+            dependencies: [
+                "PitchDeckAuthKit",
+                "PitchDeckNavigationApiKit",
+                "PitchDeckUIKit",
+                "PitchDeckAuthApiKit",
+                "PitchDeckCoreKit",
+                .product(name: "AppAuth", package: "AppAuth-iOS"),
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
+            ]
         ),
     ]
 )

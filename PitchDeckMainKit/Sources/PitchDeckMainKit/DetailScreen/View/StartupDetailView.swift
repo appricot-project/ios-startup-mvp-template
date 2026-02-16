@@ -32,10 +32,39 @@ struct StartupDetailView: View {
     }
     
     var body: some View {
-        content
-            .background(Color(UIColor.globalBackgroundColor))
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 24) {
+                    if let item = viewModel.startupItem {
+                        mainContent(item: item)
+                    } else {
+                        emptyStateView
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+            }
+            .navigationTitle(viewModel.startupItem?.title ?? "")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if viewModel.isOwner() {
+                        Button(action: {
+                            if let documentId = viewModel.startupItem?.documentId {
+                                onEditTapped?(documentId)
+                            }
+                        }) {
+                            Image(systemName: "gearshape")
+                                .foregroundColor(.primary)
+                        }
+                    }
+                }
+            }
             .onAppear { 
                 self.viewModel.send(event: .onAppear)
+            }
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
             .sheet(isPresented: $viewModel.showShareSheet) {
                 ShareSheet(activityItems: viewModel.shareStartup())
@@ -59,96 +88,81 @@ struct StartupDetailView: View {
                     onDeleteSuccess?()
                 }
             }
+            .overlay {
+                if viewModel.isLoading {
+                    LoadingView()
+                } else if let error = viewModel.errorMessage {
+                    errorView(error: error)
+                }
+            }
+        }
     }
     
     // MARK: - Private methods
     
-    @ViewBuilder
-    private var content: some View {
-        if viewModel.isLoading {
-            LoadingView()
-        } else if let error = viewModel.errorMessage {
-            Text(String(format: "startups.details.error.title".localized, error))
-                .foregroundColor(.red)
-                .multilineTextAlignment(.center)
-                .padding()
-        } else if let item = viewModel.startupItem {
-            mainContent(item: item)
-        } else {
-            Text("startups.details.empty.title".localized)
-                .foregroundColor(.secondary)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
+    private var emptyStateView: some View {
+        Text("startups.details.empty.title".localized)
+            .foregroundColor(.secondary)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    private func errorView(error: String) -> some View {
+        Text(String(format: "startups.details.error.title".localized, error))
+            .foregroundColor(.red)
+            .multilineTextAlignment(.center)
+            .padding()
+            .background(Color(UIColor.secondarySystemBackground))
+            .cornerRadius(12)
     }
     
     private func mainContent(item: StartupItem) -> some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(spacing: 20) {
-                    if let imageURL = item.image,
-                       !imageURL.isEmpty,
-                       let url = URL(string: imageURL) {
-                        AsyncImage(url: url) { phase in
-                            switch phase {
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .cornerRadius(16)
-                            case .empty, .failure:
-                                placeholderImage
-                            @unknown default:
-                                placeholderImage
-                            }
-                        }
-                        .frame(height: 250)
-                        .padding(.horizontal, 16)
-                    } else {
+        VStack(spacing: 20) {
+            if let imageURL = item.image,
+               !imageURL.isEmpty,
+               let url = URL(string: imageURL) {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .cornerRadius(16)
+                    case .empty, .failure:
+                        placeholderImage
+                    @unknown default:
                         placeholderImage
                     }
-                    
-                    VStack {
-                        HStack(spacing: 8) {
-                            Text(item.category)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            Text("•")
-                                .foregroundColor(.secondary)
-                            Text(item.location)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal)
-                    
-                    Text(item.description ?? "startups.details.empty.description".localized)
-                        .font(.body)
-                        .lineSpacing(6)
-                        .padding(.horizontal)
-                    
-                    Spacer()
-                        .frame(height: 100)
                 }
-                .padding(.top, 10)
-                .padding(.bottom, 20)
+                .frame(height: 250)
+                .padding(.horizontal, 16)
+            } else {
+                placeholderImage
+                    .padding(.horizontal, 16)
             }
-            .navigationTitle(item.title)
-            .toolbarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if viewModel.isOwner() {
-                        Button(action: {
-                            if let documentId = viewModel.startupItem?.documentId {
-                                onEditTapped?(documentId)
-                            }
-                        }) {
-                            Image(systemName: "gearshape")
-                                .foregroundColor(.primary)
-                        }
-                    }
+            
+            VStack {
+                HStack(spacing: 8) {
+                    Text(item.category)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                    Text("•")
+                        .foregroundColor(.secondary)
+                    Text(item.location)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
                 }
             }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal)
+            
+            Text(item.description ?? "startups.details.empty.description".localized)
+                .font(.body)
+                .lineSpacing(6)
+                .padding(.horizontal)
+            
+            Spacer()
+                .frame(height: 100)
+            
             VStack(spacing: 16) {
                 PrimaryButton("startups.details.button.title".localized) {
                     viewModel.send(event: .onShareTapped)

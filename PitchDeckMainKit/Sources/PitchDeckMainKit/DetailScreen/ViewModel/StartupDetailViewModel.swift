@@ -15,7 +15,7 @@ final class StartupDetailViewModel: ObservableObject {
     // MARK: - Published properties
     
     @Published var startupItem: StartupItem?
-    @Published public var isLoading: Bool = false
+    @Published public var isLoading: Bool = true
     @Published public var errorMessage: String? = nil
     @Published public var showShareSheet: Bool = false
     @Published public var didDeleteStartup: Bool = false
@@ -79,7 +79,6 @@ final class StartupDetailViewModel: ObservableObject {
             }
         }
         
-        isLoading = true
         errorMessage = nil
         
         loadTask = Task { @MainActor in
@@ -90,11 +89,13 @@ final class StartupDetailViewModel: ObservableObject {
                 
                 self.startupItem = item
                 self.errorMessage = nil
+                self.isLoading = false
             } catch is CancellationError {
                 return
             } catch {
                 self.errorMessage = error.localizedDescription
                 self.startupItem = nil
+                self.isLoading = false
             }
             self.isLoading = false
         }

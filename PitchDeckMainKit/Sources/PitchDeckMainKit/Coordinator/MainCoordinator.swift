@@ -32,6 +32,7 @@ public final class MainCoordinator: BaseCoordinator<MainRoute> {
     public let service: StartupService
     @Published public var currentUserEmail: String = ""
     private let startupEditNavigationService: StartupEditNavigationService = StartupEditNavigationServiceImpl(startupService: StartupServiceImpl())
+    private var detailViewModels: [String: StartupDetailViewModel] = [:]
     
     public lazy var viewModel: StartupListViewModel = {
         StartupListViewModel(service: service)
@@ -48,11 +49,12 @@ public final class MainCoordinator: BaseCoordinator<MainRoute> {
         switch route {
         case .details(let documentId):
             StartupDetailView(
-                viewModel: StartupDetailViewModel(documentId: documentId, service: service, currentUserEmail: currentUserEmail),
+                viewModel: detailViewModel(for: documentId, currentUserEmail: currentUserEmail),
                 onEditTapped: { [weak self] documentId in
                     self?.showEditScreen(documentId: documentId)
                 },
                 onDeleteSuccess: { [weak self] in
+                    self?.detailViewModels.removeValue(forKey: documentId)
                     self?.viewModel.send(event: .onRefresh)
                     self?.pop()
                 }
@@ -61,11 +63,21 @@ public final class MainCoordinator: BaseCoordinator<MainRoute> {
             startupEditNavigationService.buildStartupEditView(
                 documentId: documentId,
                 onStartupUpdated: { [weak self] in
-                    self?.viewModel.send(event: .onRefresh)
+                    self?.detailViewModels.removeValue(forKey: documentId)
+                    self?.viewModel.needsRefresh = true
                     self?.pop()
                 }
             )
         }
+    }
+    
+    private func detailViewModel(for documentId: String, currentUserEmail: String) -> StartupDetailViewModel {
+        if let existing = detailViewModels[documentId] {
+            return existing
+        }
+        let vm = StartupDetailViewModel(documentId: documentId, service: service, currentUserEmail: currentUserEmail)
+        detailViewModels[documentId] = vm
+        return vm
     }
     
     private func showEditScreen(documentId: String) {

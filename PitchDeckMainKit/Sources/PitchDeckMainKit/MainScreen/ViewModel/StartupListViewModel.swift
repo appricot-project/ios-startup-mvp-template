@@ -23,6 +23,7 @@ public final class StartupListViewModel: ObservableObject {
     @Published var isInitialLoading = true
     @Published var hasMore = false
     @Published var errorMessage: String? = nil
+    @Published var needsRefresh: Bool = false
     
     // MARK: - Private properties
     

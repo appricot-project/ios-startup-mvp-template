@@ -46,6 +46,7 @@ public final class CabinetCoordinator: BaseCoordinator<CabinetRoute> {
     public var onStartupCreated: (() -> Void)?
     public var onLogout: (() -> Void)?
     public weak var rootCoordinator: (any ObservableObject)?
+    private var detailViewModels: [String: AnyView] = [:]
     
     public private(set) lazy var cabinetViewModel: CabinetViewModel = {
         CabinetViewModel(cabinetService: cabinetService, startupService: startupService, authService: authService)
@@ -107,6 +108,7 @@ private extension CabinetCoordinator {
         return startupEditNavigationService.buildStartupEditView(
             documentId: documentId,
             onStartupUpdated: { [weak self] in
+                self?.detailViewModels.removeValue(forKey: documentId)
                 self?.cabinetViewModel.send(event: .refreshAll)
                 self?.pop()
             }
@@ -114,14 +116,19 @@ private extension CabinetCoordinator {
     }
     
     func buildDetailsView(documentId: String) -> some View {
+        if let cached = detailViewModels[documentId] {
+            return cached
+        }
+        
         let currentUserEmail = cabinetViewModel.userProfile?.email ?? ""
-        return startupDetailNavigationService.buildStartupDetailView(
-            documentId: documentId, 
+        let view = startupDetailNavigationService.buildStartupDetailView(
+            documentId: documentId,
             currentUserEmail: currentUserEmail,
             onEditTapped: { [weak self] documentId in
                 self?.push(.edit(documentId: documentId))
             },
             onDeleteSuccess: { [weak self] in
+                self?.detailViewModels.removeValue(forKey: documentId)
                 Task { @MainActor in
                     do {
                         try await ApolloWebClient.shared.apollo.clearCache()
@@ -133,5 +140,8 @@ private extension CabinetCoordinator {
                 }
             }
         )
+        
+        detailViewModels[documentId] = view
+        return view
     }
 }

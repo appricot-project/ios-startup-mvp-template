@@ -34,6 +34,12 @@ struct StartupsView: View {
             .task {
                 viewModel.send(event: .onAppear)
             }
+            .onAppear {
+                if viewModel.needsRefresh {
+                    viewModel.needsRefresh = false
+                    viewModel.send(event: .onRefresh)
+                }
+            }
     }
     
     // MARK: - Private methods

@@ -24,7 +24,10 @@ public final class RootCoordinator: ObservableObject {
         case cabinet
     }
         
-    public init() { 
+    public init() {
+        Task {
+            self.currentUserEmail = await KeychainStorage().string(forKey: .userEmail) ?? ""
+        }
         setupCabinetCoordinator()
     }
 
@@ -46,6 +49,7 @@ public final class RootCoordinator: ObservableObject {
     public let auth = AuthCoordinator(authService: AuthServiceImpl())
     
     // MARK: - Private methods
+    
     
     private func setupCabinetCoordinator() {
         cabinet.onLogout = { [weak self] in

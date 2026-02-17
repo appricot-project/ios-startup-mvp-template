@@ -15,7 +15,7 @@ final class StartupDetailViewModel: ObservableObject {
     // MARK: - Published properties
     
     @Published var startupItem: StartupItem?
-    @Published public var isLoading: Bool = true
+    @Published public var isLoading: Bool = false
     @Published public var errorMessage: String? = nil
     @Published public var showShareSheet: Bool = false
     @Published public var didDeleteStartup: Bool = false
@@ -70,15 +70,13 @@ final class StartupDetailViewModel: ObservableObject {
     // MARK: - Private methods
     
     private func handleOnAppear() async {
-        loadTask?.cancel()
-        
-        if currentUserEmail.isEmpty {
-            do {
-                let loadedEmail = await KeychainStorage().string(forKey: .userEmail) ?? ""
-                self.currentUserEmail = loadedEmail
-            }
+        guard startupItem == nil else {
+            isLoading = false 
+            return
         }
-        
+
+        loadTask?.cancel()
+        isLoading = true
         errorMessage = nil
         
         loadTask = Task { @MainActor in
@@ -91,6 +89,7 @@ final class StartupDetailViewModel: ObservableObject {
                 self.errorMessage = nil
                 self.isLoading = false
             } catch is CancellationError {
+                self.isLoading = false
                 return
             } catch {
                 self.errorMessage = error.localizedDescription

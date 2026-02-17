@@ -171,7 +171,10 @@ public struct CreateStartupScreen: View {
                 Text(errorMessage)
                     .foregroundColor(.red)
                     .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
                     .padding()
+                    .background(Color(UIColor.systemBackground))
+                    .cornerRadius(8)
             } else {
                 Menu {
                     ForEach(viewModel.categories) { category in

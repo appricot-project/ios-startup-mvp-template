@@ -32,68 +32,66 @@ struct StartupDetailView: View {
     }
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 24) {
-                    if let item = viewModel.startupItem {
-                        mainContent(item: item)
-                    } else {
-                        emptyStateView
-                    }
+        ScrollView {
+            VStack(spacing: 24) {
+                if let item = viewModel.startupItem {
+                    mainContent(item: item)
+                } else {
+                    emptyStateView
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
             }
-            .navigationTitle(viewModel.startupItem?.title ?? "")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if viewModel.isOwner() {
-                        Button(action: {
-                            if let documentId = viewModel.startupItem?.documentId {
-                                onEditTapped?(documentId)
-                            }
-                        }) {
-                            Image(systemName: "gearshape")
-                                .foregroundColor(.primary)
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+        }
+        .navigationTitle(viewModel.startupItem?.title ?? "")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if viewModel.isOwner() {
+                    Button(action: {
+                        if let documentId = viewModel.startupItem?.documentId {
+                            onEditTapped?(documentId)
                         }
+                    }) {
+                        Image(systemName: "gearshape")
+                            .foregroundColor(.primary)
                     }
                 }
             }
-            .onAppear { 
-                self.viewModel.send(event: .onAppear)
+        }
+        .onAppear {
+            self.viewModel.send(event: .onAppear)
+        }
+        .onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
+        .sheet(isPresented: $viewModel.showShareSheet) {
+            ShareSheet(activityItems: viewModel.shareStartup())
+        }
+        .alert(
+            "startups.details.delete.alert.title".localized,
+            isPresented: $showDeleteAlert
+        ) {
+            Button("common.cancel".localized, role: .cancel) {
+                showDeleteAlert = false
             }
-            .onTapGesture {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            Button("startups.details.delete.alert.confirm".localized, role: .destructive) {
+                showDeleteAlert = false
+                viewModel.send(event: .onDeleteTapped)
             }
-            .sheet(isPresented: $viewModel.showShareSheet) {
-                ShareSheet(activityItems: viewModel.shareStartup())
+        } message: {
+            Text("startups.details.delete.alert.message".localized)
+        }
+        .onChange(of: viewModel.didDeleteStartup) { didDelete in
+            if didDelete {
+                onDeleteSuccess?()
             }
-            .alert(
-                "startups.details.delete.alert.title".localized,
-                isPresented: $showDeleteAlert
-            ) {
-                Button("common.cancel".localized, role: .cancel) {
-                    showDeleteAlert = false
-                }
-                Button("startups.details.delete.alert.confirm".localized, role: .destructive) {
-                    showDeleteAlert = false
-                    viewModel.send(event: .onDeleteTapped)
-                }
-            } message: {
-                Text("startups.details.delete.alert.message".localized)
-            }
-            .onChange(of: viewModel.didDeleteStartup) { didDelete in
-                if didDelete {
-                    onDeleteSuccess?()
-                }
-            }
-            .overlay {
-                if viewModel.isLoading {
-                    LoadingView()
-                } else if let error = viewModel.errorMessage {
-                    errorView(error: error)
-                }
+        }
+        .overlay {
+            if viewModel.isLoading == true {
+                LoadingView()
+            } else if let error = viewModel.errorMessage {
+                errorView(error: error)
             }
         }
     }
@@ -161,8 +159,7 @@ struct StartupDetailView: View {
                 .padding(.horizontal)
             
             Spacer()
-                .frame(height: 100)
-            
+                .frame(minHeight: 100)
             VStack(spacing: 16) {
                 PrimaryButton("startups.details.button.title".localized) {
                     viewModel.send(event: .onShareTapped)
@@ -187,7 +184,6 @@ struct StartupDetailView: View {
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 16)
-            .background(Color(UIColor.globalBackgroundColor))
         }
     }
     

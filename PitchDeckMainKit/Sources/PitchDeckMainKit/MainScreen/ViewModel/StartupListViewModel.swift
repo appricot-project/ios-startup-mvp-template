@@ -24,11 +24,13 @@ public final class StartupListViewModel: ObservableObject {
     @Published var hasMore = false
     @Published var errorMessage: String? = nil
     @Published var needsRefresh: Bool = false
+    @Published var lastViewedStartupId: Int? = nil
+    @Published var listRefreshId = UUID()
     
     // MARK: - Private properties
     
     private(set) var currentPage = 1
-    private let pageSize = 10
+    private(set) var pageSize = 10
     private let service: StartupService
     private var activeTask: Task<Void, Never>? = nil
     
@@ -58,7 +60,7 @@ public final class StartupListViewModel: ObservableObject {
     }
     
     // MARK: - Private methods
-    
+
     private func handleOnAppear() async {
         activeTask?.cancel()
         isInitialLoading = true
@@ -135,13 +137,7 @@ public final class StartupListViewModel: ObservableObject {
     }
     
     private func loadFreshData(title: String?, categoryId: Int?, loadCategories: Bool) async {
-        defer {
-            isLoading = false
-            isInitialLoading = false
-        }
-        
         currentPage = 1
-        startups = []
         
         do {
             let startupsResult: StartupPageResult
@@ -176,23 +172,26 @@ public final class StartupListViewModel: ObservableObject {
             self.startups = startupsResult.items
             
             if let pageInfo = startupsResult.pageInfo {
-                self.hasMore = currentPage < pageInfo.pageCount
+                self.hasMore = pageInfo.pageCount > 1
             } else {
                 self.hasMore = startupsResult.items.count == pageSize
             }
-            
-            self.currentPage = 1
+            self.listRefreshId = UUID()
             self.errorMessage = nil
             
         } catch is CancellationError {
-            return
+            
         } catch {
             self.errorMessage = error.localizedDescription
             self.startups = []
             self.hasMore = false
         }
+        
+        isLoading = false
+        isInitialLoading = false
+        lastViewedStartupId = nil
     }
-    
+
     private func handleRefresh() async {
         activeTask?.cancel()
         isLoading = true

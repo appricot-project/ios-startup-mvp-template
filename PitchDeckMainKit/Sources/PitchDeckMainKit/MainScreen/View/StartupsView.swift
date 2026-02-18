@@ -32,7 +32,9 @@ struct StartupsView: View {
         content
             .background(Color(UIColor.globalBackgroundColor))
             .task {
-                viewModel.send(event: .onAppear)
+                if viewModel.isInitialLoading {
+                    viewModel.send(event: .onAppear)
+                }
             }
             .onAppear {
                 if viewModel.needsRefresh {
@@ -55,55 +57,87 @@ struct StartupsView: View {
     }
     
     private var mainList: some View {
-        ScrollView {
-            LazyVStack(pinnedViews: [.sectionHeaders]) {
-                Section {
-                    VStack {
-                        SearchBar(text: $searchText) { text in
-                            viewModel.send(event: .onSearch(text))
-                        }
-                        
-                        CategoryRow(
-                            categories: viewModel.categories,
-                            selectedCategoryId: viewModel.selectedCategoryId,
-                            onCategoryChanged: { id in
-                                viewModel.send(event: .onSelectedCategory(id))
+        ScrollViewReader { proxy in
+            ScrollView {
+                LazyVStack(pinnedViews: [.sectionHeaders]) {
+                    Section {
+                        VStack {
+                            SearchBar(text: $searchText) { text in
+                                viewModel.send(event: .onSearch(text))
                             }
-                        )
-                    }
-                    .background(Color(UIColor.globalBackgroundColor))
-                }
-                .padding(.bottom, 8)
-                
-                Section {
-                    VStack(spacing: 12) {
-                        if viewModel.startups.isEmpty {
-                            Text("startups.empty.title".localized)
-                        } else {
-                            ForEach(viewModel.startups) { item in
-                                StartupRow(item: item) {
-                                    onStartupSelected(item.documentId)
+                            
+                            CategoryRow(
+                                categories: viewModel.categories,
+                                selectedCategoryId: viewModel.selectedCategoryId,
+                                onCategoryChanged: { id in
+                                    viewModel.send(event: .onSelectedCategory(id))
                                 }
-                                .onAppear {
-                                    if item.id == viewModel.startups.last?.id && viewModel.hasMore {
-                                        viewModel.send(event: .onLoadMore)
+                            )
+                        }
+                        .background(Color(UIColor.globalBackgroundColor))
+                    }
+                    .padding(.bottom, 8)
+                    
+                    Section {
+                        VStack(spacing: 12) {
+                            if viewModel.startups.isEmpty {
+                                if viewModel.isLoading {
+                                    ProgressView()
+                                        .padding()
+                                } else {
+                                    Text("startups.empty.title".localized)
+                                }
+                            } else {
+                                ForEach(viewModel.startups) { item in
+                                    StartupRow(item: item) {
+                                        viewModel.lastViewedStartupId = item.id
+                                        onStartupSelected(item.documentId)
                                     }
+                                    .id(item.id)
+                                }
+                                GeometryReader { geometry in
+                                    Color.clear
+                                        .preference(
+                                            key: ViewOffsetKey.self,
+                                            value: geometry.frame(in: .named("scrollView")).minY
+                                        )
+                                }
+                                .frame(height: 20)
+                                
+                                if viewModel.isLoadingMore {
+                                    ProgressView()
+                                        .padding()
                                 }
                             }
-                            if viewModel.isLoadingMore {
-                                ProgressView()
-                                    .padding()
-                            }
                         }
+                        .background(Color(UIColor.globalBackgroundColor))
                     }
-                    .background(Color(UIColor.globalBackgroundColor))
                 }
             }
-        }
-        .navigationTitle("startups.title".localized)
-        .toolbarTitleDisplayMode(.inline)
-        .refreshable {
-            viewModel.send(event: .onRefresh)
+            .coordinateSpace(name: "scrollView")
+            .onPreferenceChange(ViewOffsetKey.self) { offset in
+                if offset < UIScreen.main.bounds.height,
+                   viewModel.hasMore,
+                   !viewModel.isLoadingMore,
+                   !viewModel.isLoading {
+                    viewModel.send(event: .onLoadMore)
+                }
+            }
+            .navigationTitle("startups.title".localized)
+            .toolbarTitleDisplayMode(.inline)
+            .refreshable {
+                viewModel.send(event: .onRefresh)
+            }
+            .onChange(of: viewModel.startups) { _ in
+                if let id = viewModel.lastViewedStartupId,
+                   !viewModel.isLoading,
+                   !viewModel.startups.isEmpty {
+                    withAnimation {
+                        proxy.scrollTo(id, anchor: .center)
+                        viewModel.lastViewedStartupId = nil
+                    }
+                }
+            }
         }
     }
 }

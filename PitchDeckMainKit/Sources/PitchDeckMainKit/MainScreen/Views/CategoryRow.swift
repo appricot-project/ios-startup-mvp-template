@@ -14,14 +14,32 @@ struct CategoryRow: View {
     let selectedCategoryId: Int?
     let onCategoryChanged: (Int?) -> Void
     
+    @State private var hasAppeared = false
+    
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 12) {
-                ForEach(categories) { category in
-                    categoryChip(for: category)
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(categories) { category in
+                        categoryChip(for: category)
+                            .id(category.id)
+                    }
+                }
+                .padding(.horizontal, 8)
+            }
+            .onChange(of: selectedCategoryId) { newId in
+                if let id = newId, hasAppeared {
+                    withAnimation {
+                        proxy.scrollTo(id, anchor: .center)
+                    }
                 }
             }
-            .padding(.horizontal, 8)
+            .onAppear {
+                if let id = selectedCategoryId, !hasAppeared {
+                    proxy.scrollTo(id, anchor: .center)
+                    hasAppeared = true
+                }
+            }
         }
     }
     

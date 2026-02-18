@@ -30,6 +30,8 @@ struct EditStartupScreen: View {
     
     var body: some View {
         content
+            .navigationTitle("edit.startup.title".localized)
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.send(event: .onAppear)
             }
@@ -66,8 +68,6 @@ struct EditStartupScreen: View {
             .padding(.horizontal, 16)
             .padding(.top, 16)
         }
-        .navigationTitle("edit.startup.title".localized)
-        .navigationBarTitleDisplayMode(.large)
         .onTapGesture {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
@@ -89,8 +89,14 @@ struct EditStartupScreen: View {
                 isImagePickerPresented = true
             }) {
                 ZStack {
-                    if let imageData = viewModel.selectedImageData,
-                       let uiImage = UIImage(data: imageData) {
+                    if viewModel.isLoadingImage {
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.3))
+                            .overlay(
+                                LoadingView()
+                            )
+                    } else if let imageData = viewModel.selectedImageData,
+                              let uiImage = UIImage(data: imageData) {
                         Image(uiImage: uiImage)
                             .resizable()
                             .scaledToFill()
@@ -117,6 +123,7 @@ struct EditStartupScreen: View {
                         .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                 )
             }
+            .buttonStyle(PlainButtonStyle())
         }
     }
     

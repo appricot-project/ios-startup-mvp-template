@@ -167,16 +167,24 @@ private struct StartupRow: View {
             if let imageURL = startup.image, !imageURL.isEmpty, let url = URL(string: imageURL) {
                 AsyncImage(url: url) { phase in
                     switch phase {
+                    case .empty:
+                        Rectangle()
+                            .fill(Color(uiColor: .globalCellSeparatorColor))
+                            .overlay(
+                                LoadingView(size: .small)
+                            )
+                            .frame(height: 250)
+                            .cornerRadius(16)
                     case .success(let image):
                         image
                             .resizable()
                             .scaledToFill()
-                    case .empty, .failure:
+                    case .failure:
                         Rectangle()
-                            .fill(Color.gray.opacity(0.3))
+                            .fill(Color(uiColor: .globalCellSeparatorColor))
                     @unknown default:
                         Rectangle()
-                            .fill(Color.gray.opacity(0.3))
+                            .fill(Color(uiColor: .globalCellSeparatorColor))
                     }
                 }
                 .frame(width: 60, height: 60)

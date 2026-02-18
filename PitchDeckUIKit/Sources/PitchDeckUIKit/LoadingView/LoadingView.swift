@@ -10,25 +10,62 @@ import Lottie
 
 public struct LoadingView: View {
     
-    // MARK: - View
+    // MARK: - Properties
     
-    public init() { }
+    private let size: LoadingSize
+    
+    // MARK: - Init
+    
+    public init(size: LoadingSize = .large) {
+        self.size = size
+    }
+    
+    // MARK: - View
     
     public var body: some View {
         ZStack {
-            Color(UIColor.globalBackgroundColor)
-                .ignoresSafeArea()
+            if size == .large {
+                Color(UIColor.globalBackgroundColor)
+                    .ignoresSafeArea()
+            }
+            
             LottieView(animation: .named("loader"))
                 .configure(\.contentMode, to: .scaleAspectFit)
                 .looping()
                 .playing()
-                .frame(width: 240, height: 240)
+                .frame(width: size.width, height: size.height)
         }
-        .navigationBarHidden(true)
-        .ignoresSafeArea()
+        .navigationBarHidden(size == .large)
+        .ignoresSafeArea(edges: size == .large ? .all : [])
+    }
+}
+
+// MARK: - LoadingSize
+
+public extension LoadingView {
+    enum LoadingSize {
+        case small
+        case large
+        
+        var width: CGFloat {
+            switch self {
+            case .small: return 80
+            case .large: return 240
+            }
+        }
+        
+        var height: CGFloat {
+            switch self {
+            case .small: return 80
+            case .large: return 240
+            }
+        }
     }
 }
 
 #Preview {
-    LoadingView()
+    VStack(spacing: 40) {
+        LoadingView(size: .small)
+        LoadingView(size: .large)
+    }
 }

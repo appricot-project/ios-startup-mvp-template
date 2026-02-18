@@ -24,6 +24,7 @@ final class EditStartupViewModel: ObservableObject {
     @Published var isUpdating = false
     @Published var errorMessage: String? = nil
     @Published var didUpdateStartup = false
+    @Published var isLoadingImage = false
     
     // MARK: - Private properties
     
@@ -72,29 +73,6 @@ final class EditStartupViewModel: ObservableObject {
         }
     }
     
-    func preloadData(from startup: StartupItem) {
-        title = startup.title
-        description = startup.description ?? ""
-        location = startup.location
-        originalTitle = startup.title
-        originalDescription = startup.description ?? ""
-        originalLocation = startup.location
-        originalCategoryId = selectedCategoryId
-        
-        if let imageURL = startup.image, !imageURL.isEmpty,
-           let url = URL(string: imageURL) {
-            Task { @MainActor in
-                do {
-                    let (data, _) = try await URLSession.shared.data(from: url)
-                    selectedImageData = data
-                    originalImageData = data
-                } catch {
-                    print("Failed to load image: \(error)")
-                }
-            }
-        }
-    }
-    
     // MARK: - Private methods
     
     private func handleOnAppear() async {
@@ -108,18 +86,41 @@ final class EditStartupViewModel: ObservableObject {
             let (categories, startup) = try await (categoriesTask, startupTask)
             
             self.categories = categories
-            preloadData(from: startup)
+            
+            title = startup.title
+            description = startup.description ?? ""
+            location = startup.location
+            originalTitle = startup.title
+            originalDescription = startup.description ?? ""
+            originalLocation = startup.location
             
             if let category = categories.first(where: { $0.title == startup.category }) {
                 selectedCategoryId = String(category.documentId)
+                originalCategoryId = String(category.documentId)
             }
             
+            isLoading = false
             errorMessage = nil
+            
+            if let imageURL = startup.image, !imageURL.isEmpty,
+               let url = URL(string: imageURL) {
+                isLoadingImage = true
+                Task { @MainActor in
+                    do {
+                        let (data, _) = try await URLSession.shared.data(from: url)
+                        selectedImageData = data
+                        originalImageData = data
+                    } catch {
+                        print("Failed to load image: \(error)")
+                    }
+                    isLoadingImage = false
+                }
+            }
+            
         } catch {
             errorMessage = error.localizedDescription
+            isLoading = false
         }
-        
-        isLoading = false
     }
     
     private func handleUpdate() async {

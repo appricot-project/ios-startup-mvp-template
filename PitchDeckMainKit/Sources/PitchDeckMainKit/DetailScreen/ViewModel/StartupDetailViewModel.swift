@@ -96,7 +96,6 @@ final class StartupDetailViewModel: ObservableObject {
                 self.startupItem = nil
                 self.isLoading = false
             }
-            self.isLoading = false
         }
         
         await loadTask?.value

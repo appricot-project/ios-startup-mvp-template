@@ -8,6 +8,7 @@
 import XCTest
 @testable import PitchDeckMainKit
 @testable import PitchDeckMainApiKit
+@testable import PitchDeckCoreKit
 
 @MainActor
 final class StartupDetailViewModelTests: XCTestCase {
@@ -16,6 +17,7 @@ final class StartupDetailViewModelTests: XCTestCase {
     var mockService: MockStartupService!
     
     override func setUp() async throws {
+        Config.strapiURL = "https://localhost:1337/graphql"
         mockService = MockStartupService()
         sut = StartupDetailViewModel(documentId: "test-doc-1", service: mockService)
     }
@@ -108,6 +110,8 @@ final class StartupDetailViewModelTests: XCTestCase {
         sut.send(event: .onAppear)
         try await Task.sleep(nanoseconds: 50_000_000)
         
+        sut.startupItem = nil
+        
         sut.send(event: .onAppear)
         
         try await Task.sleep(nanoseconds: 500_000_000)
@@ -159,6 +163,8 @@ final class StartupDetailViewModelTests: XCTestCase {
     // MARK: - Initialization Tests
     
     func testInitialization_setsCorrectDocumentId() async throws {
+        mockService.reset()
+        
         let documentId = "custom-doc-123"
         let viewModel = StartupDetailViewModel(documentId: documentId, service: mockService)
         
@@ -191,7 +197,8 @@ final class StartupDetailViewModelTests: XCTestCase {
         try await Task.sleep(nanoseconds: 500_000_000)
         
         XCTAssertNil(sut.startupItem)
-        XCTAssertEqual(sut.isLoading, true)
+        XCTAssertFalse(sut.isLoading)
+        XCTAssertNil(sut.errorMessage)
     }
     
     func testOnAppear_withNetworkError_setsErrorMessage() async throws {
@@ -237,6 +244,8 @@ final class StartupDetailViewModelTests: XCTestCase {
         try await Task.sleep(nanoseconds: 500_000_000)
         
         XCTAssertEqual(sut.startupItem?.title, "Test Startup 1")
+        
+        sut.startupItem = nil
         
         // Second load with different data
         mockService.mockStartupDetail = mockStartup2

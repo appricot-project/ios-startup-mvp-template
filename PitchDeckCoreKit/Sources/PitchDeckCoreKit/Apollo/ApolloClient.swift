@@ -37,7 +37,10 @@ public final class ApolloWebClient {
     // MARK: - Private helpers
     
     private func makeClient() -> ApolloClient {
-        let url = URL(string: Config.strapiURL ?? "")!
+        let urlString = Config.strapiURL ?? "https://localhost:1337/graphql"
+        guard let url = URL(string: urlString) else {
+            fatalError("Invalid GraphQL URL: \(urlString)")
+        }
         let authToken: String? = Config.strapiAuthToken
         
         let store = ApolloStore()

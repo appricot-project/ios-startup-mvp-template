@@ -44,10 +44,49 @@ This file contains code style guidelines and project conventions for working on 
 - **Type Aliases**: Use for complex function types or frequently used types
 
 ### Architecture Patterns
-- **MVVM**: Use ViewModels with `@Published` properties for UI state
-- **Repository Pattern**: Single source of truth for data
-- **Dependency Injection**: Use protocol-based constructor injection
-- **Module Structure**: Follow feature-based module organization
+
+### Current Architecture: Service-Based MVVM
+The project uses a simplified MVVM pattern with service layer:
+
+- **Presentation Layer**: SwiftUI Views + ViewModels with `@Published` properties
+- **Service Layer**: Protocol-based services for data operations  
+- **Data Layer**: Apollo GraphQL client for API communication
+
+### Service Layer Structure
+```
+PitchDeckMainApiKit/
+├── Service/
+│   ├── StartupService.swift          # Protocol for startup operations
+│   ├── StartupDetailNavigationService.swift
+│   └── StartupEditNavigationService.swift
+
+PitchDeckMainKit/
+├── Service/
+│   ├── StartupServiceImpl.swift      # Implementation with Apollo
+│   ├── StartupDetailNavigationServiceImpl.swift
+│   └── StartupEditNavigationServiceImpl.swift
+```
+
+### ViewModel Pattern
+```swift
+@MainActor
+final class StartupDetailViewModel: ObservableObject {
+    @Published var startupItem: StartupItem?
+    @Published var isLoading: Bool = false
+    @Published var errorMessage: String? = nil
+    
+    private let service: StartupService
+    
+    func send(event: Event) {
+        // Handle events and update state
+    }
+}
+```
+
+### Dependency Injection
+- Use protocol-based constructor injection
+- Services are injected into ViewModels
+- Mock services for testing
 
 ### SwiftUI Guidelines
 - **Parameters**: Order views as `viewModel`, `onAction`, then other params
@@ -422,11 +461,8 @@ NewFeatureKit/
 │   └── NewFeatureKit/
 │       ├── Coordinator/
 │       │   └── NewFeatureCoordinator.swift
-│       ├── Domain/
-│       │   ├── Model/
-│       │   │   └── NewFeatureModel.swift
-│       │   └── UseCase/
-│       │       └── GetNewFeatureDataUseCase.swift
+│       ├── Model/
+│       │   └── NewFeatureModel.swift
 │       ├── Presentation/
 │       │   ├── ViewModel/
 │       │   │   └── NewFeatureViewModel.swift
@@ -446,12 +482,12 @@ NewFeatureKit/
 
 ### Key Principles
 
-1. **Separation of Concerns**: Each layer has single responsibility
-2. **Dependency Inversion**: High-level modules don't depend on low-level modules
-3. **Single Source of Truth**: Service/Repository is only source for data
-4. **Error Handling**: Use Result<T, Error> for operations that can fail
+1. **Service-Based Architecture**: Services handle data operations directly
+2. **MVVM Pattern**: ViewModels manage UI state with @Published properties
+3. **Protocol-Based DI**: Services are injected via protocols for testability
+4. **Direct Data Flow**: ViewModels call services directly (no UseCase layer)
 5. **State Management**: ViewModels expose @Published properties for UI state
-6. **Dependency Injection**: Use protocol-based constructor injection
+6. **Mock Testing**: Protocol conformance enables easy mocking
 
 ## Testing Guidelines
 

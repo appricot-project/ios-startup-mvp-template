@@ -282,24 +282,7 @@ public class StartupServiceImpl: StartupService {
 }
 ```
 
-#### 2. Domain Layer
-**UseCase** - Business logic implementation
-```swift
-// PitchDeckMainKit/Sources/PitchDeckMainKit/Domain/GetStartupUseCase.swift
-public struct GetStartupUseCase {
-    private let service: StartupService
-    
-    public init(service: StartupService) {
-        self.service = service
-    }
-    
-    public func execute(documentId: String) async throws -> StartupItem {
-        return try await service.getStartup(documentId: documentId)
-    }
-}
-```
-
-#### 3. Presentation Layer
+#### 2. Presentation Layer
 **ViewModel** - UI state management and business logic coordination
 ```swift
 // PitchDeckMainKit/Sources/PitchDeckMainKit/DetailScreen/ViewModel/StartupDetailViewModel.swift

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_URL</key>
+	<string>$(API_URL)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>pitchdeck</string>
+			</array>
+		</dict>
+	</array>
+	<key>KEYCLOAK_CLIENT_ID</key>
+	<string>$(KEYCLOAK_CLIENT_ID)</string>
+	<key>KEYCLOAK_CLIENT_SECRET</key>
+	<string>$(KEYCLOAK_CLIENT_SECRET)</string>
+	<key>KEYCLOAK_ISSUER_URL</key>
+	<string>$(KEYCLOAK_ISSUER_URL)</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>id.appricot.ru</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	<key>STRAPI_AUTH_TOKEN</key>
+	<string>$(STRAPI_AUTH_TOKEN)</string>
+	<key>STRAPI_DATA_URL</key>
+	<string>$(STRAPI_DATA_URL)</string>
+	<key>STRAPI_URL</key>
+	<string>$(STRAPI_URL)</string>
+</dict>
+</plist>

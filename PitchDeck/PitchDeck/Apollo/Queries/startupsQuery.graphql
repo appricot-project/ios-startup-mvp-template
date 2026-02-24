@@ -1,0 +1,27 @@
+query Startups($filters: StartupFiltersInput, $page: Int, $pageSize: Int) {
+  startups_connection(filters: $filters, pagination: { page: $page, pageSize: $pageSize }) {
+    nodes {
+    documentId
+    ownerEmail
+    title
+    description
+    location
+    createdAt
+    updatedAt
+    publishedAt
+    category {
+      title
+      categoryId
+    }
+    ImageURL {
+      url
+    }
+        }
+    pageInfo {
+      page
+      pageSize
+      pageCount
+      total
+    }
+  }
+}

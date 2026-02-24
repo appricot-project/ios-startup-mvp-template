@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FE5BFF772EF94996006FC38C /* PitchDeckStartupApi in Frameworks */ = {isa = PBXBuildFile; productRef = FE5BFF762EF94996006FC38C /* PitchDeckStartupApi */; };
+		FE632A622EE2F7370059E01C /* PitchDeckNavigationApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */; };
+		FE8915F82EF4432F0009391A /* PitchDeckStartupApi in Frameworks */ = {isa = PBXBuildFile; productRef = FE8915F72EF4432F0009391A /* PitchDeckStartupApi */; };
+		FECBD50F2EE2EB3E0005D525 /* PitchDeckAuthApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD50E2EE2EB3E0005D525 /* PitchDeckAuthApiKit */; };
+		FECBD5112EE2EB3E0005D525 /* PitchDeckAuthKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5102EE2EB3E0005D525 /* PitchDeckAuthKit */; };
+		FECBD5132EE2EB3E0005D525 /* PitchDeckCabinetApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5122EE2EB3E0005D525 /* PitchDeckCabinetApiKit */; };
+		FECBD5152EE2EB3E0005D525 /* PitchDeckCabinetKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5142EE2EB3E0005D525 /* PitchDeckCabinetKit */; };
+		FECBD5172EE2EB3E0005D525 /* PitchDeckCoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5162EE2EB3E0005D525 /* PitchDeckCoreKit */; };
+		FECBD5192EE2EB3E0005D525 /* PitchDeckMainApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5182EE2EB3E0005D525 /* PitchDeckMainApiKit */; };
+		FECBD51B2EE2EB3E0005D525 /* PitchDeckMainKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD51A2EE2EB3E0005D525 /* PitchDeckMainKit */; };
+		FECBD51D2EE2EB3E0005D525 /* PitchDeckNavigationKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD51C2EE2EB3E0005D525 /* PitchDeckNavigationKit */; };
+		FECBD51F2EE2EB3E0005D525 /* PitchDeckRootKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD51E2EE2EB3E0005D525 /* PitchDeckRootKit */; };
+		FECBD5212EE2EB3E0005D525 /* PitchDeckUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = FECBD5202EE2EB3E0005D525 /* PitchDeckUIKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FECBD4E92EE182C90005D525 /* PitchDeck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchDeck.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FECBD4FD2EE1938A0005D525 /* PitchDeckCoreKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckCoreKit; path = ../PitchDeckCoreKit; sourceTree = SOURCE_ROOT; };
+		FECBD4FE2EE193A60005D525 /* PitchDeckUIKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckUIKit; path = ../PitchDeckUIKit; sourceTree = SOURCE_ROOT; };
+		FECBD4FF2EE193C00005D525 /* PitchDeckNavigationKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckNavigationKit; path = ../PitchDeckNavigationKit; sourceTree = SOURCE_ROOT; };
+		FECBD5002EE193DB0005D525 /* PitchDeckAuthKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckAuthKit; path = ../PitchDeckAuthKit; sourceTree = SOURCE_ROOT; };
+		FECBD5012EE193EF0005D525 /* PitchDeckAuthApiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckAuthApiKit; path = ../PitchDeckAuthApiKit; sourceTree = SOURCE_ROOT; };
+		FECBD5022EE194090005D525 /* PitchDeckMainKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckMainKit; path = ../PitchDeckMainKit; sourceTree = SOURCE_ROOT; };
+		FECBD5032EE194250005D525 /* PitchDeckMainApiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckMainApiKit; path = ../PitchDeckMainApiKit; sourceTree = SOURCE_ROOT; };
+		FECBD5042EE194400005D525 /* PitchDeckCabinetKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckCabinetKit; path = ../PitchDeckCabinetKit; sourceTree = SOURCE_ROOT; };
+		FECBD5052EE194560005D525 /* PitchDeckCabinetApiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckCabinetApiKit; path = ../PitchDeckCabinetApiKit; sourceTree = SOURCE_ROOT; };
+		FECBD50C2EE2E1830005D525 /* PitchDeckRootKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckRootKit; path = ../PitchDeckRootKit; sourceTree = SOURCE_ROOT; };
+		FECBD5232EE2EEC80005D525 /* PitchDeckNavigationApiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PitchDeckNavigationApiKit; path = ../PitchDeckNavigationApiKit; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FE8915FA2EF445CC0009391A /* Exceptions for "PitchDeck" folder in "PitchDeck" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = FECBD4E82EE182C90005D525 /* PitchDeck */;
+		};
+		FEC260422EEC262B00D7AEBF /* Exceptions for "Build Configuration" folder in "PitchDeck" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				BuildConfiguration.swift,
+				Production.xcconfig,
+			);
+			target = FECBD4E82EE182C90005D525 /* PitchDeck */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		FEC2603F2EEC260700D7AEBF /* Build Configuration */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FEC260422EEC262B00D7AEBF /* Exceptions for "Build Configuration" folder in "PitchDeck" target */,
+			);
+			path = "Build Configuration";
+			sourceTree = "<group>";
+		};
+		FECBD4EB2EE182C90005D525 /* PitchDeck */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FE8915FA2EF445CC0009391A /* Exceptions for "PitchDeck" folder in "PitchDeck" target */,
+			);
+			path = PitchDeck;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FECBD4E62EE182C90005D525 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FECBD5152EE2EB3E0005D525 /* PitchDeckCabinetKit in Frameworks */,
+				FE632A622EE2F7370059E01C /* PitchDeckNavigationApiKit in Frameworks */,
+				FECBD50F2EE2EB3E0005D525 /* PitchDeckAuthApiKit in Frameworks */,
+				FECBD5172EE2EB3E0005D525 /* PitchDeckCoreKit in Frameworks */,
+				FECBD5212EE2EB3E0005D525 /* PitchDeckUIKit in Frameworks */,
+				FECBD51F2EE2EB3E0005D525 /* PitchDeckRootKit in Frameworks */,
+				FECBD5192EE2EB3E0005D525 /* PitchDeckMainApiKit in Frameworks */,
+				FECBD51B2EE2EB3E0005D525 /* PitchDeckMainKit in Frameworks */,
+				FE5BFF772EF94996006FC38C /* PitchDeckStartupApi in Frameworks */,
+				FECBD51D2EE2EB3E0005D525 /* PitchDeckNavigationKit in Frameworks */,
+				FECBD5132EE2EB3E0005D525 /* PitchDeckCabinetApiKit in Frameworks */,
+				FECBD5112EE2EB3E0005D525 /* PitchDeckAuthKit in Frameworks */,
+				FE8915F82EF4432F0009391A /* PitchDeckStartupApi in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FECBD4E02EE182C90005D525 = {
+			isa = PBXGroup;
+			children = (
+				FECBD5232EE2EEC80005D525 /* PitchDeckNavigationApiKit */,
+				FECBD50C2EE2E1830005D525 /* PitchDeckRootKit */,
+				FECBD5052EE194560005D525 /* PitchDeckCabinetApiKit */,
+				FECBD5042EE194400005D525 /* PitchDeckCabinetKit */,
+				FECBD5032EE194250005D525 /* PitchDeckMainApiKit */,
+				FECBD5022EE194090005D525 /* PitchDeckMainKit */,
+				FECBD5012EE193EF0005D525 /* PitchDeckAuthApiKit */,
+				FECBD5002EE193DB0005D525 /* PitchDeckAuthKit */,
+				FECBD4FF2EE193C00005D525 /* PitchDeckNavigationKit */,
+				FECBD4FE2EE193A60005D525 /* PitchDeckUIKit */,
+				FECBD4FD2EE1938A0005D525 /* PitchDeckCoreKit */,
+				FEC2603F2EEC260700D7AEBF /* Build Configuration */,
+				FECBD4EB2EE182C90005D525 /* PitchDeck */,
+				FECBD50D2EE2EB3E0005D525 /* Frameworks */,
+				FECBD4EA2EE182C90005D525 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FECBD4EA2EE182C90005D525 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FECBD4E92EE182C90005D525 /* PitchDeck.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FECBD50D2EE2EB3E0005D525 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FECBD4E82EE182C90005D525 /* PitchDeck */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FECBD4F42EE182CB0005D525 /* Build configuration list for PBXNativeTarget "PitchDeck" */;
+			buildPhases = (
+				FE89152C2EF17CDF0009391A /* GraphQL */,
+				FECBD4E52EE182C90005D525 /* Sources */,
+				FECBD4E62EE182C90005D525 /* Frameworks */,
+				FECBD4E72EE182C90005D525 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				FECBD4EB2EE182C90005D525 /* PitchDeck */,
+			);
+			name = PitchDeck;
+			packageProductDependencies = (
+				FECBD50E2EE2EB3E0005D525 /* PitchDeckAuthApiKit */,
+				FECBD5102EE2EB3E0005D525 /* PitchDeckAuthKit */,
+				FECBD5122EE2EB3E0005D525 /* PitchDeckCabinetApiKit */,
+				FECBD5142EE2EB3E0005D525 /* PitchDeckCabinetKit */,
+				FECBD5162EE2EB3E0005D525 /* PitchDeckCoreKit */,
+				FECBD5182EE2EB3E0005D525 /* PitchDeckMainApiKit */,
+				FECBD51A2EE2EB3E0005D525 /* PitchDeckMainKit */,
+				FECBD51C2EE2EB3E0005D525 /* PitchDeckNavigationKit */,
+				FECBD51E2EE2EB3E0005D525 /* PitchDeckRootKit */,
+				FECBD5202EE2EB3E0005D525 /* PitchDeckUIKit */,
+				FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */,
+				FE8915F72EF4432F0009391A /* PitchDeckStartupApi */,
+				FE5BFF762EF94996006FC38C /* PitchDeckStartupApi */,
+			);
+			productName = PitchDeck;
+			productReference = FECBD4E92EE182C90005D525 /* PitchDeck.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FECBD4E12EE182C90005D525 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					FECBD4E82EE182C90005D525 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+				};
+			};
+			buildConfigurationList = FECBD4E42EE182C90005D525 /* Build configuration list for PBXProject "PitchDeck" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FECBD4E02EE182C90005D525;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FE5BFF752EF94996006FC38C /* XCLocalSwiftPackageReference "PitchDeckStartupApi" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = FECBD4EA2EE182C90005D525 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FECBD4E82EE182C90005D525 /* PitchDeck */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FECBD4E72EE182C90005D525 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FE89152C2EF17CDF0009391A /* GraphQL */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/PitchDeck/Apollo/apollo-ios-cli",
+				"$(SRCROOT)/PitchDeck/Apollo/apollo-codegen-config.json",
+				"$(SRCROOT)/PitchDeck/Apollo/Schema/schema.graphql",
+				"$(SRCROOT)/PitchDeck/Apollo/Queries/*.graphql",
+			);
+			name = GraphQL;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\nset -euo pipefail\n\n# Folder containing CLI and config — everything is now in one place\nAPOLLO_DIR=\"${SRCROOT}/PitchDeck/Apollo\"\n\nCLI_PATH=\"${APOLLO_DIR}/apollo-ios-cli\"\nCONFIG_PATH=\"${APOLLO_DIR}/apollo-codegen-config.json\"\n\n# Check CLI existence\nif [ ! -f \"$CLI_PATH\" ]; then\n    echo \"error: apollo-ios-cli not found at path: $CLI_PATH\"\n    exit 1\nfi\n\n# Check config existence\nif [ ! -f \"$CONFIG_PATH\" ]; then\n    echo \"error: apollo-codegen-config.json not found at path: $CONFIG_PATH\"\n    exit 1\nfi\n\nchmod +x \"$CLI_PATH\"\n\necho \"Launching Apollo code generation...\"\n\n# Run generation with explicit config path (to avoid dependency on file name)\n\"$CLI_PATH\" generate --path \"$CONFIG_PATH\"\n\n#echo \"Apollo code generation completed successfully!\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FECBD4E52EE182C90005D525 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		FECBD4F22EE182CB0005D525 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FECBD4F32EE182CB0005D525 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FECBD4F52EE182CB0005D525 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = FEC2603F2EEC260700D7AEBF /* Build Configuration */;
+			baseConfigurationReferenceRelativePath = Production.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 35LR4VRSZ9;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PitchDeck/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PitchDeck;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.appricot.pitch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PitchDeck Dev";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				"WARNING_CFLAGS[sdk=iphoneos*]" = (
+					"-Werror=actor-isolated-instance-method\n-Werror=non-sendable-type\n-Werror=implicit-sendable\n-Werror=suspicious-nonisolated",
+				);
+			};
+			name = Debug;
+		};
+		FECBD4F62EE182CB0005D525 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = FEC2603F2EEC260700D7AEBF /* Build Configuration */;
+			baseConfigurationReferenceRelativePath = Production.xcconfig;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 35LR4VRSZ9;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PitchDeck/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PitchDeck;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.appricot.pitch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "PitchDeck Dev";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FECBD4E42EE182C90005D525 /* Build configuration list for PBXProject "PitchDeck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FECBD4F22EE182CB0005D525 /* Debug */,
+				FECBD4F32EE182CB0005D525 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FECBD4F42EE182CB0005D525 /* Build configuration list for PBXNativeTarget "PitchDeck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FECBD4F52EE182CB0005D525 /* Debug */,
+				FECBD4F62EE182CB0005D525 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		FE5BFF752EF94996006FC38C /* XCLocalSwiftPackageReference "PitchDeckStartupApi" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = PitchDeckStartupApi;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FE5BFF762EF94996006FC38C /* PitchDeckStartupApi */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckStartupApi;
+		};
+		FE632A612EE2F7370059E01C /* PitchDeckNavigationApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckNavigationApiKit;
+		};
+		FE8915F72EF4432F0009391A /* PitchDeckStartupApi */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckStartupApi;
+		};
+		FECBD50E2EE2EB3E0005D525 /* PitchDeckAuthApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckAuthApiKit;
+		};
+		FECBD5102EE2EB3E0005D525 /* PitchDeckAuthKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckAuthKit;
+		};
+		FECBD5122EE2EB3E0005D525 /* PitchDeckCabinetApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckCabinetApiKit;
+		};
+		FECBD5142EE2EB3E0005D525 /* PitchDeckCabinetKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckCabinetKit;
+		};
+		FECBD5162EE2EB3E0005D525 /* PitchDeckCoreKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckCoreKit;
+		};
+		FECBD5182EE2EB3E0005D525 /* PitchDeckMainApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckMainApiKit;
+		};
+		FECBD51A2EE2EB3E0005D525 /* PitchDeckMainKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckMainKit;
+		};
+		FECBD51C2EE2EB3E0005D525 /* PitchDeckNavigationKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckNavigationKit;
+		};
+		FECBD51E2EE2EB3E0005D525 /* PitchDeckRootKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckRootKit;
+		};
+		FECBD5202EE2EB3E0005D525 /* PitchDeckUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PitchDeckUIKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = FECBD4E12EE182C90005D525 /* Project object */;
+}

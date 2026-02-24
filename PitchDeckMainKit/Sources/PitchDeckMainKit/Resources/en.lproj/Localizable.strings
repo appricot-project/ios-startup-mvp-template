@@ -1,0 +1,34 @@
+/* 
+  Localizable.strings
+  PitchDeckMainKit
+
+  Created by Anton Redkozubov on 13.01.2026.
+  
+*/
+
+
+"startups.title" = "Startups";
+"startups.empty.title" = "No available";
+"startups.error.title" = "Error: %@";
+
+"startups.details.empty.title" = "No details available";
+"startups.details.empty.description" = "No description available";
+"startups.details.error.title" = "Error loading details: %@";
+"startups.details.button.title" = "Share";
+
+"startups.details.delete.button.title" = "Delete startup";
+"startups.details.delete.alert.title" = "Delete startup?";
+"startups.details.delete.alert.message" = "Are you sure you want to delete this startup? This action cannot be undone.";
+"startups.details.delete.alert.confirm" = "Delete";
+"common.cancel" = "Cancel";
+
+"edit.startup.title" = "Edit Startup";
+"edit.startup.image.title" = "Startup Image";
+"edit.startup.image.placeholder" = "Tap to select image";
+"edit.startup.basic.title" = "Basic Information";
+"edit.startup.title.placeholder" = "Startup Title";
+"edit.startup.description.placeholder" = "Describe your startup...";
+"edit.startup.location.placeholder" = "Location";
+"edit.startup.category.title" = "Category";
+"edit.startup.category.placeholder" = "Select Category";
+"edit.startup.button.title" = "Update Startup";

@@ -1,0 +1,30 @@
+/* 
+  Localizable.strings
+  PitchDeckAuthKit
+
+  Created by Anton Redkozubov on 29.01.2026.
+  
+*/
+
+
+"auth.start.title" = "Welcome";
+"auth.start.subtitle" = "Choose how to continue";
+"auth.start.button.title.login" = "Login";
+"auth.start.button.title.sign" = "Sign Up";
+
+"auth.signIn.title" = "Sign In";
+"auth.signIn.email.textField" = "Email";
+"auth.signIn.button.title" = "Sign In";
+
+"auth.confirm.title" = "Confirm Your Email";
+"auth.confirm.subtitle" = "We sent a confirmation code to";
+"auth.confirm.code.textField" = "Confirmation Code";
+"auth.confirm.code.text" = "Please check your email and enter the 6-digit confirmation code to continue.";
+"auth.confirm.button.title" = "Confirm";
+
+"auth.signUp.title" = "Create Account";
+"auth.signUp.subtitle" = "Sign up to get started";
+"auth.signUp.email.textField" = "Email";
+"auth.signUp.email.firstName" = "First Name";
+"auth.signUp.email.lastName" = "Last Name";
+"auth.signUp.button.title" = "Sign Up";

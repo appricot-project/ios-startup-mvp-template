@@ -1,0 +1,25 @@
+mutation UpdateStartup($documentId: ID!, $title: String!, $description: String!, $location: String!, $categoryId: ID!, $ImageURL: ID) {
+  updateStartup(documentId: $documentId, data: {
+    title: $title
+    description: $description
+    location: $location
+    category: $categoryId
+    ImageURL: $ImageURL
+  }) {
+    documentId
+    title
+    description
+    location
+    createdAt
+    updatedAt
+    publishedAt
+    category {
+      title
+      categoryId
+    }
+    ImageURL {
+      url
+    }
+    ownerEmail
+  }
+}
